@@ -1,7 +1,7 @@
 {
     "name": "@style.tools/lazy",
     "version": "0.0.1",
-    "description": "A lazy image and iframe loader based on IntersectionObserver with tiny fallback for old browsers.",
+    "description": "A lightweight lazy image and iframe loader based on `window.IntersectionObserver` with tiny fallback for old browsers.",
     "author": {
         "name": "info@style.tools",
         "email": "info@style.tools",
@@ -33,7 +33,7 @@
         "chromedriver": "^2.45.0",
         "express": "^4.16.4",
         "grunt": "latest",
-        "grunt-closure-compiler": "latest",
+    "grunt-closure-compiler": "latest",
         "grunt-contrib-clean": "^2.0.0",
         "grunt-contrib-copy": "^1.0.0",
         "grunt-iife": "latest",
