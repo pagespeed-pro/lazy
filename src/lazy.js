@@ -98,7 +98,6 @@ var $lazy = function(config, callback) {
             callback([asset]);
         }
     }
-}
 };
 
 // window.$lazy
