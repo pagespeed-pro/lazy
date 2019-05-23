@@ -1,0 +1,53 @@
+{
+    "name": "@style.tools/lazy",
+    "version": "0.0.1",
+    "description": "A lazy image and iframe loader based on IntersectionObserver with tiny fallback for old browsers.",
+    "author": {
+        "name": "info@style.tools",
+        "email": "info@style.tools",
+        "web": "style.tools"
+    },
+    "keywords": [
+        "lazy",
+        "images",
+        "image",
+        "iframe",
+        "loader",
+        "intersectionobserver"
+    ],
+    "homepage": "https://style.tools/",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/style-tools/lazy.git"
+    },
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/style-tools/lazy/issues"
+    },
+    "engines": {
+        "node": "~8"
+    },
+    "dependencies": {},
+    "devDependencies": {
+        "browserstack-local": "^1.3.7",
+        "chromedriver": "^2.45.0",
+        "express": "^4.16.4",
+        "grunt": "latest",
+        "grunt-closure-compiler": "latest",
+        "grunt-contrib-clean": "^2.0.0",
+        "grunt-contrib-copy": "^1.0.0",
+        "grunt-iife": "latest",
+        "js-combinatorics": "^0.5.4",
+        "matchdep": "^2.0.0",
+        "merge": "^1.2.1",
+        "mocha": "^3.0.2",
+        "selenium-webdriver": "^3.0.0-beta-3"
+    },
+    "scripts": {
+        "test": "npm run chrome-headless",
+        "chrome": "npm run chrome-headless",
+        "cross-browser": "./node_modules/.bin/mocha test/specs/browserstack-tests.js",
+        "chrome-headless": "./node_modules/.bin/mocha test/specs/chrome-headless-tests.js",
+        "iife": "node ./node_modules/@style.tools/async-css-iife/iife-cli.js"
+    }
+}
