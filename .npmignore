@@ -1,4 +1,5 @@
 src/lazy-data-config\.js
+dist/lazy-data-config\.js
 \.git
 \.hg
 
