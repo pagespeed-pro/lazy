@@ -11,7 +11,7 @@ $lazy(
 );	
 ```
 
-#### Documentation is available on [docs.style.tools/](https://docs.style.tools/lazy).
+#### Documentation is available on [docs.style.tools/lazy](https://docs.style.tools).
 
 ### Install via npm
 
