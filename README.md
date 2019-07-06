@@ -6,16 +6,18 @@ A lightweight lazy loader based on [Intersection Observer V2](https://developers
 
 ```javascript
 $lazy(
-   selector, /* string, Node, NodeList or object: { selector = '[data-src]', threshold=0.006, rootMargin = '0px', observer: { ... }} */
+   selector, /* string, Node, NodeList or observer config object */
    callback /* optional: custom in-view callback for manual lazy loading */
 );	
 ```
+
+#### Documentation is available on [docs.style.tools/lazy](https://docs.style.tools/lazy).
 
 #### Example config
 
 ```json
 {
-    "selector": '[data-src]',
+    "selector": "[data-src]",
     "observer": {
         "threshold": 0.006,
         "rootMargin": "0px",
@@ -24,8 +26,6 @@ $lazy(
     }
 }
 ```
-
-#### Documentation is available on [docs.style.tools/lazy](https://docs.style.tools/lazy).
 
 ### Install via npm
 
