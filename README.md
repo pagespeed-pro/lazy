@@ -19,7 +19,7 @@ $lazy(
 npm install @style.tools/lazy --save
 ```
 
-### Install via PHtrackVisibility
+### Install via PHP Composer
 ```bash
 composer require styletools/lazy
 ```
