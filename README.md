@@ -32,9 +32,9 @@ The `selector` entry accepts multiple configuration formats including a string, 
 
 ```json
 {
-	"selector": "[data-src]",
-	"threshold": 0.006,
-	"rootMargin": "0px"
+   "selector": "[data-src]",
+   "threshold": 0.006,
+   "rootMargin": "0px"
 }
 ```
 
@@ -42,13 +42,13 @@ The `selector` entry accepts multiple configuration formats including a string, 
 
 ```json
 {
-	"selector": "[data-src]",
-	"observer": {
-		"threshold": 0.006,
-		"rootMargin": "0px",
-		"trackVisibility": true,
-		"delay": 100
-	}
+   "selector": "[data-src]",
+   "observer": {
+      "threshold": 0.006,
+      "rootMargin": "0px",
+      "trackVisibility": true,
+      "delay": 100
+   }
 }
 ```
 
@@ -68,10 +68,10 @@ The array based index config is a compressed format to save size in the HTML doc
 
 ```json
 ["selector", {
-	"threshold": 0.006,
-	"rootMargin": "0px",
-	"trackVisibility": true,
-	"delay": 100
+   "threshold": 0.006,
+   "rootMargin": "0px",
+   "trackVisibility": true,
+   "delay": 100
 }]
 ```
 
