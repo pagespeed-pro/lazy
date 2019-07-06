@@ -61,13 +61,13 @@ The array based index config is a compressed format to save size in the HTML doc
 #### Simple config
 
 ```json
-["selector", 0.006, "0px"]
+["[data-src]", 0.006, "0px"]
 ```
 
 #### Custom observer config
 
 ```json
-["selector", {
+["[data-src]", {
    "threshold": 0.006,
    "rootMargin": "0px",
    "trackVisibility": true,
