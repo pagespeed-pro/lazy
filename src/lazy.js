@@ -97,7 +97,7 @@ var $lazy = function(config, callback) {
     }
 
     // the intersection observer
-    var observer = (intersectionObserver) ? new intersectionObserver( callback, observerConfig) : false;
+    var observer = (intersectionObserver) ? new intersectionObserver( callback, observerConfig ) : false;
 
     // single node
     if (IS_INSTANCE(selector, Node)) {
@@ -120,5 +120,5 @@ var $lazy = function(config, callback) {
     }
 };
 
-// windowin.$lazy
+// window.$lazy
 win.$lazy = $lazy;

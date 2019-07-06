@@ -30,7 +30,7 @@ if (LAZY_SCRIPT) {
         } catch (err) {config = false;};
 
         if (config) {
-            $lazy.apply(null, config);
+            $lazy(config);
         } else {
             $lazy();
         }
