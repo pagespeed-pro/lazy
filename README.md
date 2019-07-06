@@ -32,7 +32,7 @@ The `selector` entry accepts multiple configuration formats including a string, 
 
 ```json
 {
-	"selector": '[data-src]',
+	"selector": "[data-src]",
 	"threshold": 0.006,
 	"rootMargin": "0px"
 }
@@ -42,7 +42,7 @@ The `selector` entry accepts multiple configuration formats including a string, 
 
 ```json
 {
-	"selector": '[data-src]',
+	"selector": "[data-src]",
 	"observer": {
 		"threshold": 0.006,
 		"rootMargin": "0px",
