@@ -9,7 +9,7 @@ $lazy(
    selector, /* string, Node, NodeList or observer config object */
    callback /* optional: custom in-view callback for manual lazy loading */
 );	
-```
+``` 
 
 #### Documentation is available on [docs.style.tools/lazy](https://docs.style.tools/lazy).
 
