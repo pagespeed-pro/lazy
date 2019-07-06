@@ -13,7 +13,18 @@ $lazy(
 
 #### Documentation is available on [docs.style.tools/lazy](https://docs.style.tools/lazy).
 
-#### Example config
+### Install via npm
+
+```bash
+npm install @style.tools/lazy --save
+```
+
+### Install via PHtrackVisibility
+```bash
+composer require styletools/lazy
+```
+
+### Example config
 
 ```json
 {
@@ -25,15 +36,4 @@ $lazy(
         "delay": 100
     }
 }
-```
-
-### Install via npm
-
-```bash
-npm install @style.tools/lazy --save
-```
-
-### Install via PHtrackVisibility
-```bash
-composer require styletools/lazy
 ```
