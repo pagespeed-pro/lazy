@@ -1,5 +1,5 @@
-src/lazy-data-config\.js
-dist/lazy-data-config\.js
+src/lazy-data-attr\.js
+dist/lazy-data-attr\.js
 \.git
 \.hg
 

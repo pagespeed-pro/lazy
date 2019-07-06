@@ -18,8 +18,8 @@ module.exports = function(grunt) {
                     useStrict: true,
                     prependSemicolon: false,
                     trimCode: true,
-                    args: ['window'],
-                    params: ['window']
+                    args: ['window', 'document'],
+                    params: ['win', 'doc']
                 },
                 files: {
                     "tmp/lazy-iife.js": [
@@ -28,18 +28,18 @@ module.exports = function(grunt) {
                 }
             },
 
-           "lazy-data-config": {
+           "lazy-data-attr": {
                 options: {
                     useStrict: true,
                     prependSemicolon: false,
                     trimCode: true,
-                    args: ['window'],
-                    params: ['window']
+                    args: ['window', 'document'],
+                    params: ['win', 'doc']
                 },
                 files: {
-                    "tmp/lazy-data-config-iife.js": [
+                    "tmp/lazy-data-attr-iife.js": [
                         'src/lazy.js',
-                        'src/lazy-data-config.js'
+                        'src/lazy-data-attr.js'
                     ]
                 }
             }
@@ -51,7 +51,7 @@ module.exports = function(grunt) {
         "closure-compiler": {
 
             "lazy": {
-                closurePath: '../closure-compiler',
+                closurePath: '../../closure-compiler',
                 js: 'tmp/lazy-iife.js',
                 jsOutputFile: 'dist/lazy.js',
                 maxBuffer: 30000,
@@ -63,10 +63,10 @@ module.exports = function(grunt) {
                     //isolation_mode: 'IIFE'
                 }
             },
-            "lazy-data-config": {
-                closurePath: '../closure-compiler',
-                js: 'tmp/lazy-data-config-iife.js',
-                jsOutputFile: 'dist/lazy-data-config.js',
+            "lazy-data-attr": {
+                closurePath: '../../closure-compiler',
+                js: 'tmp/lazy-data-attr-iife.js',
+                jsOutputFile: 'dist/lazy-data-attr.js',
                 maxBuffer: 30000,
                 noreport: true,
                 options: {
@@ -83,7 +83,9 @@ module.exports = function(grunt) {
 
     grunt.registerTask('build', [
         'iife:lazy',
-        'closure-compiler:lazy'
+        'iife:lazy-data-attr',
+        'closure-compiler:lazy',
+        'closure-compiler:lazy-data-attr'
     ]);
 
     grunt.registerTask('default', ['']);

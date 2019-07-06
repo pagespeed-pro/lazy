@@ -6,34 +6,32 @@
  * @link https://github.com/style-tools/lazy
  */
 
-var w = window,
-doc = document;
-
-var intersectionObserver = w.IntersectionObserver || false;
+var intersectionObserver = win.IntersectionObserver || false;
 
 // PolyFill for "isIntersecting"
 // https://github.com/WICG/IntersectionObserver/issues/211#issuecomment-309144669
-if (intersectionObserver && 'IntersectionObserverEntry' in w &&
-    'intersectionRatio' in w.IntersectionObserverEntry.prototype &&
+if (intersectionObserver && 'IntersectionObserverEntry' in win &&
+    'intersectionRatio' in win.IntersectionObserverEntry.prototype &&
     !('isIntersecting' in IntersectionObserverEntry.prototype)
 ) {
-    Object.defineProperty(w.IntersectionObserverEntry.prototype, 'isIntersecting', {
+    Object.defineProperty(win.IntersectionObserverEntry.prototype, 'isIntersecting', {
         get: function () {
             return this.intersectionRatio > 0
         }
     });
 }
 
-// get attribute
+// get data-* attribute
 function GET_DATA_ATTR(el, attr) {
     return el.getAttribute('data-' + attr);
 }
 
-function IS_OBJECT(obj) {
-    return typeof obj === 'object';
+// verify instance type
+function IS_INSTANCE(obj, type) {
+    return obj instanceof type;
 }
 
-// query selector
+// query
 function QUERY(selector) {
     return doc.querySelectorAll(selector);
 }
@@ -42,9 +40,20 @@ function QUERY(selector) {
 var $lazy = function(config, callback) {
 
     // selector as string
-    if (!IS_OBJECT(config)) {
+    if (!config || typeof config !== 'object') {
         config = [config];
     }
+
+    var selector = config[0] || config.selector || '[data-src]',
+        threshold = config[1] || config.threshold || 0.006,
+        rootMargin = config[2] || config.rootMargin || '0px',
+        observerConfig = (typeof threshold === 'object') ? threshold : {
+            threshold: [ threshold ],
+            rootMargin:  rootMargin
+        },
+        asset,assets,
+        SRC = 'src',
+        SRCSET = SRC + 'set';
 
     // inview callback
     if (typeof callback !== 'function') {
@@ -56,17 +65,27 @@ var $lazy = function(config, callback) {
                 if (!observer || entry.isIntersecting) {
 
                     var target = (observer) ? entry.target : entry,
-                    _src = 'src',
-                    _srcset = _src + 'set',
-                    srcset = GET_DATA_ATTR(target,_srcset),
-                    src = GET_DATA_ATTR(target,_src);
+                        srcset = GET_DATA_ATTR(target,SRCSET),
+                        src = GET_DATA_ATTR(target,SRC);
 
                     if ( srcset ) {
-                        target[_srcset] = srcset;
+                        target[SRCSET] = srcset;
                     }
 
                     if ( src ) {
-                        target[_src] = src;
+                        target[SRC] = src;
+                    }
+
+                    // fire event
+                    if ("CustomEvent" in win) {
+                        target.dispatchEvent(new CustomEvent('$lazy', {
+                            bubbles: true,
+                            cancelable: true,
+                            detail: {
+                                el: target,
+                                entry: entry
+                            }
+                        }));
                     }
 
                     if (observer) {
@@ -77,18 +96,19 @@ var $lazy = function(config, callback) {
         }
     }
 
-    var selector = config[0] || config.selector || '[data-src]',
-        threshold = config[1] || config.threshold || 0.006,
-        rootMargin = config[2] || config.rootMargin || '0px';
-
     // the intersection observer
-    var observer = (intersectionObserver) ? new intersectionObserver( callback, {
-        threshold: [ threshold ],
-        rootMargin:  rootMargin
-    }) : false;
+    var observer = (intersectionObserver) ? new intersectionObserver( callback, observerConfig) : false;
 
-    var asset,
+    // single node
+    if (IS_INSTANCE(selector, Node)) {
+        assets = [selector];
+    } else if (IS_INSTANCE(selector, NodeList)) {
+        // node list
+        assets = selector;
+    } else {
+        // query
         assets = QUERY(selector);
+    }
 
     for (var i = 0, l = assets.length; i < l; i++) {
         asset = assets[i];
@@ -100,5 +120,5 @@ var $lazy = function(config, callback) {
     }
 };
 
-// window.$lazy
-w.$lazy = $lazy;
+// windowin.$lazy
+win.$lazy = $lazy;

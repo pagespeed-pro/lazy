@@ -5,13 +5,14 @@
 /** @export */
 window.$lazy = function(config, callback) {
 
-    var config = {
+    config = {
         selector: '',
         threshold: '',
-        rootMargin: ''
+        rootMargin: '',
+        observer: ''
     };
 
-    var callback = function(change) {
+    callback = function(change) {
         change.isIntersecting = true;
     }
 };
@@ -19,3 +20,13 @@ window.$lazy = function(config, callback) {
 window.IntersectionObserver;
 window.IntersectionObserverEntry;
 
+CustomEvent = function(selector, config) {
+	config = {
+	    bubbles: true,
+	    cancelable: true,
+	    detail: {
+	        el: '',
+	        entry: ''
+	    }
+	};
+}

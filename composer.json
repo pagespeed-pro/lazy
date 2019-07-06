@@ -1,19 +1,24 @@
 {
     "name": "styletools/lazy",
+    "version": "0.0.2",
     "description": "A lightweight lazy loader based on `window.IntersectionObserver` with tiny fallback for old browsers.",
     "keywords": ["lazy",
         "images",
         "image",
         "iframe",
         "loader",
-        "intersectionobserver"],
+        "intersectionobserver"
+    ],
     "license": "MIT",
     "authors": [{
-        "name": "📐 Style.Tools",
+        "name": "Style.Tools",
         "email": "info@style.tools"
     }],
     "type": "project",
     "require": {},
     "require-dev": {},
-    "autoload": {}
+    "autoload": {},
+    "archive": {
+        "exclude": ["node_modules/"]
+    }
 }

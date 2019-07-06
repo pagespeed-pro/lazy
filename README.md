@@ -2,16 +2,30 @@
 
 # Lazy Image and Iframe Loader
 
-A lightweight lazy loader based on `window.IntersectionObserver` with tiny fallback for old browsers.
+A lightweight lazy loader based on [Intersection Observer V2](https://developers.google.com/web/updates/2019/02/intersectionobserver-v2) with a tiny fallback for old browsers.
 
 ```javascript
 $lazy(
-   selector, /* string or config: { selector = '[data-src]', threshold=0.006, rootMargin = '0px'} */
+   selector, /* string, Node, NodeList or object: { selector = '[data-src]', threshold=0.006, rootMargin = '0px', observer: { ... }} */
    callback /* optional: custom in-view callback for manual lazy loading */
 );	
 ```
 
-#### Documentation is available on [docs.style.tools/lazy](https://docs.style.tools).
+#### Example config
+
+```json
+{
+    "selector": '[data-src]',
+    "observer": {
+        "threshold": 0.006,
+        "rootMargin": "0px",
+        "trackVisibility": true,
+        "delay": 100
+    }
+}
+```
+
+#### Documentation is available on [docs.style.tools/lazy](https://docs.style.tools/lazy).
 
 ### Install via npm
 
@@ -19,8 +33,7 @@ $lazy(
 npm install @style.tools/lazy --save
 ```
 
-### Install via PHP Composer
-
+### Install via PHtrackVisibility
 ```bash
 composer require styletools/lazy
 ```
