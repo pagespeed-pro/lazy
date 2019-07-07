@@ -162,7 +162,7 @@ Multiple configurations are supported via the special multi-token `||`. The toke
 </script>
 ```
 
-In the example, the `$async` timing method `method` defines `window.$lazypoly` which will automatically load the polyfill for browsers that require the polyfill. It used `localStorage` for instant loading.
+In the example, the `$async` timing method `method` defines `window.$lazypoly` which will automatically load the polyfill for browsers that require the polyfill. It uses `localStorage` for instant loading.
 
 Alternatively, when using `$lazy` without `$async`, you can manually define `window.$lazypoly` with a function that returns a `Promise` or a object containing a `.then` method.
 
