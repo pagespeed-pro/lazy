@@ -1,0 +1,47 @@
+/**
+ * Lazy Image and Iframe loader with $async() polyfill for IntersectionObserver
+ * Released under the terms of MIT license
+ *
+ * Copyright (C) 2019 📐 Style.Tools
+ * @link https://github.com/style-tools/lazy
+ */
+// convert to queue
+var queue = [];
+function LAZY_QUEUE(config,callback) {
+    queue.push([config,callback]);
+}
+
+// load polyfill
+if (!intersectionObserver) {
+
+    var POLYFILL;
+    if (win.$lazypoly) {
+        POLYFILL = win.$lazypoly;
+    } else if (LAZY_SCRIPT) {
+        POLYFILL = GET_DATA_ATTR(LAZY_SCRIPT, 'poly');
+    }
+
+    if (POLYFILL) {
+
+        win.$lazy = LAZY_QUEUE;
+
+        // method to load polyfill
+        if (typeof POLYFILL === 'function') {
+            POLYFILL = POLYFILL();
+        }
+
+        // enable custom promise/callback
+        // @example window.$lazypoly = function() { return { then: function(callback) { /* ... */ } } };
+        ((typeof POLYFILL !== 'string' && "then" in POLYFILL) ? POLYFILL : $async(POLYFILL)).then(function() {
+
+            // restore lazy handler
+            win.$lazy = $lazy;
+
+            // process queue
+            var item;
+            while((item = queue.shift())) {
+                $lazy(item);
+            }
+        });
+    }
+}

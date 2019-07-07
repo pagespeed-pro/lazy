@@ -19,6 +19,9 @@ window.$lazy = function(config, callback) {
 
 window.IntersectionObserver;
 window.IntersectionObserverEntry;
+window.IntersectionObserverEntry.prototype;
+window.IntersectionObserverEntry.prototype.intersectionRatio;
+window.IntersectionObserverEntry.prototype.isIntersecting;
 
 CustomEvent = function(selector, config) {
 	config = {
@@ -29,4 +32,8 @@ CustomEvent = function(selector, config) {
 	        entry: ''
 	    }
 	};
-}
+};
+
+window.$lazypoly = function() {}
+
+function $async() {};

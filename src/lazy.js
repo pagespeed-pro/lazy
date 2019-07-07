@@ -6,20 +6,16 @@
  * @link https://github.com/style-tools/lazy
  */
 
-var intersectionObserver = win.IntersectionObserver || false;
-
-// PolyFill for "isIntersecting"
-// https://github.com/WICG/IntersectionObserver/issues/211#issuecomment-309144669
-if (intersectionObserver && 'IntersectionObserverEntry' in win &&
-    'intersectionRatio' in win.IntersectionObserverEntry.prototype &&
-    !('isIntersecting' in IntersectionObserverEntry.prototype)
+var intersectionObserver, intersectionObserverStr = 'IntersectionObserver',
+    intersectionObserverEntryProto = ((intersectionObserverStr +'Entry' in win) ? win[intersectionObserverStr + 'Entry'].prototype : 0),
+    LAZY_SCRIPT;
+if (
+    intersectionObserverEntryProto
+    && 'intersectionRatio' in intersectionObserverEntryProto
+    && 'isIntersecting' in intersectionObserverEntryProto
 ) {
-    Object.defineProperty(win.IntersectionObserverEntry.prototype, 'isIntersecting', {
-        get: function () {
-            return this.intersectionRatio > 0
-        }
-    });
-}
+    intersectionObserver = win[intersectionObserverStr];
+};
 
 // get data-* attribute
 function GET_DATA_ATTR(el, attr) {
@@ -37,7 +33,7 @@ function QUERY(selector) {
 }
 
 // public object
-var $lazy = function(config, callback) {
+function $lazy(config, callback) {
 
     // selector as string
     if (!config || typeof config !== 'object') {

@@ -7,10 +7,6 @@
  */
 
 // attribute config
-var CONFIG;
-var CONFIG_PARAM = 'lazy';
-var LAZY_SCRIPT = doc.currentScript || QUERY('script[data-' + CONFIG_PARAM + ']');
-var MULTI_TOKEN = '||';
 if (LAZY_SCRIPT) {
 
     // extract config from data-optimization parameter
