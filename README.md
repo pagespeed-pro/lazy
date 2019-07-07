@@ -130,3 +130,65 @@ To enable usage in combination with a strict `Content-Security-Policy` the scrip
 Multiple configurations are supported via the special multi-token `||`. The token needs to be included at the begining and each configuration needs to be valid JSON.
 
 `||{config...}||{second config...}`
+
+## Polyfill
+
+`$lazy` includes a [polyfill](https://github.com/w3c/IntersectionObserver/blob/master/polyfill/intersection-observer.js) for `IntersectionObserver`. It can be automatically loaded when using [$async](https://github.com/style-tools/async/).
+
+### Example using `$async` with `data-c` based config
+
+```html
+<script data-c='[
+  {
+    "ref": "lazy",
+    "src": "dist/lazy-data-attr+polyfill.js",
+    "attributes": {
+     "data-l": "[\"selector\", 0.006, \"0px\"]"
+    },
+    "load_timing": "domReady",
+    "cache": "localstorage"
+  },
+  {
+    "ref": "lazy-polyfill",
+    "src": "dist/intersectionobserver-polyfill.js",
+    "load_timing": {
+      "type": "method",
+      "method": "$lazypoly"
+    },
+    "cache": "localstorage"
+  }
+]'>
+/* $async IIFE with timing and API module */
+</script>
+```
+
+In the example, the `$async` timing method `method` defines `window.$lazypoly` which will automatically load the polyfill for browsers that require the polyfill. It used `localStorage` for instant loading.
+
+Alternatively, when using `$lazy` without `$async`, you can manually define `window.$lazypoly` with a function that returns a `Promise` or a object containing a `.then` method.
+
+```javascript
+window.$lazypoly = function() {
+
+   // load polyfill
+   // ...
+
+   return {
+      then: function(callback) {
+
+         // wait until polyfill is loaded and resolve callback
+
+         callback();
+      }
+   }
+};
+```
+
+When using `$async` you can alternatively use `window.$lazypoly` with a string or a object to pass to `$async` which could load anything.
+
+Alternatively, when including `$lazy` inline, the `data-poly` attribute enables to define a string to pass to `$async`.
+
+```html
+<script data-l='... lazy config ...' data-poly='... config to pass to $async to load polyfill ...'>
+// dist/lazy-data-attr+polyfill.js
+</script>
+```
