@@ -185,10 +185,10 @@ window.$lazypoly = function() {
 
 When using `$async` you can alternatively use `window.$lazypoly` with a string or a object to pass to `$async.js` which could load anything.
 
-Alternatively, when including `$lazy` inline, the `data-poly` attribute enables to define a string to pass to `$async`.
+Alternatively, when including `$lazy` inline, the `data-poly` attribute enables to define a string to pass to `$async.js`.
 
 ```html
-<script data-l='... lazy config ...' data-poly='... config to pass to $async to load polyfill ...'>
+<script data-l='... lazy config ...' data-poly='... config to pass to $async.js to load polyfill ...'>
 // dist/lazy-data-attr+polyfill.js
 </script>
 ```
