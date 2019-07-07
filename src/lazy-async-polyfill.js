@@ -32,7 +32,7 @@ if (!intersectionObserver) {
 
         // enable custom promise/callback
         // @example window.$lazypoly = function() { return { then: function(callback) { /* ... */ } } };
-        ((typeof POLYFILL !== 'string' && "then" in POLYFILL) ? POLYFILL : $async(POLYFILL)).then(function() {
+        ((typeof POLYFILL !== 'string' && "then" in POLYFILL) ? POLYFILL : $async.js(POLYFILL)).then(function() {
 
             // restore lazy handler
             win.$lazy = $lazy;
