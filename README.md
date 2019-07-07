@@ -109,13 +109,13 @@ $lazy('div#id', function(entries) {
 })
 ```
 
-## `data-lazy` JSON config
+## `data-l` JSON config
 
-To enable usage in combination with a strict `Content-Security-Policy` the script can be configured using a `data-lazy` attribute on the script source element.
+To enable usage in combination with a strict `Content-Security-Policy` the script can be configured using a `data-l` attribute on the script source element.
 
 
 ```html
-<script data-lazy="{
+<script data-l="{
    &quot;selector&quot;: &quot;[data-src*='cdn.domain.com']&quot;, 
    &quot;observer&quot;: { 
       &quot;threshold&quot;: [1.0],
