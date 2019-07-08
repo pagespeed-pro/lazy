@@ -195,4 +195,4 @@ Alternatively, when including `$lazy` inline, the `data-poly` attribute enables 
 
 ### Example Performance API timings
 
-![$lazy polyfill from localStorage](../gitbook/images/lazy-polyfill.png)
+![$lazy polyfill from localStorage](https://user-images.githubusercontent.com/8843669/60785873-ca028b80-a154-11e9-9a3b-adbc40475aef.png)
