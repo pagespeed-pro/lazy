@@ -192,3 +192,7 @@ Alternatively, when including `$lazy` inline, the `data-poly` attribute enables 
 // dist/lazy-data-attr+polyfill.js
 </script>
 ```
+
+### Example Performance API timings
+
+![$lazy polyfill from localStorage](../gitbook/images/lazy-polyfill.png)
