@@ -117,6 +117,8 @@ function $lazy(config, callback) {
             callback([asset]);
         }
     }
+
+    return assets;
 };
 
 // window.$lazy

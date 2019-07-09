@@ -22,7 +22,7 @@ if (LAZY_SCRIPT) {
     var config;
     for (var i = 0, l = CONFIG.length; i < l; i++) {
         try {
-            config = JSON.parse(CONFIG);
+            config = JSON.parse(CONFIG[i]);
         } catch (err) {config = false;};
 
         if (config) {

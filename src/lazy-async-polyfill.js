@@ -14,7 +14,7 @@ function LAZY_QUEUE(config,callback) {
 // load polyfill
 if (!intersectionObserver) {
 
-    var POLYFILL;
+    var POLYFILL, _lazy;
     if (win.$lazypoly) {
         POLYFILL = win.$lazypoly;
     } else if (LAZY_SCRIPT) {
@@ -23,21 +23,23 @@ if (!intersectionObserver) {
 
     if (POLYFILL) {
 
-        win.$lazy = LAZY_QUEUE;
+        // temporary reference
+        _lazy = $lazy;
+        win.$lazy = $lazy = LAZY_QUEUE;
 
         // method to load polyfill
-        if (typeof POLYFILL === 'function') {
+        if (typeof POLYFILL == 'function') {
             POLYFILL = POLYFILL();
         }
 
         // enable custom promise/callback
         // @example window.$lazypoly = function() { return { then: function(callback) { /* ... */ } } };
-        ((typeof POLYFILL !== 'string' && "then" in POLYFILL) ? POLYFILL : $async.js(POLYFILL)).then(function() {
+        ((typeof POLYFILL != 'string' && "then" in POLYFILL) ? POLYFILL : $async.js(POLYFILL)).then(function() {
 
             intersectionObserver = win[intersectionObserverStr];
 
             // restore lazy handler
-            win.$lazy = $lazy;
+            win.$lazy = $lazy = _lazy;
 
             // process queue
             var item;
