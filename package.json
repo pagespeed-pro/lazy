@@ -1,6 +1,6 @@
 {
     "name": "@style.tools/lazy",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "description": "A lightweight lazy image and iframe loader based on `window.IntersectionObserver` with tiny fallback for old browsers.",
     "author": {
         "name": "info@style.tools",
@@ -46,8 +46,6 @@
     "scripts": {
         "test": "npm run chrome-headless",
         "chrome": "npm run chrome-headless",
-        "cross-browser": "./node_modules/.bin/mocha test/specs/browserstack-tests.js",
-        "chrome-headless": "./node_modules/.bin/mocha test/specs/chrome-headless-tests.js",
-        "iife": "node ./node_modules/@style.tools/async-css-iife/iife-cli.js"
+        "chrome-headless": "./node_modules/.bin/mocha test/specs/chrome-headless-tests.js"
     }
 }

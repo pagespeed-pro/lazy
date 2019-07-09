@@ -34,13 +34,15 @@ if (!intersectionObserver) {
         // @example window.$lazypoly = function() { return { then: function(callback) { /* ... */ } } };
         ((typeof POLYFILL !== 'string' && "then" in POLYFILL) ? POLYFILL : $async.js(POLYFILL)).then(function() {
 
+            intersectionObserver = win[intersectionObserverStr];
+
             // restore lazy handler
             win.$lazy = $lazy;
 
             // process queue
             var item;
             while((item = queue.shift())) {
-                $lazy(item);
+                $lazy(item[0],item[1]);
             }
         });
     }

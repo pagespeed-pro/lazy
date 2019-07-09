@@ -24,6 +24,9 @@ function GET_DATA_ATTR(el, attr) {
 
 // verify instance type
 function IS_INSTANCE(obj, type) {
+    if (!type) {
+        type = Object;
+    }
     return obj instanceof type;
 }
 
@@ -35,24 +38,24 @@ function QUERY(selector) {
 // public object
 function $lazy(config, callback) {
 
-    // selector as string
-    if (!config || typeof config !== 'object') {
+    // selector as string, Node or NodeList
+    if (!config || typeof config != 'object' || IS_INSTANCE(config, Node) || IS_INSTANCE(config, NodeList)) {
         config = [config];
     }
 
     var selector = config[0] || config.selector || '[data-src]',
-        threshold = config[1] || config.threshold || 0.006,
-        rootMargin = config[2] || config.rootMargin || '0px',
-        observerConfig = (typeof threshold === 'object') ? threshold : {
-            threshold: [ threshold ],
-            rootMargin:  rootMargin
-        },
+        threshold = config[1] || config.threshold || config.observer,
+        rootMargin = config[2] || config.rootMargin,
         asset,assets,
         SRC = 'src',
-        SRCSET = SRC + 'set';
-
+        SRCSET = SRC + 'set',
+        observerConfig = (typeof threshold == 'object') ? threshold : {
+            rootMargin: rootMargin || '0px',
+            threshold: threshold || 0
+        }
+        
     // inview callback
-    if (typeof callback !== 'function') {
+    if (typeof callback != 'function') {
         callback = function(entries) {
             var entry;
             for (var i = 0, l = entries.length; i < l; i++) {
