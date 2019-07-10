@@ -102,52 +102,82 @@ module.exports = function(grunt) {
 
             "lazy": {
                 closurePath: '../../closure-compiler',
-                js: 'tmp/lazy-iife.js',
+                js: [
+                    'src/gcc-define.js',
+                    'tmp/lazy-iife.js'
+                ],
                 jsOutputFile: 'dist/lazy.js',
                 maxBuffer: 30000,
                 noreport: true,
                 options: {
                     compilation_level: 'ADVANCED_OPTIMIZATIONS',
                     language_in: 'ECMASCRIPT5_STRICT',
-                    externs: externs
-                    //isolation_mode: 'IIFE'
+                    externs: externs,
+                    define: ['TINY=false']
+                }
+            },
+            "lazy-minimum": {
+                closurePath: '../../closure-compiler',
+                js: [
+                    'src/gcc-define.js',
+                    'tmp/lazy-iife.js'
+                ],
+                jsOutputFile: 'dist/lazy-minimum.js',
+                maxBuffer: 30000,
+                noreport: true,
+                options: {
+                    compilation_level: 'ADVANCED_OPTIMIZATIONS',
+                    language_in: 'ECMASCRIPT5_STRICT',
+                    externs: externs,
+                    define: ['TINY=true']
                 }
             },
             "lazy-poly": {
                 closurePath: '../../closure-compiler',
-                js: 'tmp/lazy-poly-iife.js',
+                js: [
+                    'src/gcc-define.js',
+                    'tmp/lazy-poly-iife.js'
+                ],
                 jsOutputFile: 'dist/lazy+polyfill.js',
                 maxBuffer: 30000,
                 noreport: true,
                 options: {
                     compilation_level: 'ADVANCED_OPTIMIZATIONS',
                     language_in: 'ECMASCRIPT5_STRICT',
-                    externs: externs
-                    //isolation_mode: 'IIFE'
+                    externs: externs,
+                    define: ['TINY=false']
                 }
             },
             "lazy-data-attr": {
                 closurePath: '../../closure-compiler',
-                js: 'tmp/lazy-data-attr-iife.js',
+                js: [
+                    'src/gcc-define.js',
+                    'tmp/lazy-data-attr-iife.js'
+                ],
                 jsOutputFile: 'dist/lazy-data-attr.js',
                 maxBuffer: 30000,
                 noreport: true,
                 options: {
                     compilation_level: 'ADVANCED_OPTIMIZATIONS',
                     language_in: 'ECMASCRIPT5_STRICT',
-                    externs: externs
+                    externs: externs,
+                    define: ['TINY=false']
                 }
             },
             "lazy-data-attr-poly": {
                 closurePath: '../../closure-compiler',
-                js: 'tmp/lazy-data-attr-poly-iife.js',
+                js: [
+                    'src/gcc-define.js',
+                    'tmp/lazy-data-attr-poly-iife.js'
+                ],
                 jsOutputFile: 'dist/lazy-data-attr+polyfill.js',
                 maxBuffer: 30000,
                 noreport: true,
                 options: {
                     compilation_level: 'ADVANCED_OPTIMIZATIONS',
                     language_in: 'ECMASCRIPT5_STRICT',
-                    externs: externs
+                    externs: externs,
+                    define: ['TINY=false']
                 }
             },
             "polyfill": {
@@ -159,7 +189,8 @@ module.exports = function(grunt) {
                 options: {
                     compilation_level: 'SIMPLE_OPTIMIZATIONS',
                     language_in: 'ECMASCRIPT5_STRICT',
-                    externs: externs
+                    externs: externs,
+                    define: ['TINY=false']
                 }
             }
         }
@@ -171,9 +202,20 @@ module.exports = function(grunt) {
     grunt.registerTask('build', [
         'iife',
         'closure-compiler:lazy',
+        'closure-compiler:lazy-minimum',
         'closure-compiler:lazy-poly',
         'closure-compiler:lazy-data-attr',
         'closure-compiler:lazy-data-attr-poly'
+    ]);
+
+    grunt.registerTask('lazy', [
+        'iife:lazy',
+        'closure-compiler:lazy'
+    ]);
+
+    grunt.registerTask('tiny', [
+        'iife:lazy',
+        'closure-compiler:lazy-minimum'
     ]);
 
     grunt.registerTask('polyfill', [

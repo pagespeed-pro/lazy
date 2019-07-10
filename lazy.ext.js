@@ -1,6 +1,7 @@
 /*
  * Lazy Image and Iframe Loader
- * /
+ */
+
 
 /** @export */
 window.$lazy = function(config, callback) {

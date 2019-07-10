@@ -38,24 +38,34 @@ function QUERY(selector) {
 // public object
 function $lazy(config, callback) {
 
-    // selector as string, Node or NodeList
-    if (!config || typeof config != 'object' || IS_INSTANCE(config, Node) || IS_INSTANCE(config, NodeList)) {
-        config = [config];
-    }
-
-    var selector = config[0] || config.selector || '[data-src]',
-        threshold = config[1] || config.threshold || config.observer,
-        rootMargin = config[2] || config.rootMargin,
-        asset,assets,
-        SRC = 'src',
-        SRCSET = SRC + 'set',
-        observerConfig = (typeof threshold == 'object') ? threshold : {
-            rootMargin: rootMargin || '0px',
-            threshold: threshold || 0
+    if (TINY) {
+        if (typeof config == 'object') {
+            var selector = config[0] || config.selector || '[data-src]',
+            observerConfig = config[1] || config.observer;
+        } else {
+            var selector = config, observerConfig;
         }
+    } else {
+
+        // selector as string, Node or NodeList
+        if (!config || typeof config != 'object' || IS_INSTANCE(config, Node) || IS_INSTANCE(config, NodeList)) {
+            config = [config];
+        }
+
+        var selector = config[0] || config.selector || '[data-src]',
+            threshold = config[1] || config.threshold || config.observer,
+            rootMargin = config[2] || config.rootMargin,
+            asset,assets,
+            SRC = 'src',
+            SRCSET = SRC + 'set',
+            observerConfig = (typeof threshold == 'object') ? threshold : {
+                rootMargin: rootMargin || '0px',
+                threshold: threshold || 0
+            }
+    }
         
     // inview callback
-    if (typeof callback != 'function') {
+    if (TINY || !callback) {
         callback = function(entries) {
             var entry;
             for (var i = 0, l = entries.length; i < l; i++) {
@@ -76,7 +86,7 @@ function $lazy(config, callback) {
                     }
 
                     // fire event
-                    if ("CustomEvent" in win) {
+                    if (!TINY && "CustomEvent" in win) {
                         target.dispatchEvent(new CustomEvent('$lazy', {
                             bubbles: true,
                             cancelable: true,
@@ -99,9 +109,9 @@ function $lazy(config, callback) {
     var observer = (intersectionObserver) ? new intersectionObserver( callback, observerConfig ) : false;
 
     // single node
-    if (IS_INSTANCE(selector, Node)) {
+    if (!TINY && IS_INSTANCE(selector, Node)) {
         assets = [selector];
-    } else if (IS_INSTANCE(selector, NodeList)) {
+    } else if (!TINY && IS_INSTANCE(selector, NodeList)) {
         // node list
         assets = selector;
     } else {
@@ -113,12 +123,14 @@ function $lazy(config, callback) {
         asset = assets[i];
         if (observer) {
             observer.observe(asset);
-        } else {
+        } else if (!TINY) {
             callback([asset]);
         }
     }
 
-    return assets;
+    if (!TINY) {
+        return assets;
+    }
 };
 
 // window.$lazy

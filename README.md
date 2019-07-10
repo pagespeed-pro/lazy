@@ -115,14 +115,14 @@ To enable usage in combination with a strict `Content-Security-Policy` the scrip
 
 
 ```html
-<script data-l="{
-   &quot;selector&quot;: &quot;[data-src*='cdn.domain.com']&quot;, 
-   &quot;observer&quot;: { 
-      &quot;threshold&quot;: [1.0],
-      &quot;trackVisibility&quot;: true,
-      &quot;delay&quot;: 100
+<script data-l='{
+   "selector": "[data-src*=&apos;cdn.domain.com&apos;]", 
+   "observer": { 
+      "threshold": [1.0],
+      "trackVisibility": true,
+      "delay": 100
    }
-}">
+}'>
 // dist/lazy-data-attr.js (source)
 </script>
 ```
