@@ -46,12 +46,16 @@ function $lazy(config, callback) {
 
     // lazy-minimum.js: basic config, no Node/NodeList support
     if (TINY) {
-        if (typeof config == 'object') {
-            var selector = config[0] || config.selector || '[data-src]',
-            observerConfig = config[1] || config.observer;
-        } else {
-            var selector = config, observerConfig;
+        var selector,observerConfig,
+            asset,assets,
+            SRC = 'src',
+            SRCSET = SRC + 'set';
+        if (typeof config != 'object') {
+            config = [config];
         }
+        selector = config[0] || config.selector || '[data-src]';
+        observerConfig = config[1] || config.observer;
+    
     } else {
 
         // selector as string, Node or NodeList

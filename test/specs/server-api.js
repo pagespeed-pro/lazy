@@ -17,7 +17,7 @@ SERVER_API.reload = function(driver, script, exec) {
 
 // build query URL
 SERVER_API.query = function(template, script, exec) {
-    var server = 'http://127.0.0.1:14281' + template + '?iife=' + encodeURIComponent(JSON.stringify(script));
+    var server = 'http://127.0.0.1:14281' + template + '?script=' + encodeURIComponent(JSON.stringify(script));
     if (exec) {
         server += '&exec=' + encodeURIComponent(JSON.stringify(exec));
     }

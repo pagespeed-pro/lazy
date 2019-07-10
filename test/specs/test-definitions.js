@@ -224,6 +224,118 @@ TEST_DEFINITIONS.basic = function() {
 
             });
 
+        }],
+        ['$lazy() using lazy-minimum.js', function(driver, done) {
+
+            SERVER_API.reload(driver, {src: '/lazy-minimum.js' }).then(function() {
+                return driver.executeAsyncScript(function() {
+                    var cb = arguments[arguments.length - 1];
+
+                    
+                    // domready
+                    window.requestAnimationFrame(function() {
+                        window.scrollTo(0,0);
+
+                        $lazy();
+
+                        function check(pos) {
+                            return document.getElementById('img_' + pos).hasAttribute('src') && document.getElementById('img_' + pos).getAttribute('src') && (document.getElementById('img_' + pos).getAttribute('src').indexOf('.png') !== -1)
+                        }
+
+                        setTimeout(function() {
+                            if (!check('top')) {
+                                cb('top img not loaded: ' + document.getElementById('img_top').getAttribute('src') + check('top'));
+                            } else if ( check('top') && !check('bottom') ) {
+                                window.scrollTo(0,document.body.scrollHeight);
+
+                                setTimeout(function() {
+                                    if (check('bottom')) {
+                                        cb(true);
+                                    } else {
+                                        cb('footer img not loaded');
+                                    }
+                                },100);
+
+                            } else {
+
+                                // footer was loaded while not visible
+                                cb('footer img was loaded: ' + document.getElementById('img_bottom').getAttribute('src') + check('bottom'));
+                            }
+                        });
+                    });
+
+                }).then(function(return_value) {
+
+                    if (typeof return_value === 'string') {
+                        throw new Error(return_value);
+                    }
+
+                    assert.equal(return_value, true);
+
+                    SERVER_API.reload(driver, {src: '/lazy-minimum.js' }).then(function() {
+                        return driver.executeAsyncScript(function() {
+                            var cb = arguments[arguments.length - 1];
+
+                            // domready
+                            window.requestAnimationFrame(function() {
+                                window.scrollTo(0,0);
+
+                                // should fail (Node not supported in minimum)
+                                var failed;
+                                try {
+                                    $lazy([document.getElementById('img_bottom')]);
+                                } catch (e) {
+                                    failed = true;
+                                }
+                                if (!failed) {
+                                    return cb('$lazy did not fail with Node input')
+                                }
+
+                                function check(pos) {
+                                    return document.getElementById('img_' + pos).hasAttribute('src') && document.getElementById('img_' + pos).getAttribute('src') && (document.getElementById('img_' + pos).getAttribute('src').indexOf('.png') !== -1)
+                                }
+
+                                setTimeout(function() {
+                                    if (check('top')) {
+                                        cb('top img loaded ');
+                                    } else if ( !check('bottom') ) {
+                                        window.scrollTo(0,document.body.scrollHeight);
+
+                                        setTimeout(function() {
+                                            if (!check('bottom')) {
+                                                cb(true);
+                                            } else {
+                                                cb('footer img was loaded');
+                                            }
+                                        },100);
+
+                                    } else {
+
+                                        // footer was loaded while not visible
+                                        cb('footer img was loaded: ' + document.getElementById('img_bottom').getAttribute('src') + check('bottom'));
+                                    }
+                                });
+                            });
+
+                        }).then(function(return_value) {
+
+                            if (typeof return_value === 'string') {
+                                throw new Error(return_value);
+                            }
+
+                            assert.equal(return_value, true);
+
+                            done();
+
+                        });
+                    });
+
+
+
+                }).catch(done);
+
+            });
+
         }]
     ];
 };

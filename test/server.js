@@ -17,6 +17,14 @@ app.use(bodyParser.urlencoded({
 
 function get_html(file, script, exec, modifyCallback) {
 
+    if (script) {
+        try {
+            script = JSON.parse(script);
+        } catch (e) {
+            script = false;
+        }
+    }
+
 
     return new Promise(function(resolve, reject) {
 
