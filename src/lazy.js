@@ -6,16 +6,22 @@
  * @link https://github.com/style-tools/lazy
  */
 
-var intersectionObserver, intersectionObserverStr = 'IntersectionObserver',
-    intersectionObserverEntryProto = ((intersectionObserverStr +'Entry' in win) ? win[intersectionObserverStr + 'Entry'].prototype : 0),
-    LAZY_SCRIPT;
-if (
-    intersectionObserverEntryProto
-    && 'intersectionRatio' in intersectionObserverEntryProto
-    && 'isIntersecting' in intersectionObserverEntryProto
-) {
-    intersectionObserver = win[intersectionObserverStr];
-};
+// lazy-minimum.js: no browser check
+if (TINY) {
+    var intersectionObserver = win['IntersectionObserver'];
+} else {
+
+    var intersectionObserver, intersectionObserverStr = 'IntersectionObserver',
+        intersectionObserverEntryProto = ((intersectionObserverStr +'Entry' in win) ? win[intersectionObserverStr + 'Entry'].prototype : 0),
+        LAZY_SCRIPT;
+    if (
+        intersectionObserverEntryProto
+        && 'intersectionRatio' in intersectionObserverEntryProto
+        && 'isIntersecting' in intersectionObserverEntryProto
+    ) {
+        intersectionObserver = win[intersectionObserverStr];
+    };
+}
 
 // get data-* attribute
 function GET_DATA_ATTR(el, attr) {
@@ -38,6 +44,7 @@ function QUERY(selector) {
 // public object
 function $lazy(config, callback) {
 
+    // lazy-minimum.js: basic config, no Node/NodeList support
     if (TINY) {
         if (typeof config == 'object') {
             var selector = config[0] || config.selector || '[data-src]',
@@ -128,6 +135,7 @@ function $lazy(config, callback) {
         }
     }
 
+    // lazy-minimum.js
     if (!TINY) {
         return assets;
     }
