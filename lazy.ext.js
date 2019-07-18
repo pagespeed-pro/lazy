@@ -37,4 +37,14 @@ CustomEvent = function(selector, config) {
 
 window.$lazypoly = function() {}
 
-function $async() {};
+function $async() {
+    return {
+        js: function() {
+            return {
+                then: function() {
+                    
+                }
+            }
+        }
+    }
+};

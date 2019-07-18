@@ -28,14 +28,6 @@ function GET_DATA_ATTR(el, attr) {
     return el.getAttribute('data-' + attr);
 }
 
-// verify instance type
-function IS_INSTANCE(obj, type) {
-    if (!type) {
-        type = Object;
-    }
-    return obj instanceof type;
-}
-
 // query
 function QUERY(selector) {
     return doc.querySelectorAll(selector);
@@ -59,7 +51,7 @@ function $lazy(config, callback) {
     } else {
 
         // selector as string, Node or NodeList
-        if (!config || typeof config != 'object' || IS_INSTANCE(config, Node) || IS_INSTANCE(config, NodeList)) {
+        if (!config || typeof config == 'string' || !((config instanceof Array) || config.selector)) {
             config = [config];
         }
 
@@ -76,7 +68,7 @@ function $lazy(config, callback) {
     }
         
     // inview callback
-    if (TINY || !callback) {
+    if (!callback) {
         callback = function(entries) {
             var entry;
             for (var i = 0, l = entries.length; i < l; i++) {
@@ -98,14 +90,16 @@ function $lazy(config, callback) {
 
                     // fire event
                     if (!TINY && "CustomEvent" in win) {
-                        target.dispatchEvent(new CustomEvent('$lazy', {
-                            bubbles: true,
-                            cancelable: true,
-                            detail: {
-                                el: target,
-                                entry: entry
-                            }
-                        }));
+                        try {
+                            target.dispatchEvent(new CustomEvent('$lazy', {
+                                bubbles: true,
+                                cancelable: true,
+                                detail: {
+                                    el: target,
+                                    entry: entry
+                                }
+                            }));
+                        } catch(e) {}
                     }
 
                     if (observer) {
@@ -120,11 +114,14 @@ function $lazy(config, callback) {
     var observer = (intersectionObserver) ? new intersectionObserver( callback, observerConfig ) : false;
 
     // single node
-    if (!TINY && IS_INSTANCE(selector, Node)) {
-        assets = [selector];
-    } else if (!TINY && IS_INSTANCE(selector, NodeList)) {
-        // node list
-        assets = selector;
+    if (!TINY) {
+        if (typeof selector == 'string') {
+            // query
+            assets = QUERY(selector);    
+        } else { 
+            // Node type detection IE8, convert to NodeList
+            assets = (selector && selector.length == undefined) ? [selector] : selector;
+        }
     } else {
         // query
         assets = QUERY(selector);
@@ -135,6 +132,7 @@ function $lazy(config, callback) {
         if (observer) {
             observer.observe(asset);
         } else if (!TINY) {
+            // simple fallback if Intersection Observer is not available
             callback([asset]);
         }
     }

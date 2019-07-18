@@ -19,7 +19,7 @@ module.exports = function(grunt) {
                     prependSemicolon: false,
                     trimCode: true,
                     args: ['window', 'document'],
-                    params: ['win', 'doc']
+                    params: ['win', 'doc', 'undefined']
                 },
                 files: {
                     "tmp/lazy-iife.js": [
@@ -34,7 +34,7 @@ module.exports = function(grunt) {
                     prependSemicolon: false,
                     trimCode: true,
                     args: ['window', 'document'],
-                    params: ['win', 'doc']
+                    params: ['win', 'doc', 'undefined']
                 },
                 files: {
                     "tmp/lazy-poly-iife.js": [
@@ -50,7 +50,7 @@ module.exports = function(grunt) {
                     prependSemicolon: false,
                     trimCode: true,
                     args: ['window', 'document'],
-                    params: ['win', 'doc']
+                    params: ['win', 'doc', 'undefined']
                 },
                 files: {
                     "tmp/lazy-data-attr-iife.js": [
@@ -67,7 +67,7 @@ module.exports = function(grunt) {
                     prependSemicolon: false,
                     trimCode: true,
                     args: ['window', 'document'],
-                    params: ['win', 'doc']
+                    params: ['win', 'doc', 'undefined']
                 },
                 files: {
                     "tmp/lazy-data-attr-poly-iife.js": [
