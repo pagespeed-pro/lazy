@@ -26,7 +26,7 @@ composer require styletools/lazy
 
 # New in `v1.1.0`
 
-- Added: `.webp` rewrite with fallback
+- Added: `.webp` rewrite with fallback (WebP support for `<img>` tag)
 - Added: inview and out-of-view callback (persistent observer)
 - Removed: `CustomEvent` (can be manually added via inview callback)
 - `$lazybg` for lazy loading of `background-image` in stylesheets
@@ -34,7 +34,7 @@ composer require styletools/lazy
 
 **Warning:** the custom observer callback has been moved to the third argument and the `dist/*` file names have been changed.
 
-See [releases](https://github.com/style-tools/lazy/releases/tag/1.1.0) for more information.
+See [releases](https://github.com/style-tools/lazy/releases/tag/1.1.0) or [documentation](https://docs.style.tools/lazy) for more information.
 
 ## Config
 
@@ -89,18 +89,19 @@ $lazy(["[data-src]", {
 
 ## Inview & Out-of-view callback
 
-The inview callback enable to use `$lazy` as a simple inview script.
+The inview callback makes it possible to use `$lazy` as a simple inview script.
 
 ```javascript
-$lazy(".selector", function inview(target, observer, is_inview) {
+$lazy(".selector", function(target, observer, is_inview) {
   
   // element in view
+  is_inview = boolean
 
-  return false; // persist observer and re-trigger callback on out-of-view and re-inview
+  return false; // persist observer to enable out-of-view callback
 });
 ```
 
-By returning false from a custom inview callback, the observer will not be removed and will trigger the callback again when the element moves out of view. 
+By returning `false` from a custom inview callback, the observer will not be removed and will trigger the callback again when the element moves in or out of view.
 
 The inview argument accepts an array with 3 index positions:
 
@@ -108,7 +109,7 @@ The inview argument accepts an array with 3 index positions:
 2. `out-of-view` a function to call when the element moves out of view
 3. `after_inview` a function to call with the default inview-method after `src` and `srcset` have been rewritten.
 
-When out-of-view is null, the inview method is used as out-of-view method when it returns `false` to preserve the observer.
+When out-of-view is null, the inview method is used as out-of-view method.
 
 ```javascript
 $lazy(".selector", [
@@ -127,6 +128,8 @@ $lazy(".selector", [
 
   }]);
 ```
+
+To easily extend the original `data-src` based lazy loading of images, you can use an `after_inview` callback.
 
 ```javascript
 $lazy(".selector", [,,function after_inview(target) {
@@ -228,6 +231,11 @@ $lazybg(
 ); 
 </script>
 ```
+
+CSS variables are limited to `DOMString`. The following characters need to be replaced in a `base64` encoded value:
+
+`/`: `—` 
+`=`: `•`
 
 ## Automatic `.webp` rewrite
 
