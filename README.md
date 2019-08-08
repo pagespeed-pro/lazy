@@ -24,24 +24,36 @@ npm install @style.tools/lazy --save
 composer require styletools/lazy
 ```
 
+# New in `v1.1.0`
+
+- Added: `.webp` rewrite with fallback
+- Added: inview and out-of-view callback (persistent observer)
+- Removed: `CustomEvent` (can be manually added via inview callback)
+- `$lazybg` for lazy loading of `background-image` in stylesheets
+- Tiny lazy load script renamed to `$z()` (300 bytes).
+
+**Warning:** the custom observer callback has been moved to the third argument and the `dist/*` file names have been changed.
+
+See [releases](https://github.com/style-tools/lazy/releases/tag/1.1.0) for more information.
+
 ## Config
 
 The `selector` entry accepts multiple configuration formats including a string, an Array, a Node, NodeList or a JSON object with `observer` configuration.
 
 #### Simple config
 
-```json
-{
+```javascript
+$lazy({
    "selector": "[data-src]",
    "threshold": 0.006,
    "rootMargin": "0px"
-}
+});
 ```
 
 #### Custom observer config
 
-```json
-{
+```javascript
+$lazy({
    "selector": "[data-src]",
    "observer": {
       "threshold": 0.006,
@@ -49,7 +61,7 @@ The `selector` entry accepts multiple configuration formats including a string, 
       "trackVisibility": true,
       "delay": 100
    }
-}
+});
 ```
 
 The array based index config is a compressed format to save size in the HTML document. 
@@ -60,43 +72,76 @@ The array based index config is a compressed format to save size in the HTML doc
 
 #### Simple config
 
-```json
-["[data-src]", 0.006, "0px"]
+```javascript
+$lazy(["[data-src]", 0.006, "0px"]);
 ```
 
 #### Custom observer config
 
-```json
-["[data-src]", {
+```javascript
+$lazy(["[data-src]", {
    "threshold": 0.006,
    "rootMargin": "0px",
    "trackVisibility": true,
    "delay": 100
-}]
+}]);
 ```
 
-## Event
+## Inview & Out-of-view callback
 
-When an element enters the viewport the event `$lazy` is fired on the element. The event contains a reference to the HTML node and the `IntersectionObserverEntry`.
+The inview callback enable to use `$lazy` as a simple inview script.
 
 ```javascript
-// listen for $lazy event on any element
-$(document)[0].addEventListener('$lazy', console.log);
+$lazy(".selector", function inview(target, observer, is_inview) {
+  
+  // element in view
 
-// selectively listen for $lazy event on images using jQuery
-jQuery('img').on('$lazy', console.log);
+  return false; // persist observer and re-trigger callback on out-of-view and re-inview
+});
 ```
 
-The event data is available via `event.detail`.
+By returning false from a custom inview callback, the observer will not be removed and will trigger the callback again when the element moves out of view. 
 
-![$lazy event](https://user-images.githubusercontent.com/8843669/60754647-69544100-9fe4-11e9-9c49-07e7fe1c29e8.png)
+The inview argument accepts an array with 3 index positions:
 
-## Custom callback
+1. `inview`: a function to call when the element moves into view.
+2. `out-of-view` a function to call when the element moves out of view
+3. `after_inview` a function to call with the default inview-method after `src` and `srcset` have been rewritten.
 
-When using a custom callback the `$lazy` script essentially functions as a simple in-view solution that can be used for many purposes.
+When out-of-view is null, the inview method is used as out-of-view method when it returns `false` to preserve the observer.
 
 ```javascript
-$lazy('div#id', function(entries) {
+$lazy(".selector", [
+  function inview(target, observer) {
+  
+    // element in view
+
+    return false; // persist observer
+    
+  },
+  function out_of_view(target, observer) {
+
+    // element out of view
+
+    return false; // persist observer
+
+  }]);
+```
+
+```javascript
+$lazy(".selector", [,,function after_inview(target) {
+  
+  // target has been lazy-loaded
+  target.classList.add('custom-class');
+}]);
+```
+
+## Custom observer callback
+
+The third argument enables to manually define the `IntersectionObserver` callback.
+
+```javascript
+$lazy('div#id', 0, function(entries) {
 	// entries is a Array of `IntersectionObserverEntry` or HTML Nodes
 	// you need to manually verify if the browser supports Intersection Observer
 
@@ -108,6 +153,93 @@ $lazy('div#id', function(entries) {
 	}
 })
 ```
+
+## Lazy loading of `background-image` in stylesheets
+
+`dist/lazybg.js` enables to lazy load background images in stylesheets. It makes use of [CSS Variables](https://www.w3schools.com/css/css3_variables.asp) with a fallback for old browsers.
+
+There are four options to resolve images:
+
+1. manually define images via `:root {}` within the stylesheet
+2. base64 encode image URLs
+3. provide a JSON source list as resolver
+4. provide a javascript function as resolver
+
+```css
+/* :root based pre-configured value */
+:root {
+  --z--lazy-img: url('/image.jpg');
+}
+footer {
+  background-image: url('/image.jpg'); // old browsers
+  background-image: var(--z-lazy-img, none);
+}
+
+/* base64 encoded value */
+p#out-of-view {
+  background-image: url('/image.jpg'); // old browsers
+  background-image: var(--z-base64_value, none); /* note: requires character replacements, see documentation */
+}
+
+/* JSON object or javascript function based custom resolver */
+div#out-of-view {
+  background-image: url('/image.jpg'); // old browsers
+  background-image: var(--z-custom-resolved, none); 
+}
+```
+
+```html
+<script src="dist/lazybg.js"></script>
+<script>
+// default: document.styleSheets
+$lazybg(); 
+
+// custom $lazy config
+$lazybg(
+  document.querySelectorAll('link[rel=stylesheet], style#other'),
+  {
+    observer: {
+      threshold: 0,
+      rootMargin: '100px'
+    }
+  }
+); 
+
+// custom JSON based resolver
+$lazybg(
+  0,0, // default config
+
+  // resolver
+  {
+    "custom-resolved": "url('/image.jpg')"
+  }
+); 
+
+// custom javascript based resolver
+$lazybg(
+  0,0, // default config
+
+  // resolver
+  function(key) {
+
+    // resolve key "custon-resolved"
+    return "url('/"+key+".jpg');"
+  }
+); 
+</script>
+```
+
+## Automatic `.webp` rewrite
+
+It is possible to automatically load `.webp` images for browsers that support Google's [WebP](https://developers.google.com/speed/webp/) format. It saves a server-side redirect and it adds WebP support to the `<img>` tag.
+
+Simply use the `dist/lazy+webp...` files to enable it. 
+
+The solution uses `<img onerror>` to fallback to the original image when the `.webp` image is 404.
+
+To manually disable webp rewrites for an image add the HTML attribute `data-webp="no"`. To disable it for a specific `$lazy` configuration, set the 4th argument to `false`.
+
+`$lazybg` supports WebP rewrites by using `dist/lazybg+webp.js`.
 
 ## `data-l` JSON config
 

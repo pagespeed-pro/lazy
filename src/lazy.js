@@ -2,26 +2,20 @@
  * Lazy Image and Iframe loader
  * Released under the terms of MIT license
  *
- * Copyright (C) 2019 📐 Style.Tools
+ * Copyright (C) 2019 🔬 Style.Tools
  * @link https://github.com/style-tools/lazy
  */
 
-// lazy-minimum.js: no browser check
-if (TINY) {
-    var intersectionObserver = win['IntersectionObserver'];
-} else {
-
-    var intersectionObserver, intersectionObserverStr = 'IntersectionObserver',
-        intersectionObserverEntryProto = ((intersectionObserverStr +'Entry' in win) ? win[intersectionObserverStr + 'Entry'].prototype : 0),
-        LAZY_SCRIPT;
-    if (
-        intersectionObserverEntryProto
-        && 'intersectionRatio' in intersectionObserverEntryProto
-        && 'isIntersecting' in intersectionObserverEntryProto
-    ) {
-        intersectionObserver = win[intersectionObserverStr];
-    };
-}
+var intersectionObserver, intersectionObserverStr = 'IntersectionObserver',
+    intersectionObserverEntryProto = ((intersectionObserverStr +'Entry' in win) ? win[intersectionObserverStr + 'Entry'].prototype : 0),
+    LAZY_SCRIPT, WEBP_REWRITE;
+if (
+    intersectionObserverEntryProto
+    && 'intersectionRatio' in intersectionObserverEntryProto
+    && 'isIntersecting' in intersectionObserverEntryProto
+) {
+    intersectionObserver = win[intersectionObserverStr];
+};
 
 // get data-* attribute
 function GET_DATA_ATTR(el, attr) {
@@ -34,113 +28,112 @@ function QUERY(selector) {
 }
 
 // public object
-function $lazy(config, callback) {
+function $lazy(config, inview, observer_callback) {
 
-    // lazy-minimum.js: basic config, no Node/NodeList support
-    if (TINY) {
-        var selector,observerConfig,
-            asset,assets,
-            SRC = 'src',
-            SRCSET = SRC + 'set';
-        if (typeof config != 'object') {
-            config = [config];
-        }
-        selector = config[0] || config.selector || '[data-src]';
-        observerConfig = config[1] || config.observer;
-    
-    } else {
-
-        // selector as string, Node or NodeList
-        if (!config || typeof config == 'string' || !((config instanceof Array) || config.selector)) {
-            config = [config];
-        }
-
-        var selector = config[0] || config.selector || '[data-src]',
-            threshold = config[1] || config.threshold || config.observer,
-            rootMargin = config[2] || config.rootMargin,
-            asset,assets,
-            SRC = 'src',
-            SRCSET = SRC + 'set',
-            observerConfig = (typeof threshold == 'object') ? threshold : {
-                rootMargin: rootMargin || '0px',
-                threshold: threshold || 0
-            }
+    // selector as string, Node or NodeList
+    if (!config || typeof config == 'string' || !(config instanceof Array || config.selector)) {
+        config = [config];
     }
-        
-    // inview callback
-    if (!callback) {
-        callback = function(entries) {
-            var entry;
-            for (var i = 0, l = entries.length; i < l; i++) {
-                entry = entries[i];
 
-                if (!observer || entry.isIntersecting) {
+    var selector = config[0] || config.selector || '[data-src]',
+        threshold = config[1] || config.threshold || config.observer,
+        rootMargin = config[2] || config.rootMargin,
+        asset,assets,
+        SRC = 'src',
+        SRCSET = SRC + 'set',
+        observerConfig = (typeof threshold == 'object') ? threshold : {
+            rootMargin: rootMargin || '0px',
+            threshold: threshold || 0
+        },
+        outofview, after_inview,
+        observer;
 
-                    var target = (observer) ? entry.target : entry,
-                        srcset = GET_DATA_ATTR(target,SRCSET),
-                        src = GET_DATA_ATTR(target,SRC);
+    if (WEBP_EXTENSION) {
+        var webp = (config[3] === false || config.webp === false) ? false : true;
+    }
 
-                    if ( srcset ) {
-                        target[SRCSET] = srcset;
-                    }
+    // out of view / after_inview callback
+    if (inview instanceof Array) {
+        after_inview = inview[2];
+        outofview = inview[1];
+        inview = inview[0];
+        outofview = outofview || inview;
+    }
 
-                    if ( src ) {
-                        target[SRC] = src;
-                    }
+    // default inview callback
+    inview = inview || function(target, src, srcset) {
+        srcset = GET_DATA_ATTR(target,SRCSET),
+        src = GET_DATA_ATTR(target,SRC);
 
-                    // fire event
-                    if (!TINY && "CustomEvent" in win) {
-                        try {
-                            target.dispatchEvent(new CustomEvent('$lazy', {
-                                bubbles: true,
-                                cancelable: true,
-                                detail: {
-                                    el: target,
-                                    entry: entry
-                                }
-                            }));
-                        } catch(e) {}
-                    }
+        if ( srcset ) {
 
-                    if (observer) {
-                        observer.unobserve(target);
-                    }
+            if (WEBP_EXTENSION) {
+                if (webp) {
+                    srcset = WEBP_REWRITE(srcset, target);
+                }
+            }
+            target[SRCSET] = srcset;
+        }
+
+        if ( src ) {
+
+            if (WEBP_EXTENSION) {
+                if (webp) {
+                    src = WEBP_REWRITE(src, target);
+                }
+            }
+            target[SRC] = src;
+        }
+
+        // hook for sending a custom event etc.
+        if (after_inview) {
+            after_inview(target);
+        }
+    }
+
+    // default observer callback
+    observer_callback = observer_callback || function(entries) {
+        var entry, target, unobserve, is_inview;
+
+        for (var i = 0, l = entries.length; i < l; i++) {
+            entry = entries[i];
+            is_inview = (!observer || entry.isIntersecting);
+            if (is_inview || outofview) {
+
+                target = (observer) ? entry.target : entry;
+                unobserve = ((!is_inview) ? outofview : inview)(target, observer, is_inview);
+
+                // not specifically instructed to keep observing (= out-of-view callback)
+                if (observer && unobserve !== false) {
+                    observer.unobserve(target);
                 }
             }
         }
     }
 
     // the intersection observer
-    var observer = (intersectionObserver) ? new intersectionObserver( callback, observerConfig ) : false;
+    observer = (intersectionObserver) ? new intersectionObserver( observer_callback, observerConfig ) : false;
 
     // single node
-    if (!TINY) {
-        if (typeof selector == 'string') {
-            // query
-            assets = QUERY(selector);    
-        } else { 
-            // Node type detection IE8, convert to NodeList
-            assets = (selector && selector.length == undefined) ? [selector] : selector;
-        }
-    } else {
+    if (typeof selector == 'string') {
         // query
-        assets = QUERY(selector);
+        assets = QUERY(selector);    
+    } else { 
+        // Node type detection IE8, convert to NodeList
+        assets = (selector && selector.length == undefined) ? [selector] : selector;
     }
 
     for (var i = 0, l = assets.length; i < l; i++) {
         asset = assets[i];
         if (observer) {
             observer.observe(asset);
-        } else if (!TINY) {
+        } else {
             // simple fallback if Intersection Observer is not available
-            callback([asset]);
+            observer_callback([asset]);
         }
     }
 
-    // lazy-minimum.js
-    if (!TINY) {
-        return assets;
-    }
+    return assets;
 };
 
 // window.$lazy

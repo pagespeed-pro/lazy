@@ -10,16 +10,19 @@ SERVER_API.validation = function(fn) {
 }
 
 // load / reload page
-SERVER_API.reload = function(driver, script, exec) {
+SERVER_API.reload = function(driver, script, exec, inline) {
 
-    return driver.get(SERVER_API.query('/', script, exec));
+    return driver.get(SERVER_API.query('/', script, exec, inline));
 }
 
 // build query URL
-SERVER_API.query = function(template, script, exec) {
+SERVER_API.query = function(template, script, exec, inline) {
     var server = 'http://127.0.0.1:14281' + template + '?script=' + encodeURIComponent(JSON.stringify(script));
     if (exec) {
         server += '&exec=' + encodeURIComponent(JSON.stringify(exec));
+    }
+    if (inline) {
+        server += '&inline=' + encodeURIComponent(inline);
     }
     return server;
 }
