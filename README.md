@@ -232,9 +232,12 @@ $lazybg(
 </script>
 ```
 
+### Base64 encoded image value
+
 CSS variables are limited to `DOMString`. The following characters need to be replaced in a `base64` encoded value:
 
 `/`: `—` 
+
 `=`: `•`
 
 ## Automatic `.webp` rewrite
