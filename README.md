@@ -17,7 +17,7 @@ Lazy loading of `background-image` in stylesheets.
 
 ```javascript 
 $lazybg(
-  sheets, /* stylesheet element(s), default: document.styleSheets (all)
+  sheets, /* stylesheet element(s), default: document.styleSheets (all) */
   lazy_config, /* optional: config to pass to $lazy() */
   resolver, /* optional: JSON or javascript image resolver */
   webp /* disable WebP rewrite (when using lazybg+webp.js) */
