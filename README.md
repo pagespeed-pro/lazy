@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.com/style-tools/lazy.svg?branch=master)](https://travis-ci.com/style-tools/lazy) [![Version](https://img.shields.io/github/release/style-tools/lazy.svg)](https://github.com/style-tools/lazy/releases) [![npm version](https://badge.fury.io/js/%40style.tools%2Flazy.svg)](http://badge.fury.io/js/%40style.tools%2Flazy) [![Latest Stable Version](https://poser.pugx.org/styletools/lazy/v/stable.png)](https://packagist.org/packages/styletools/lazy)
 
-# Lazy Image and Iframe Loader with WebP rewrite
+# Lazy Image and Iframe Loader
 
 A lightweight lazy loader based on [Intersection Observer V2](https://developers.google.com/web/updates/2019/02/intersectionobserver-v2) with a tiny fallback for old browsers. 
 
