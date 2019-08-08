@@ -2,7 +2,7 @@
 
 # Lazy Image and Iframe Loader
 
-A lightweight lazy loader based on [Intersection Observer V2](https://developers.google.com/web/updates/2019/02/intersectionobserver-v2) with a tiny fallback for old browsers.
+A lightweight lazy loader based on [Intersection Observer V2](https://developers.google.com/web/updates/2019/02/intersectionobserver-v2) with a tiny fallback for old browsers. 
 
 ```javascript
 $lazy(
@@ -10,6 +10,15 @@ $lazy(
    callback /* optional: custom in-view callback for manual lazy loading */
 );	
 ``` 
+
+Lazy loading of `background-image` in stylesheets.
+
+```javascript 
+$lazybg(
+  sheets, /* stylesheet element(s), default: document.styleSheets (all)
+  resolver /* optional: JSON or javascript image resolver */
+);
+```
 
 #### Documentation is available on [docs.style.tools/lazy](https://docs.style.tools/lazy).
 
