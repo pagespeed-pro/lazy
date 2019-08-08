@@ -7,7 +7,9 @@ A lightweight lazy loader based on [Intersection Observer V2](https://developers
 ```javascript
 $lazy(
    selector, /* string, Node, NodeList or observer config object */
-   callback /* optional: custom in-view callback for manual lazy loading */
+   inview, /* optional: custom in-view callback */
+   observer_callback, /* optional: custom observer callback */
+   webp /* disable WebP rewrite (when using lazy+webp.js) */
 );	
 ``` 
 
@@ -16,7 +18,9 @@ Lazy loading of `background-image` in stylesheets.
 ```javascript 
 $lazybg(
   sheets, /* stylesheet element(s), default: document.styleSheets (all)
-  resolver /* optional: JSON or javascript image resolver */
+  lazy_config, /* optional: config to pass to $lazy() */
+  resolver, /* optional: JSON or javascript image resolver */
+  webp /* disable WebP rewrite (when using lazybg+webp.js) */
 );
 ```
 

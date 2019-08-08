@@ -6,6 +6,9 @@ node_js:
 sudo: required 
 env: DISPLAY=':99.0'
 
+services:
+  - xvfb
+
 # Use container-based Travis infrastructure.
 sudo: false
 
@@ -29,10 +32,11 @@ install: # Install ChromeDriver (64bits; replace 64 with 32 for 32bits).
   - sudo ln -s /usr/local/share/chromedriver /usr/local/bin/chromedriver
 
 before_script:
-  - |
-    if [ "$TRAVIS_OS_NAME" = "linux" ]; then
-      sh -e /etc/init.d/xvfb start
-    fi
+  - export DISPLAY=:99.0
+  #- |
+  #  if [ "$TRAVIS_OS_NAME" = "linux" ]; then
+  #    sh -e /etc/init.d/xvfb start
+  #  fi
   - npm install
 
 script:
