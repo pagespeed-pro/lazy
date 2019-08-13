@@ -294,28 +294,22 @@ Multiple configurations are supported via the special multi-token `||`. The toke
 ### Example using `$async` with `data-c` based config
 
 ```html
-<script data-c='[
-  {
-    "ref": "lazy",
-    "src": "dist/lazy-data-attr+polyfill.js",
-    "attributes": {
-     "data-l": "[\"selector\", 0.006, \"0px\"]"
-    },
-    "load_timing": "domReady",
-    "cache": "localstorage"
-  },
-  {
-    "ref": "lazy-polyfill",
-    "src": "dist/intersectionobserver-polyfill.js",
-    "load_timing": {
+<script async src="dist/iife-async.js" data-c='[0,0,0,0,{
+   "src": "/intersectionobserver-polyfill.js",
+   "load_timing": {
       "type": "method",
       "method": "$lazypoly"
     },
     "cache": "localstorage"
-  }
-]'>
-/* $async IIFE with timing and API module */
-</script>
+},{
+   "ref": "lazy",
+   "src": "/lazy.js",
+   "attributes": {
+      "data-l": "[\".selector\", 0.006, \"0px\"]"
+   },
+    "load_timing": "domReady",
+    "cache": "localstorage"
+}]'></script>
 ```
 
 In the example, the `$async` timing method `method` defines `window.$lazypoly` which will automatically load the polyfill for browsers that require the polyfill. It uses `localStorage` for instant loading.
