@@ -294,7 +294,7 @@ Multiple configurations are supported via the special multi-token `||`. The toke
 ### Example using `$async` with `data-c` based config
 
 ```html
-<!-- data-c slot 5 t/m 8 for $async.js() -->
+<!-- data-c slot 5 to 8 for $async.js() -->
 <script async src="dist/iife-async.js" data-c='[0,0,0,0,{
    "src": "/intersectionobserver-polyfill.js",
    "load_timing": {
