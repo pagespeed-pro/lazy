@@ -40,6 +40,7 @@ WEBP_REWRITE = function(src, target, webp_config) {
 
         // fallback on error or 404
         target.onerror = function() {
+            this.onerror = null;
             this.src = src;
         }
     }
