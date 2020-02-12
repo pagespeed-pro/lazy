@@ -22,6 +22,10 @@ function GET_DATA_ATTR(el, attr) {
     return el.getAttribute('data-' + attr);
 }
 
+function REMOVE_DATA_ATTR(el, attr) {
+    return el.removeAttribute('data-' + attr);
+}
+
 // query
 function QUERY(selector) {
     return doc.querySelectorAll(selector);
@@ -76,6 +80,10 @@ function $lazy(config, inview, observer_callback) {
                 }
             }
             target[SRCSET] = srcset;
+
+            if (CLICK_EXTENSION) {
+                REMOVE_DATA_ATTR(target, SRCSET);
+            }
         }
 
         if ( src ) {
@@ -86,6 +94,10 @@ function $lazy(config, inview, observer_callback) {
                 }
             }
             target[SRC] = src;
+
+            if (CLICK_EXTENSION) {
+                REMOVE_DATA_ATTR(target, SRC);
+            }
         }
 
         // hook for sending a custom event etc.
