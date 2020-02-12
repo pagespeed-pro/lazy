@@ -594,6 +594,75 @@ TEST_DEFINITIONS.basic = function() {
 
             });
 
+        }],['$lazy() with events fallback', function(driver, done) {
+
+            SERVER_API.reload(driver, {src: '/lazy+webp+data-attr+polyfill+events.js' }).then(function() {
+                return driver.executeAsyncScript(function() {
+                    var cb = arguments[arguments.length - 1];
+                    
+                    // domready
+                    window.requestAnimationFrame(function() {
+                        window.scrollTo(0,0);
+
+                        $lazy();
+
+                        function check(pos, type) {
+                            if (!type) {
+                                type = '.webp';
+                            }
+                            return document.getElementById('img_' + pos).hasAttribute('src') && document.getElementById('img_' + pos).getAttribute('src') 
+                            // check for .webp
+                            && (document.getElementById('img_' + pos).getAttribute('src').indexOf(type) !== -1)
+                        }
+
+                        setTimeout(function() {
+
+                            if (!check('top')) {
+                                cb('top img not loaded: ' + document.getElementById('img_top').getAttribute('src') + check('top'));
+                            } else if ( !check('bottom') ) {
+                                
+                                // send click event
+                                var bottom = document.getElementById('img_bottom');
+                                var evt = new MouseEvent('click', {
+                                    bubbles: false,
+                                    cancelable: true,
+                                    view: window
+                                });
+                                // If cancelled, don't dispatch our event
+                                bottom.dispatchEvent(evt);
+
+                                setTimeout(function() {
+
+                                    // test error fallback on bottom5 (test2.jpg = 404)
+                                    if (check('bottom')) {
+                                        cb(true);
+                                    } else {
+                                        cb('footer img not loaded ' + document.getElementById('img_bottom').getAttribute('src') + ' 5:' + document.getElementById('img_bottom5').getAttribute('src'));
+                                    }
+                                },100);
+
+                            } else {
+
+                                // footer was loaded while not visible
+                                cb('footer img was loaded: ' + document.getElementById('img_bottom').getAttribute('src') + check('bottom'));
+                            }
+                        });
+                    });
+
+                }).then(function(return_value) {
+
+                    if (typeof return_value === 'string') {
+                        throw new Error(return_value);
+                    }
+
+                    assert.equal(return_value, true);
+
+                    done();
+
+                }).catch(done);
+
+            });
+
         }],
         ['$lazybg() background images in stylesheets', function(driver, done) {
 

@@ -8,3 +8,6 @@
 
  /** @define {boolean} */
 var WEBP_EXTENSION = false;
+
+ /** @define {boolean} */
+var CLICK_EXTENSION = false;

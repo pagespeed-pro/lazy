@@ -46,10 +46,13 @@ function $lazy(config, inview, observer_callback) {
             threshold: threshold || 0
         },
         outofview, after_inview,
-        observer;
+        observer, webp, eventtypes;
 
     if (WEBP_EXTENSION) {
-        var webp = (config[3] === false || config.webp === false) ? false : true;
+        webp = (config[3] === false || config.webp === false) ? false : true;
+    }
+    if (CLICK_EXTENSION) {
+        eventtypes = config[4] || config.events || ['click','mouseover'];
     }
 
     // out of view / after_inview callback
@@ -92,15 +95,27 @@ function $lazy(config, inview, observer_callback) {
     }
 
     // default observer callback
-    observer_callback = observer_callback || function(entries) {
+    observer_callback = observer_callback || function(entries,fallback) {
         var entry, target, unobserve, is_inview;
 
         for (var i = 0, l = entries.length; i < l; i++) {
             entry = entries[i];
-            is_inview = (!observer || entry.isIntersecting);
+
+            if (CLICK_EXTENSION) {
+                fallback = (fallback === entry);
+                is_inview = (fallback || !observer || entry.isIntersecting);
+            } else {
+                is_inview = (!observer || entry.isIntersecting);
+            }
+
             if (is_inview || outofview) {
 
-                target = (observer) ? entry.target : entry;
+                if (CLICK_EXTENSION) {
+                    target = (!fallback && observer) ? entry.target : entry;
+                } else {
+                    target = (observer) ? entry.target : entry;
+                }
+
                 unobserve = ((!is_inview) ? outofview : inview)(target, observer, is_inview);
 
                 // not specifically instructed to keep observing (= out-of-view callback)
@@ -128,13 +143,45 @@ function $lazy(config, inview, observer_callback) {
     // the intersection observer
     observer = (intersectionObserver) ? new intersectionObserver( observer_callback, observerConfig ) : false;
 
-    for (var i = 0, l = assets.length; i < l; i++) {
-        asset = assets[i];
-        if (observer) {
-            observer.observe(asset);
-        } else {
-            // simple fallback if Intersection Observer is not available
-            observer_callback([asset]);
+    // event based fallback
+    if (CLICK_EXTENSION) {
+
+        assets.forEach(function(asset) {
+
+            if (observer) {
+                observer.observe(asset);
+            } else {
+                // simple fallback if Intersection Observer is not available
+                observer_callback([asset]);
+            }
+
+            // event listener
+            var listener = function(e) {
+
+                // remove event
+                asset.removeEventListener(e.type, listener);
+                // call handler
+
+                observer_callback([asset],asset);
+            };
+
+            for (var i = 0, l = eventtypes.length; i < l; i++) {
+                asset.addEventListener(eventtypes[i], listener, {
+                    "passive": true,
+                    "once": true
+                });
+            }
+        });
+    } else {
+
+        for (var i = 0, l = assets.length; i < l; i++) {
+            asset = assets[i];
+            if (observer) {
+                observer.observe(asset);
+            } else {
+                // simple fallback if Intersection Observer is not available
+                observer_callback([asset]);
+            }
         }
     }
 

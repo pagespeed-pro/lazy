@@ -213,7 +213,7 @@ module.exports = function(grunt) {
                     compilation_level: 'ADVANCED_OPTIMIZATIONS',
                     language_in: 'ECMASCRIPT5_STRICT',
                     externs: externs,
-                    define: ['WEBP_EXTENSION=false']
+                    define: ['WEBP_EXTENSION=false', 'CLICK_EXTENSION=false']
                 }
             },
             "lazy-tiny": {
@@ -229,7 +229,7 @@ module.exports = function(grunt) {
                     compilation_level: 'ADVANCED_OPTIMIZATIONS',
                     language_in: 'ECMASCRIPT5_STRICT',
                     externs: externs,
-                    define: ['WEBP_EXTENSION=false']
+                    define: ['WEBP_EXTENSION=false', 'CLICK_EXTENSION=false']
                 }
             },
             "lazy-poly": {
@@ -245,7 +245,7 @@ module.exports = function(grunt) {
                     compilation_level: 'ADVANCED_OPTIMIZATIONS',
                     language_in: 'ECMASCRIPT5_STRICT',
                     externs: externs,
-                    define: ['WEBP_EXTENSION=false']
+                    define: ['WEBP_EXTENSION=false', 'CLICK_EXTENSION=false']
                 }
             },
             "lazy-data-attr": {
@@ -261,7 +261,7 @@ module.exports = function(grunt) {
                     compilation_level: 'ADVANCED_OPTIMIZATIONS',
                     language_in: 'ECMASCRIPT5_STRICT',
                     externs: externs,
-                    define: ['WEBP_EXTENSION=false']
+                    define: ['WEBP_EXTENSION=false', 'CLICK_EXTENSION=false']
                 }
             },
             "lazy-data-attr-poly": {
@@ -277,10 +277,27 @@ module.exports = function(grunt) {
                     compilation_level: 'ADVANCED_OPTIMIZATIONS',
                     language_in: 'ECMASCRIPT5_STRICT',
                     externs: externs,
-                    define: ['WEBP_EXTENSION=false']
+                    define: ['WEBP_EXTENSION=false', 'CLICK_EXTENSION=false']
                 }
             },
 
+            // event listener fallback extension
+            "lazy-data-attr-poly-events": {
+                closurePath: '../../closure-compiler',
+                js: [
+                    'src/gcc-define.js',
+                    'tmp/lazy-data-attr-poly-iife.js'
+                ],
+                jsOutputFile: 'dist/lazy+data-attr+polyfill+events.js',
+                maxBuffer: 30000,
+                noreport: true,
+                options: {
+                    compilation_level: 'ADVANCED_OPTIMIZATIONS',
+                    language_in: 'ECMASCRIPT5_STRICT',
+                    externs: externs,
+                    define: ['WEBP_EXTENSION=false', 'CLICK_EXTENSION=true']
+                }
+            },
 
             "lazy-webp": {
                 closurePath: '../../closure-compiler',
@@ -295,7 +312,7 @@ module.exports = function(grunt) {
                     compilation_level: 'ADVANCED_OPTIMIZATIONS',
                     language_in: 'ECMASCRIPT5_STRICT',
                     externs: externs,
-                    define: ['WEBP_EXTENSION=true']
+                    define: ['WEBP_EXTENSION=true', 'CLICK_EXTENSION=false']
                 }
             },
             "lazy-webp-poly": {
@@ -311,7 +328,7 @@ module.exports = function(grunt) {
                     compilation_level: 'ADVANCED_OPTIMIZATIONS',
                     language_in: 'ECMASCRIPT5_STRICT',
                     externs: externs,
-                    define: ['WEBP_EXTENSION=true']
+                    define: ['WEBP_EXTENSION=true', 'CLICK_EXTENSION=false']
                 }
             },
             "lazy-webp-data-attr": {
@@ -327,7 +344,7 @@ module.exports = function(grunt) {
                     compilation_level: 'ADVANCED_OPTIMIZATIONS',
                     language_in: 'ECMASCRIPT5_STRICT',
                     externs: externs,
-                    define: ['WEBP_EXTENSION=true']
+                    define: ['WEBP_EXTENSION=true', 'CLICK_EXTENSION=false']
                 }
             },
             "lazy-webp-data-attr-poly": {
@@ -343,7 +360,25 @@ module.exports = function(grunt) {
                     compilation_level: 'ADVANCED_OPTIMIZATIONS',
                     language_in: 'ECMASCRIPT5_STRICT',
                     externs: externs,
-                    define: ['WEBP_EXTENSION=true']
+                    define: ['WEBP_EXTENSION=true', 'CLICK_EXTENSION=false']
+                }
+            },
+
+            // event listener fallback
+            "lazy-webp-data-attr-poly-events": {
+                closurePath: '../../closure-compiler',
+                js: [
+                    'src/gcc-define.js',
+                    'tmp/lazy-webp-data-attr-poly-iife.js'
+                ],
+                jsOutputFile: 'dist/lazy+webp+data-attr+polyfill+events.js',
+                maxBuffer: 30000,
+                noreport: true,
+                options: {
+                    compilation_level: 'ADVANCED_OPTIMIZATIONS',
+                    language_in: 'ECMASCRIPT5_STRICT',
+                    externs: externs,
+                    define: ['WEBP_EXTENSION=true', 'CLICK_EXTENSION=true']
                 }
             },
 
@@ -373,7 +408,7 @@ module.exports = function(grunt) {
                     compilation_level: 'ADVANCED_OPTIMIZATIONS',
                     language_in: 'ECMASCRIPT5_STRICT',
                     externs: externs,
-                    define: ['WEBP_EXTENSION=false']
+                    define: ['WEBP_EXTENSION=false', 'CLICK_EXTENSION=false']
                 }
             },
 
@@ -390,7 +425,7 @@ module.exports = function(grunt) {
                     compilation_level: 'ADVANCED_OPTIMIZATIONS',
                     language_in: 'ECMASCRIPT5_STRICT',
                     externs: externs,
-                    define: ['WEBP_EXTENSION=true']
+                    define: ['WEBP_EXTENSION=true', 'CLICK_EXTENSION=false']
                 }
             }
         }
@@ -406,11 +441,13 @@ module.exports = function(grunt) {
         'closure-compiler:lazy-poly',
         'closure-compiler:lazy-data-attr',
         'closure-compiler:lazy-data-attr-poly',
+        'closure-compiler:lazy-data-attr-poly-events',
 
         'closure-compiler:lazy-webp',
         'closure-compiler:lazy-webp-poly',
         'closure-compiler:lazy-webp-data-attr',
         'closure-compiler:lazy-webp-data-attr-poly',
+        'closure-compiler:lazy-webp-data-attr-poly-events',
 
         'closure-compiler:lazybg',
         'closure-compiler:lazybg-webp',
