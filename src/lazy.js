@@ -111,9 +111,6 @@ function $lazy(config, inview, observer_callback) {
         }
     }
 
-    // the intersection observer
-    observer = (intersectionObserver) ? new intersectionObserver( observer_callback, observerConfig ) : false;
-
     // single node
     if (typeof selector == 'string') {
         // query
@@ -122,6 +119,14 @@ function $lazy(config, inview, observer_callback) {
         // Node type detection IE8, convert to NodeList
         assets = (selector && selector.length == undefined) ? [selector] : selector;
     }
+
+    // return elements for polyfill
+    if (inview === -1) {
+        return assets;
+    }
+
+    // the intersection observer
+    observer = (intersectionObserver) ? new intersectionObserver( observer_callback, observerConfig ) : false;
 
     for (var i = 0, l = assets.length; i < l; i++) {
         asset = assets[i];

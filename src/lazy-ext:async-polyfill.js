@@ -7,8 +7,10 @@
  */
 // convert to queue
 var queue = [];
-function LAZY_QUEUE(config,callback) {
-    queue.push([config,callback]);
+function LAZY_QUEUE(config) {
+    queue.push([].slice.call(arguments));
+
+    return _lazy(config, -1);
 }
 
 // load polyfill
@@ -44,7 +46,7 @@ if (!intersectionObserver) {
             // process queue
             var item;
             while((item = queue.shift())) {
-                $lazy(item[0],item[1]);
+                $lazy.apply(null, item);
             }
         });
     }

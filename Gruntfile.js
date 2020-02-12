@@ -54,7 +54,7 @@ module.exports = function(grunt) {
                 files: {
                     "tmp/lazy-poly-iife.js": [
                         'src/lazy.js',
-                        'src/lazy-async-polyfill.js'
+                        'src/lazy-ext:async-polyfill.js'
                     ]
                 }
             },
@@ -70,8 +70,8 @@ module.exports = function(grunt) {
                 files: {
                     "tmp/lazy-data-attr-iife.js": [
                         'src/lazy.js',
-                        'src/lazy-data-attr-head.js',
-                        'src/lazy-data-attr.js'
+                        'src/lazy-ext:data-attr-head.js',
+                        'src/lazy-ext:data-attr.js'
                     ]
                 }
             },
@@ -87,9 +87,9 @@ module.exports = function(grunt) {
                 files: {
                     "tmp/lazy-data-attr-poly-iife.js": [
                         'src/lazy.js',
-                        'src/lazy-data-attr-head.js',
-                        'src/lazy-async-polyfill.js',
-                        'src/lazy-data-attr.js'
+                        'src/lazy-ext:data-attr-head.js',
+                        'src/lazy-ext:async-polyfill.js',
+                        'src/lazy-ext:data-attr.js'
                     ]
                 }
             },
@@ -122,7 +122,7 @@ module.exports = function(grunt) {
                     "tmp/lazy-webp-poly-iife.js": [
                         'src/lazy.js',
                         'src/lazy-ext:webp.js',
-                        'src/lazy-async-polyfill.js'
+                        'src/lazy-ext:async-polyfill.js'
                     ]
                 }
             },
@@ -139,8 +139,8 @@ module.exports = function(grunt) {
                     "tmp/lazy-webp-data-attr-iife.js": [
                         'src/lazy.js',
                         'src/lazy-ext:webp.js',
-                        'src/lazy-data-attr-head.js',
-                        'src/lazy-data-attr.js'
+                        'src/lazy-ext:data-attr-head.js',
+                        'src/lazy-ext:data-attr.js'
                     ]
                 }
             },
@@ -157,9 +157,9 @@ module.exports = function(grunt) {
                     "tmp/lazy-webp-data-attr-poly-iife.js": [
                         'src/lazy.js',
                         'src/lazy-ext:webp.js',
-                        'src/lazy-data-attr-head.js',
-                        'src/lazy-async-polyfill.js',
-                        'src/lazy-data-attr.js'
+                        'src/lazy-ext:data-attr-head.js',
+                        'src/lazy-ext:async-polyfill.js',
+                        'src/lazy-ext:data-attr.js'
                     ]
                 }
             },
@@ -413,7 +413,9 @@ module.exports = function(grunt) {
         'closure-compiler:lazy-webp-data-attr-poly',
 
         'closure-compiler:lazybg',
-        'closure-compiler:lazybg-webp'
+        'closure-compiler:lazybg-webp',
+
+        'closure-compiler:polyfill'
     ]);
 
     grunt.registerTask('lazy', [
