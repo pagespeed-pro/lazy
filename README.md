@@ -4,11 +4,15 @@
 
 A lightweight lazy loader based on [Intersection Observer V2](https://developers.google.com/web/updates/2019/02/intersectionobserver-v2) with a tiny fallback for old browsers. 
 
+#### Features
+
 - efficient polyfill for old browsers (zero effect on modern browsers)
 - `.webp` rewrite with fallback (WebP support for `<img>` tag, saves a server-side redirect)
 - `inview` and `out-of-view` callback (persistent observer for advanced element-in-view usage)
 - `$lazybg` for lazy loading of `background-image` in stylesheets (CSS-variables)
 - tiniest lazy load script `$z()` (300 bytes).
+
+#### Examples
 
 ```javascript
 $lazy(
