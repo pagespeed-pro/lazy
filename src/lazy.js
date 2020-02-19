@@ -158,30 +158,33 @@ function $lazy(config, inview, observer_callback) {
     // event based fallback
     if (CLICK_EXTENSION) {
         for (var i = 0, l = assets.length; i < l; i++) {
-            asset = assets[i];
-            if (observer) {
-                observer.observe(asset);
-            } else {
-                // simple fallback if Intersection Observer is not available
-                observer_callback([asset]);
-            }
+            (function(asset) {
+                
+                if (observer) {
+                    observer.observe(asset);
+                } else {
+                    // simple fallback if Intersection Observer is not available
+                    observer_callback([asset]);
+                }
 
-            // event listener
-            var listener = function(e) {
+                // event listener
+                var listener = function(e) {
 
-                // remove event
-                asset.removeEventListener(e.type, listener);
-                // call handler
+                    // remove event
+                    asset.removeEventListener(e.type, listener);
+                    // call handler
 
-                observer_callback([asset],asset);
-            };
+                    observer_callback([asset],asset);
+                };
 
-            for (var _i = 0, _l = eventtypes.length; _i < _l; _i++) {
-                asset.addEventListener(eventtypes[_i], listener, {
-                    "passive": true,
-                    "once": true
-                });
-            }
+                for (var _i = 0, _l = eventtypes.length; _i < _l; _i++) {
+                    asset.addEventListener(eventtypes[_i], listener, {
+                        "passive": true,
+                        "once": true
+                    });
+                }
+            })(assets[i]);
+
         }
     } else {
 
