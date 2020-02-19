@@ -157,9 +157,8 @@ function $lazy(config, inview, observer_callback) {
 
     // event based fallback
     if (CLICK_EXTENSION) {
-
-        assets.forEach(function(asset) {
-
+        for (var i = 0, l = assets.length; i < l; i++) {
+            asset = assets[i];
             if (observer) {
                 observer.observe(asset);
             } else {
@@ -177,13 +176,13 @@ function $lazy(config, inview, observer_callback) {
                 observer_callback([asset],asset);
             };
 
-            for (var i = 0, l = eventtypes.length; i < l; i++) {
-                asset.addEventListener(eventtypes[i], listener, {
+            for (var _i = 0, _l = eventtypes.length; _i < _l; _i++) {
+                asset.addEventListener(eventtypes[_i], listener, {
                     "passive": true,
                     "once": true
                 });
             }
-        });
+        }
     } else {
 
         for (var i = 0, l = assets.length; i < l; i++) {

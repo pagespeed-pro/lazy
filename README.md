@@ -4,6 +4,12 @@
 
 A lightweight lazy loader based on [Intersection Observer V2](https://developers.google.com/web/updates/2019/02/intersectionobserver-v2) with a tiny fallback for old browsers. 
 
+- efficient polyfill for old browsers (zero effect on modern browsers)
+- `.webp` rewrite with fallback (WebP support for `<img>` tag, saves a server-side redirect)
+- `inview` and `out-of-view` callback (persistent observer for advanced element-in-view usage)
+- `$lazybg` for lazy loading of `background-image` in stylesheets (CSS-variables)
+- tiniest lazy load script `$z()` (300 bytes).
+
 ```javascript
 $lazy(
    selector, /* string, Node, NodeList or observer config object */
@@ -36,18 +42,6 @@ npm install @style.tools/lazy --save
 ```bash
 composer require styletools/lazy
 ```
-
-# New in `v1.1.0`
-
-- Added: `.webp` rewrite with fallback (WebP support for `<img>` tag)
-- Added: inview and out-of-view callback (persistent observer)
-- Removed: `CustomEvent` (can be manually added via inview callback)
-- `$lazybg` for lazy loading of `background-image` in stylesheets
-- Tiny lazy load script renamed to `$z()` (300 bytes).
-
-**Warning:** the custom observer callback has been moved to the third argument and the `dist/*` file names have been changed.
-
-See [releases](https://github.com/style-tools/lazy/releases/tag/1.1.0) or [documentation](https://docs.style.tools/lazy) for more information.
 
 ## Config
 

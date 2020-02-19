@@ -455,6 +455,11 @@ module.exports = function(grunt) {
         'closure-compiler:polyfill'
     ]);
 
+    grunt.registerTask('wp', [
+        'iife',
+        'closure-compiler:lazy-webp-data-attr-poly-events',
+    ]);
+
     grunt.registerTask('lazy', [
         'iife:lazy',
         'closure-compiler:lazy'
