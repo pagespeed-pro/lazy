@@ -49,14 +49,14 @@ function $lazy(config, inview, observer_callback) {
             rootMargin: rootMargin || '0px',
             threshold: threshold || 0
         },
-        outofview, after_inview,
+        outofview, after_inview,force_inview,
         observer, webp, eventtypes;
 
     if (WEBP_EXTENSION) {
         webp = (config[3] === false || config.webp === false) ? false : true;
     }
     if (CLICK_EXTENSION) {
-        eventtypes = config[4] || config.events || ['click','mouseover'];
+        eventtypes = config[4] || config.events || ['click','mouseover','z'];
     }
 
     // out of view / after_inview callback
@@ -65,6 +65,12 @@ function $lazy(config, inview, observer_callback) {
         outofview = inview[1];
         inview = inview[0];
         outofview = outofview || inview;
+    }
+
+    // @TODO added on 30-03-2020
+    if (inview === 1) {
+        inview = false;
+        force_inview = true;
     }
 
     // default inview callback
@@ -153,7 +159,7 @@ function $lazy(config, inview, observer_callback) {
     }
 
     // the intersection observer
-    observer = (intersectionObserver) ? new intersectionObserver( observer_callback, observerConfig ) : false;
+    observer = (intersectionObserver && !force_inview) ? new intersectionObserver( observer_callback, observerConfig ) : false;
 
     // event based fallback
     if (CLICK_EXTENSION) {

@@ -10,7 +10,9 @@ window.$lazy = function(config, callback) {
         selector: '',
         threshold: '',
         rootMargin: '',
-        observer: ''
+        observer: '',
+        webp: '',
+        events: ''
     };
 
     callback = function(change) {
