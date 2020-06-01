@@ -25,7 +25,7 @@
         "url": "https://github.com/style-tools/lazy/issues"
     },
     "engines": {
-        "node": "~8"
+        "node": "~10"
     },
     "dependencies": {},
     "devDependencies": {
