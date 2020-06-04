@@ -59,7 +59,7 @@ $lazy({
 );
 ```
 
-To save size the configuration can be provided as an Array.
+To save size, the configuration can be provided as an array.
 
 ```javascript
 // simple settings
