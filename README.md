@@ -312,9 +312,9 @@ Multiple configurations are supported via the special multi-token `||`. The toke
 
 `$lazy` provides support for Google's [IntersectionObserver polyfill](https://github.com/w3c/IntersectionObserver/blob/master/polyfill/intersection-observer.js) with 0% performance hit for modern browsers.
 
-When using the polyfill extension, `$lazy` checks for the parameter `window.$lazypoly`. 
+When using the polyfill extension, `$lazy` checks for the parameter `window.$lazypoly` when IntersectionObserver is not supported by the browser. 
 
-When `window.$lazypoly` is defined as a function, $lazy will fire the method and expect a `.then` method to resolve when the polyfill is loaded.
+When `window.$lazypoly` is defined as a function, $lazy will fire it and expect a `.then` method to be resolved when the polyfill is loaded.
 
 When `window.$lazypoly` is defined as a string, the string is passed to [$async.js](https://github.com/style-tools/async/) that could load anything.
 
@@ -322,7 +322,7 @@ When `window.$lazypoly` is defined as a string, the string is passed to [$async.
 // manually load a polyfill
 window.$lazypoly = function() {
 
-   // load polyfill
+   // load polyfill manually
    // ...
 
    return {
@@ -335,11 +335,11 @@ window.$lazypoly = function() {
    }
 };
 
-// load a polyfill using $async
+// load a polyfill using $async.js
 window.$lazypoly = 'dist/intersectionobserver-polyfill.js';
 ```
 
-### `$lazy` as timing method in `$async`
+### `$lazy` as a timing method in `$async`
 
 $lazy and the polyfill can be efficienty loaded using [$async](https://github.com/style-tools/async/) and it's `just-in-time` timing method. $lazy then becomes available as timing method within $async.
 
