@@ -97,11 +97,11 @@ $lazy(".selector", function(target, observer, is_inview) {
 
   if (is_inview) {
 
-    // in view
+    // element is in view
   
   } else {
   
-    // out of view
+    // element is out of view
   
   }
 
