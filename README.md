@@ -2,39 +2,19 @@
 
 # Lazy Loader
 
-A lightweight lazy loader based on [Intersection Observer V2](https://developers.google.com/web/updates/2019/02/intersectionobserver-v2) with a tiny fallback for old browsers. 
-
-#### Features
-
-- efficient polyfill for old browsers (zero effect on modern browsers)
-- `.webp` rewrite with fallback (WebP support for `<img>` tag, saves a server-side redirect)
-- `inview` and `out-of-view` callback (persistent observer for advanced element-in-view usage)
-- `$lazybg` for lazy loading of `background-image` in stylesheets (CSS-variables)
-- tiniest lazy load script `$z()` (300 bytes)
-
-#### Examples
+A lightweight and high performance lazy loader and `element-in-view` callback based on [Intersection Observer V2](https://developers.google.com/web/updates/2019/02/intersectionobserver-v2) with a tiny fallback for old browsers. 
 
 ```javascript
-$lazy(
-   selector, /* string, Node, NodeList or observer config object */
-   inview, /* optional: custom in-view callback */
-   observer_callback, /* optional: custom observer callback */
-   webp /* disable WebP rewrite (when using lazy+webp.js) */
-);	
-``` 
+// simple: lazy load images
+$lazy('[data-src]');
 
-Lazy loading of `background-image` in stylesheets.
-
-```javascript 
-$lazybg(
-  sheets, /* stylesheet element(s), default: document.styleSheets (all) */
-  lazy_config, /* optional: config to pass to $lazy() */
-  resolver, /* optional: JSON or javascript image resolver */
-  webp /* disable WebP rewrite (when using lazybg+webp.js) */
-);
+// simple: in-view callback
+$lazy('script.js', function() {
+  // inview callback
+});
 ```
 
-#### Documentation is available on [docs.style.tools/lazy](https://docs.style.tools/lazy).
+Documentation is available on [docs.style.tools/lazy](https://docs.style.tools/lazy).
 
 ### Install via npm
 
@@ -47,130 +27,192 @@ npm install @style.tools/lazy --save
 composer require styletools/lazy
 ```
 
-## Config
+## Description
 
-The `selector` entry accepts multiple configuration formats including a string, an Array, a Node, NodeList or a JSON object with `observer` configuration.
+$lazy is designed as the ultimate lazy loader and `element-in-view` callback for modern frontend optimization (FEO). It provides state of the art features, the absolute best performance and the tiniest HTML footprint. $lazy supports all browsers including iPhone5 and IE9+. IE8 would be supported but isn't supported by Google's [IntersectionObserver polyfill](https://github.com/w3c/IntersectionObserver/blob/master/polyfill/intersection-observer.js).
 
-#### Simple config
+- 100% JSON controlled.
+- tiny: the `$z()` version is merely 300 bytes in size.
+- Support for old browsers with 0% performance hit for modern browsers.
+
+### Advanced control of `IntersectionObserver`
+
+$lazy provides full control of the `IntersectionObserver` and supports the latest features.
 
 ```javascript
+// simple settings
 $lazy({
    "selector": "[data-src]",
    "threshold": 0.006,
    "rootMargin": "0px"
 });
-```
 
-#### Custom observer config
-
-```javascript
+// advanced observer config
 $lazy({
-   "selector": "[data-src]",
-   "observer": {
-      "threshold": 0.006,
-      "rootMargin": "0px",
-      "trackVisibility": true,
-      "delay": 100
-   }
-});
+  "selector": "[data-src]",
+  "observer": {
+    "threshold": 0.006,
+    "rootMargin": "0px",
+    "trackVisibility": true,
+    "delay": 100
+  }
+);
 ```
 
-The array based index config is a compressed format to save size in the HTML document. 
-
-- [0] = selector
-- [1] = threshold OR observer config when an object
-- [2] = rootMargin
-
-#### Simple config
+To save size the configuration can be provided as an Array.
 
 ```javascript
-$lazy(["[data-src]", 0.006, "0px"]);
-```
+// simple settings
+$lazy(["[data-src]",0.006,"0px"]);
 
-#### Custom observer config
-
-```javascript
-$lazy(["[data-src]", {
-   "threshold": 0.006,
-   "rootMargin": "0px",
-   "trackVisibility": true,
-   "delay": 100
+// advanced observer config
+$lazy(["[data-src]",{
+  "threshold": 0.006,
+  "rootMargin": "0px",
+  "trackVisibility": true,
+  "delay": 100
 }]);
 ```
 
-## Inview & Out-of-view callback
+$lazy returns a DOM `NodeList` with elements watched by the observer. 
 
-The inview callback makes it possible to use `$lazy` as a simple inview script.
+```javascript
+var elements = $('[data-src]');
+```
+
+### Advanced `in-view` and `out-of-view` callback
+
+$lazy enables to make full use of the `IntersectionObserver` for any purpose and supports a simple `in-view` callback, a `out-of-view` callback or a custom `IntersectionObserver` callback.
+
+```javascript
+$lazy(".selector", function() {
+  // element in view
+});
+```
+
+By returning `false` from a custom inview callback, the observer will not be removed and will trigger the callback again when the element moves in or out of view. The third parameter is a boolean with the `in-view` status.
 
 ```javascript
 $lazy(".selector", function(target, observer, is_inview) {
-  
-  // element in view
-  is_inview = boolean
 
   return false; // persist observer to enable out-of-view callback
 });
 ```
 
-By returning `false` from a custom inview callback, the observer will not be removed and will trigger the callback again when the element moves in or out of view.
-
-The inview argument accepts an array with 3 index positions:
+For advanced usage, the inview argument accepts an array with 3 index positions:
 
 1. `inview`: a function to call when the element moves into view.
 2. `out-of-view` a function to call when the element moves out of view
-3. `after_inview` a function to call with the default inview-method after `src` and `srcset` have been rewritten.
+3. `after_inview` a function to call when using the default inview-method (the image resolver) after `src` and `srcset` have been rewritten.
 
-When out-of-view is null, the inview method is used as out-of-view method.
+When `out-of-view` is null, the `inview` method is used as the `out-of-view` method.
 
 ```javascript
 $lazy(".selector", [
   function inview(target, observer) {
   
-    // element in view
+    // element is in view
 
     return false; // persist observer
-    
   },
   function out_of_view(target, observer) {
 
-    // element out of view
+    // element is out of view
 
     return false; // persist observer
-
   }]);
 ```
 
-To easily extend the original `data-src` based lazy loading of images, you can use an `after_inview` callback.
+The `after_inview` callback enables to easily extend resolved images by the default image resolver.
 
 ```javascript
 $lazy(".selector", [,,function after_inview(target) {
   
-  // target has been lazy-loaded
+  // target (image) has been lazy-loaded and resolved
   target.classList.add('custom-class');
 }]);
 ```
 
-## Custom observer callback
+### Custom `IntersectionObserver` callback
 
-The third argument enables to manually define the `IntersectionObserver` callback.
+The third argument enables to manually define the `IntersectionObserver` callback which makes it possible to use $lazy for easy access to the functionality provided by `IntersectionObserver`.
 
 ```javascript
 $lazy('div#id', 0, function(entries) {
-	// entries is a Array of `IntersectionObserverEntry` or HTML Nodes
-	// you need to manually verify if the browser supports Intersection Observer
-
-	if (window.IntersectionObserver) {
-		// entries[0] = IntersectionObserverEntry
-		// entries[0].target = element
-	} else {
-		// entries[0] = element
-	}
+  // native IntersectionObserver callback
 })
 ```
 
-## Lazy loading of `background-image` in stylesheets
+### Events
 
-`dist/lazybg.js` enables to lazy load background images in stylesheets. It makes use of [CSS Variables](https://www.w3schools.com/css/css3_variables.asp) with a fallback for old browsers.
+$lazy provides an extension that watches for `mouseover`, `click` and the custom `z` event to fire the in-view callback. This feature ensures that images are resolved in the case of issues with the IntersectionObserver polyfill and it enables to manually trigger the callback, for example before printing.
+
+```javascript
+// load all images before printing
+window.onbeforeprint = function() {
+
+  // get all applicable elements by using an empty inview handler
+  var images = $lazy('[data-z]', function() {});
+
+  // fire `z` event on images
+  if (images) {
+    images.forEach(function(i) {
+      try {
+            var EventName = 'z';
+            if( i.fireEvent ) {
+                i.fireEvent( 'on' + EventName );     
+            } else {   
+                var evObj = document.createEvent( 'Events' );
+                evObj.initEvent( EventName, true, false );
+                i.dispatchEvent( evObj );
+            }
+        } catch (e) {
+
+        }
+    });
+  }
+};
+```
+
+It is possible to manually define events to watch using the configuration parameter `events` or Array index `4`.
+
+```json
+{
+  "selector": "[data-src"]
+  "events": ["mouseover", "custom-event"]
+}
+```
+
+### Manually resolve images
+
+$lazy enables to manually resolve images using the default image resolver by providing `1` as the in-view callback.
+
+```javascript
+$lazy('[data-src]', 1); // resolve all images
+```
+
+### `.webp` rewrite
+
+$lazy provides an extension to automatically rewrite images to `.webp` in browsers that support Google's [WebP](https://developers.google.com/speed/webp/) image format. The solution prevents a server-side redirect which improves performance.
+
+The solution is fail safe and uses `<img onerror>` as a fallback to the original image when the `.webp` image is 404 or fails.
+
+To manually disable `.webp` rewrites for an image you ca add the . To disable it for a specific `$lazy` configuration, set the 4th argument to `false`.
+
+It is possible to manually disable the `.webp` rewrite for an image by defining the HTML attribute `data-webp="no"` or by using the $lazy configuration parameter `webp` or Array index `3`.
+
+```json
+{
+  "selector": "[data-src"]
+  "webp": false
+}
+```
+
+`$lazybg` supports `.webp` rewrites as well.
+
+### `$lazybg` lazy loading of `background-image`
+
+$lazy provides a unique innovation to lazy load `background-image` in stylesheets using [CSS Variables](https://www.w3schools.com/css/css3_variables.asp) with a fallback for old browsers.
 
 There are four options to resolve images:
 
@@ -243,79 +285,42 @@ $lazybg(
 </script>
 ```
 
-### Base64 encoded image value
-
-CSS variables are limited to `DOMString`. The following characters need to be replaced in a `base64` encoded value:
+Note: CSS variables are limited to `DOMString`. The following characters need to be replaced in a `base64` encoded value:
 
 `/`: `—` 
-
 `=`: `•`
 
-## Automatic `.webp` rewrite
+### Security
 
-It is possible to automatically load `.webp` images for browsers that support Google's [WebP](https://developers.google.com/speed/webp/) format. It saves a server-side redirect and it adds WebP support to the `<img>` tag.
-
-Simply use the `dist/lazy+webp...` files to enable it. 
-
-The solution uses `<img onerror>` to fallback to the original image when the `.webp` image is 404.
-
-To manually disable webp rewrites for an image add the HTML attribute `data-webp="no"`. To disable it for a specific `$lazy` configuration, set the 4th argument to `false`.
-
-`$lazybg` supports WebP rewrites by using `dist/lazybg+webp.js`.
-
-## `data-l` JSON config
-
-To enable usage in combination with a strict `Content-Security-Policy` the script can be configured using a `data-l` attribute on the script source element.
-
+$lazy supports a strict `Content-Security-Policy` and can be controlled by a `async` HTML script tag.
 
 ```html
-<script data-l='{
-   "selector": "[data-src*=&apos;cdn.domain.com&apos;]", 
+<script async src="dist/lazy+data-attr.js" data-z='{
+   "selector": "[data-src]", 
    "observer": { 
       "threshold": [1.0],
       "trackVisibility": true,
       "delay": 100
    }
-}'>
-// dist/lazy-data-attr.js (source)
-</script>
+}'></script>
 ```
 
 Multiple configurations are supported via the special multi-token `||`. The token needs to be included at the begining and each configuration needs to be valid JSON.
 
 `||{config...}||{second config...}`
 
-## Polyfill
+### Polyfill
 
-`$lazy` includes a [polyfill](https://github.com/w3c/IntersectionObserver/blob/master/polyfill/intersection-observer.js) for `IntersectionObserver`. It can be automatically loaded when using [$async](https://github.com/style-tools/async/).
+`$lazy` provides support for Google's [IntersectionObserver polyfill](https://github.com/w3c/IntersectionObserver/blob/master/polyfill/intersection-observer.js) with 0% performance hit for modern browsers.
 
-### Example using `$async` with `data-c` based config
+When using the polyfill extension, `$lazy` checks for the parameter `window.$lazypoly`. 
 
-```html
-<!-- data-c slot 5 to 8 for $async.js() -->
-<script async src="dist/iife-async.js" data-c='[0,0,0,0,{
-   "src": "/intersectionobserver-polyfill.js",
-   "load_timing": {
-      "type": "method",
-      "method": "$lazypoly"
-    },
-    "cache": "localstorage"
-},{
-   "ref": "lazy",
-   "src": "/lazy.js",
-   "attributes": {
-      "data-l": "[\".selector\", 0.006, \"0px\"]"
-   },
-    "load_timing": "domReady",
-    "cache": "localstorage"
-}]'></script>
-```
+When `window.$lazypoly` is defined as a function, $lazy will fire the method and expect a `.then` method to resolve when the polyfill is loaded.
 
-In the example, the `$async` timing method `method` defines `window.$lazypoly` which will automatically load the polyfill for browsers that require the polyfill. It uses `localStorage` for instant loading.
-
-Alternatively, when using `$lazy` without `$async`, you can manually define `window.$lazypoly` with a function that returns a `Promise` or a object containing a `.then` method.
+When `window.$lazypoly` is defined as a string, the string is passed to [$async.js](https://github.com/style-tools/async/) that could load anything.
 
 ```javascript
+// manually load a polyfill
 window.$lazypoly = function() {
 
    // load polyfill
@@ -330,17 +335,48 @@ window.$lazypoly = function() {
       }
    }
 };
+
+// load a polyfill using $async
+window.$lazypoly = 'dist/intersectionobserver-polyfill.js';
 ```
 
-When using `$async` you can alternatively use `window.$lazypoly` with a string or a object to pass to `$async.js` which could load anything.
+### `$lazy` as timing method in `$async`
 
-Alternatively, when including `$lazy` inline, the `data-poly` attribute enables to define a string to pass to `$async.js`.
+$lazy and the polyfill can be efficienty loaded using [$async](https://github.com/style-tools/async/) and it's `just-in-time` timing method. $lazy then becomes available as timing method within $async.
+
+$async enables to load the `$lazy` script and its optional polyfill from `localStorage` for exceptional speed.
 
 ```html
-<script data-l='... lazy config ...' data-poly='... config to pass to $async.js to load polyfill ...'>
+<!-- data-c slot 5 to 8 for $async.js() -->
+<script async src="dist/async.js" data-c='[0,0,0,0,{
+   "src": "dist/intersectionobserver-polyfill.js",
+   "load_timing": {
+      "type": "method",
+      "method": "$lazypoly"
+    },
+    "cache": "localstorage"
+},{
+  "ref": "$z",
+  "src": "dist/lazy.js",
+  "attributes": {
+    "data-z": "[\".selector\", 0.006, \"0px\"]"
+  },
+  "load_timing": "domReady",
+  "cache": "localstorage"
+}]'></script>
+```
+
+Note: to use `$lazy` as timing method in `$async` you need to set the `ref` of the lazy.js script to `$z`.
+
+When including the `$lazy` script inline, the `data-poly` attribute enables to define a string to pass to `$async.js` to load a polyfill.
+
+```html
+<script data-z='... lazy config ...' data-poly='... config to pass to $async.js to load polyfill ...'>
 // dist/lazy-data-attr+polyfill.js
 </script>
 ```
+
+
 
 ### Example Performance API timings
 
