@@ -2,7 +2,7 @@
 
 # `$lazy` Lazy Loader
 
-A lightweight and high performance lazy loader and `element-in-view` callback based on [Intersection Observer V2](https://developers.google.com/web/updates/2019/02/intersectionobserver-v2) with a tiny fallback for old browsers. 
+A lightweight and high performance lazy loader and `element-in-view` callback based on [Intersection Observer V2](https://developers.google.com/web/updates/2019/02/intersectionobserver-v2) with an efficient polyfill for old browsers. 
 
 ```javascript
 // simple: lazy load images
