@@ -380,7 +380,5 @@ Note: to use `$lazy` as a timing method in `$async` you need to set the `ref` of
 When including the `$lazy` script inline, the `data-poly` attribute enables to define a string to pass to `$async.js` to load a polyfill.
 
 ```html
-<script data-z='... lazy config ...' data-poly='... config to pass to $async.js to load polyfill ...'>
-// dist/lazy-data-attr+polyfill.js
-</script>
+<script async src="dist/lazy-data-attr+polyfill.js" data-z='... lazy config ...' data-poly='... config to pass to $async.js to load polyfill ...'></script>
 ```
