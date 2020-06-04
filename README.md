@@ -82,7 +82,7 @@ var elements = $lazy('[data-src]');
 
 ### Advanced `in-view` and `out-of-view` callback
 
-$lazy enables to make full use of the `IntersectionObserver` for any purpose and supports a simple `in-view` callback, a `out-of-view` callback or a custom `IntersectionObserver` callback.
+$lazy enables to make full use of the `IntersectionObserver` for any purpose and supports a simple `in-view` callback, an `out-of-view` callback or a custom `IntersectionObserver` callback.
 
 ```javascript
 $lazy(".selector", function() {
@@ -94,6 +94,16 @@ By returning `false` from a custom inview callback, the observer will not be rem
 
 ```javascript
 $lazy(".selector", function(target, observer, is_inview) {
+
+  if (is_inview) {
+
+    // in view
+  
+  } else {
+  
+    // out of view
+  
+  }
 
   return false; // persist observer to enable out-of-view callback
 });

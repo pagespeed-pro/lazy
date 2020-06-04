@@ -8,7 +8,7 @@
 
 // attribute config
 var CONFIG,
-    CONFIG_PARAM = 'l',
+    CONFIG_PARAM = 'z',
     MULTI_TOKEN = '||';
 
 LAZY_SCRIPT = doc.currentScript || QUERY('script[data-' + CONFIG_PARAM + ']')[0];
