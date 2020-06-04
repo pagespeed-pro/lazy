@@ -195,7 +195,7 @@ $lazy('[data-src]', 1); // resolve all images
 
 $lazy provides an extension to automatically rewrite images to `.webp` in browsers that support Google's [WebP](https://developers.google.com/speed/webp/) image format. The solution prevents a server-side redirect which improves performance.
 
-The solution is fail safe and uses `<img onerror>` as a fallback to the original image when the `.webp` image is 404 or fails.
+The solution is fail safe and uses `<img onerror>` as a fallback to the original image when the `.webp` image is 404 or fails to load.
 
 To manually disable `.webp` rewrites for an image you ca add the . To disable it for a specific `$lazy` configuration, set the 4th argument to `false`.
 
