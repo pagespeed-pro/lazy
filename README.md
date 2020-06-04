@@ -174,7 +174,7 @@ window.onbeforeprint = function() {
 };
 ```
 
-It is possible to manually define events to watch using the configuration parameter `events` or Array index `4`.
+It is possible to manually define events to watch using the configuration parameter `events` or the array index `4`.
 
 ```json
 {
