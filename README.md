@@ -33,7 +33,7 @@ $lazy is designed as the ultimate lazy loader and `element-in-view` callback for
 
 - 100% JSON controlled.
 - tiny: the `$z()` version is merely 300 bytes in size.
-- Support for old browsers with 0% performance hit for modern browsers.
+- support for old browsers with a 0% performance hit for modern browsers.
 
 ### Advanced control of `IntersectionObserver`
 
