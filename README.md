@@ -201,7 +201,7 @@ It is possible to manually disable the `.webp` rewrite for an image by defining 
 
 ```json
 {
-  "selector": "[data-src"]
+  "selector": "[data-src]",
   "webp": false
 }
 ```
