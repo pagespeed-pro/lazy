@@ -145,7 +145,7 @@ $lazy('div#id', 0, function(entries) {
 
 ### Events
 
-$lazy provides an extension that watches for `mouseover`, `click` and the custom `z` event to fire the in-view callback. This feature ensures that images are resolved in the case of issues with the IntersectionObserver polyfill and it enables to manually trigger the callback, for example before printing.
+$lazy provides an extension that watches for `mouseover`, `click` and the custom `z` event to fire the in-view callback manually. This feature ensures that images are resolved in the case of issues with the IntersectionObserver polyfill and it enables to manually trigger the callback, for example before printing.
 
 ```javascript
 // load all images before printing
