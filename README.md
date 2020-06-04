@@ -80,6 +80,25 @@ $lazy returns a DOM `NodeList` with elements watched by the observer.
 var elements = $lazy('[data-src]');
 ```
 
+### Security
+
+$lazy supports a strict `Content-Security-Policy` and can be controlled by a `async` HTML script tag.
+
+```html
+<script async src="dist/lazy+data-attr.js" data-z='{
+   "selector": "[data-src]", 
+   "observer": { 
+      "threshold": [1.0],
+      "trackVisibility": true,
+      "delay": 100
+   }
+}'></script>
+```
+
+Multiple configurations are supported via the special multi-token `||`. The token needs to be included at the begining and each configuration needs to be valid JSON.
+
+`||{config...}||{second config...}`
+
 ### Advanced `in-view` and `out-of-view` callback
 
 $lazy enables to make full use of the `IntersectionObserver` for any purpose and supports a simple `in-view` callback, an `out-of-view` callback or a custom `IntersectionObserver` callback.
@@ -298,25 +317,6 @@ Note: CSS variables are limited to `DOMString`. When using inline base64 encodin
 `/`: `—` 
 
 `=`: `•`
-
-### Security
-
-$lazy supports a strict `Content-Security-Policy` and can be controlled by a `async` HTML script tag.
-
-```html
-<script async src="dist/lazy+data-attr.js" data-z='{
-   "selector": "[data-src]", 
-   "observer": { 
-      "threshold": [1.0],
-      "trackVisibility": true,
-      "delay": 100
-   }
-}'></script>
-```
-
-Multiple configurations are supported via the special multi-token `||`. The token needs to be included at the begining and each configuration needs to be valid JSON.
-
-`||{config...}||{second config...}`
 
 ### Polyfill
 
