@@ -77,7 +77,7 @@ $lazy(["[data-src]",{
 $lazy returns a DOM `NodeList` with elements watched by the observer. 
 
 ```javascript
-var elements = $('[data-src]');
+var elements = $lazy('[data-src]');
 ```
 
 ### Advanced `in-view` and `out-of-view` callback
@@ -105,7 +105,7 @@ For advanced usage, the inview argument accepts an array with 3 index positions:
 2. `out-of-view` a function to call when the element moves out of view
 3. `after_inview` a function to call when using the default inview-method (the image resolver) after `src` and `srcset` have been rewritten.
 
-When `out-of-view` is null, the `inview` method is used as the `out-of-view` method.
+When `out-of-view` is null, the `inview` method is used as the `out-of-view` callback.
 
 ```javascript
 $lazy(".selector", [
