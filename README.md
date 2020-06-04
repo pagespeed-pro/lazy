@@ -9,7 +9,7 @@ A lightweight and high performance lazy loader and `element-in-view` callback ba
 $lazy('[data-src]');
 
 // simple: in-view callback
-$lazy('script.js', function() {
+$lazy('#element', function() {
   // inview callback
 });
 ```
