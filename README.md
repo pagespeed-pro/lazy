@@ -341,7 +341,7 @@ window.$lazypoly = 'dist/intersectionobserver-polyfill.js';
 
 ### `$lazy` as a timing method in `$async`
 
-$lazy and the polyfill can be efficienty loaded using [$async](https://github.com/style-tools/async/) and it's `just-in-time` timing method. $lazy then becomes available as timing method within $async.
+$lazy and the polyfill can be efficienty loaded using [$async](https://github.com/style-tools/async/) and it's `just-in-time` timing method. $lazy then becomes available as a timing method within $async which enables to load stylesheets and scripts using the `IntersectionObserver`.
 
 $async enables to load the `$lazy` script and its optional polyfill from `localStorage` for exceptional speed.
 
@@ -365,7 +365,7 @@ $async enables to load the `$lazy` script and its optional polyfill from `localS
 }]'></script>
 ```
 
-Note: to use `$lazy` as timing method in `$async` you need to set the `ref` of the lazy.js script to `$z`.
+Note: to use `$lazy` as a timing method in `$async` you need to set the `ref` of the lazy.js script to `$z`.
 
 When including the `$lazy` script inline, the `data-poly` attribute enables to define a string to pass to `$async.js` to load a polyfill.
 
@@ -374,9 +374,3 @@ When including the `$lazy` script inline, the `data-poly` attribute enables to d
 // dist/lazy-data-attr+polyfill.js
 </script>
 ```
-
-
-
-### Example Performance API timings
-
-![$lazy polyfill from localStorage](https://user-images.githubusercontent.com/8843669/60785873-ca028b80-a154-11e9-9a3b-adbc40475aef.png)
