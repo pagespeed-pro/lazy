@@ -178,7 +178,7 @@ It is possible to manually define events to watch using the configuration parame
 
 ```json
 {
-  "selector": "[data-src]"
+  "selector": "[data-src]",
   "events": ["mouseover", "custom-event"]
 }
 ```
