@@ -197,9 +197,7 @@ $lazy provides an extension to automatically rewrite images to `.webp` in browse
 
 The solution is fail safe and uses `<img onerror>` as a fallback to the original image when the `.webp` image is 404 or fails to load.
 
-To manually disable `.webp` rewrites for an image you ca add the . To disable it for a specific `$lazy` configuration, set the 4th argument to `false`.
-
-It is possible to manually disable the `.webp` rewrite for an image by defining the HTML attribute `data-webp="no"` or by using the $lazy configuration parameter `webp` or Array index `3`.
+It is possible to manually disable the `.webp` rewrite for an image by defining the HTML attribute `data-webp="no"` or by using the $lazy configuration parameter `webp` or array index `3`.
 
 ```json
 {
