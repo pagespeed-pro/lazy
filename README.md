@@ -286,6 +286,7 @@ $lazybg(
 Note: CSS variables are limited to `DOMString`. When using inline base64 encoding, the following characters need to be replaced in the encoded value:
 
 `/`: `—` 
+
 `=`: `•`
 
 ### Security
