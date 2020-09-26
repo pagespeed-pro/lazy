@@ -8,8 +8,9 @@
 <!-- AFTER -->
 </head>
 <body>
-<img data-src="test.png" id="img_top">
-<img data-src="test-no-webp.png" id="img_no_webp">
+<img data-z="test-base.png" id="img_top">
+
+<div data-zb="test-base.png?base" id="bg_top">&nbsp;</div>
 <div id="wrapper">
   </div>
 
@@ -27,11 +28,18 @@
     <h3>footer</h3>
     <br /><br /><br /><br />
 
-    <img data-src="test.png?2" id="img_bottom">
-    <img data-src="test.png?3" id="img_bottom2">
-    <img data-src="test.png?4" id="img_bottom3">
-    <img data-src="test.png?5" id="img_bottom4">
-    <img data-src="test2.jpg" id="img_bottom5">
+    <img data-z="test-base.png?2" id="img_bottom">
+    <img data-z="test-base.png?3" id="img_bottom2">
+    <img data-z="test-base.png?4" id="img_bottom3">
+    <img data-z="test-base.png?5" id="img_bottom4">
+    <img data-z="test2.jpg" id="img_bottom5">
+
+    <div data-zb="[test-base.png?base2" id="bg_bottom">&nbsp;</div>
+
+    <div data-zb="test-base.png?base2" id="bg_bottom">&nbsp;</div>
+    <div data-zb="test-base.png?base3" id="bg_bottom2">&nbsp;</div>
+    <div data-zb="test-base.png?base4" id="bg_bottom3">&nbsp;</div>
+    <div data-zb="test-base.png?base5" id="bg_bottom4">&nbsp;</div>
 </footer>
 
 <br /><br /><br /><br />

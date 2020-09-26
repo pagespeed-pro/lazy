@@ -77,10 +77,10 @@ function get_html(file, script, exec, inline_code, modifyCallback) {
                 return;
             }
 
-            html = html.replace('<!-- IIFE -->', 
+            html = html.replace('<!-- IIFE -->',
 
-                '<script' + ((!inline) ? ' src="' + script.src + '"' : '') + '' + ((dataCnf) ? ' data-l=\'' + dataCnf.replace(/'/g, '&apos;') + '\'' : '') + '>'+((inline) ? code : '')+'</script>'
-                + ((!inline && lazybg) ? '<script src="'+lazybg+'"></script>' : '')
+                '<script' + ((!inline) ? ' src="' + script.src + '"' : '') + '' + ((dataCnf) ? ' data-l=\'' + dataCnf.replace(/'/g, '&apos;') + '\'' : '') + '>' + ((inline) ? code : '') + '</script>' +
+                ((!inline && lazybg) ? '<script src="' + lazybg + '"></script>' : '')
             );
 
             if (exec) {
@@ -105,7 +105,7 @@ function get_html(file, script, exec, inline_code, modifyCallback) {
 
 // base test
 app.get('/', function(req, res) {
-    get_html('./base.html', req.query.script, req.query.exec, req.query.inline)
+    get_html('./' + (req.query.html || 'base.html'), req.query.script, req.query.exec, req.query.inline)
         .then(function(html) {
 
             res.setHeader('Content-Type', 'text/html');
@@ -138,8 +138,14 @@ app.get(/^\/[^\/]+\.js$/, function(req, res) {
 
 
 // images
-app.get(/^\/test\.(png|webp)$/, function(req, res) {
-    fs.readFile(path.resolve(__dirname, 'img/test.' + ((req.url.indexOf('.webp') === -1) ? 'png' : 'webp')), function(err, img) {
+app.get(/^\/(i\/)?test(-base)?\.(png|webp)$/, function(req, res) {
+    let file, webp = (req.url.indexOf('.webp') !== -1);
+    if (req.url.indexOf('/i/') !== -1) {
+        file = 'img/i/test-base.' + (webp ? 'png' : 'webp');
+    } else {
+        file = 'img/test.' + (webp ? 'png' : 'webp');
+    }
+    fs.readFile(path.resolve(__dirname, file), function(err, img) {
 
         if (err) {
             console.log(500, err, 'failed to load $lazy script ' + req.url);
@@ -148,7 +154,7 @@ app.get(/^\/test\.(png|webp)$/, function(req, res) {
             return;
         }
 
-        res.setHeader('Content-Type', 'image/png');
+        res.setHeader('Content-Type', (webp) ? 'image/webp' : 'image/png');
         res.status(200);
         res.send(img);
     });

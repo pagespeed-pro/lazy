@@ -39,8 +39,8 @@ TEST_DEFINITIONS.basic = function() {
                         setTimeout(function() {
                             if (!check('top')) {
                                 cb('top img not loaded: ' + document.getElementById('img_top').getAttribute('src') + check('top'));
-                            } else if ( check('top') && !check('bottom') ) {
-                                window.scrollTo(0,document.body.scrollHeight);
+                            } else if (check('top') && !check('bottom')) {
+                                window.scrollTo(0, document.body.scrollHeight);
 
                                 setTimeout(function() {
                                     if (check('bottom')) {
@@ -48,7 +48,7 @@ TEST_DEFINITIONS.basic = function() {
                                     } else {
                                         cb('footer img not loaded');
                                     }
-                                },100);
+                                }, 100);
 
                             } else {
 
@@ -79,7 +79,7 @@ TEST_DEFINITIONS.basic = function() {
 
                     // domready
                     window.requestAnimationFrame(function() {
-                        window.scrollTo(0,0);
+                        window.scrollTo(0, 0);
 
                         var node = document.getElementById('img_bottom');
 
@@ -92,8 +92,8 @@ TEST_DEFINITIONS.basic = function() {
                         setTimeout(function() {
                             if (check('top')) {
                                 cb('top img loaded: ' + document.getElementById('img_top').getAttribute('src') + check('top'));
-                            } else if ( !check('bottom') ) {
-                                window.scrollTo(0,document.body.scrollHeight);
+                            } else if (!check('bottom')) {
+                                window.scrollTo(0, document.body.scrollHeight);
 
                                 setTimeout(function() {
                                     if (check('bottom')) {
@@ -101,7 +101,7 @@ TEST_DEFINITIONS.basic = function() {
                                     } else {
                                         cb('footer img not loaded');
                                     }
-                                },100);
+                                }, 100);
 
                             } else {
 
@@ -132,7 +132,7 @@ TEST_DEFINITIONS.basic = function() {
 
                     // domready
                     window.requestAnimationFrame(function() {
-                        window.scrollTo(0,0);
+                        window.scrollTo(0, 0);
 
                         var nodelist = document.querySelectorAll('#img_bottom2,#img_bottom3');
                         var node = document.getElementById('img_bottom4');
@@ -146,19 +146,19 @@ TEST_DEFINITIONS.basic = function() {
                             selector: nodelist,
                             observer: {
                                 threshold: 0,
-                                rootMargin:'100px'
+                                rootMargin: '100px'
                             }
                         });
 
                         $lazy({
                             selector: node,
                             observer: {
-                                threshold: [0,1],
-                                rootMargin:'0px'
+                                threshold: [0, 1],
+                                rootMargin: '0px'
                             }
                         });
 
-                        $lazy([selector,0,"100px"]);
+                        $lazy([selector, 0, "100px"]);
 
                         var documentHeight = Math.max(document.body.scrollHeight, document.body.offsetHeight, document.documentElement.clientHeight, document.documentElement.scrollHeight, document.documentElement.offsetHeight);
                         var windowHeight = window.innerHeight || document.documentElement.clientHeight || document.getElementsByTagName('body')[0].clientHeight;
@@ -168,41 +168,41 @@ TEST_DEFINITIONS.basic = function() {
                         setTimeout(function() {
                             if (check('top')) {
                                 cb('top img loaded: ' + document.getElementById('img_top').getAttribute('src') + check('top'));
-                            } else if ( !check('bottom') ) {
-                                window.scrollTo(0,toScroll-250);
+                            } else if (!check('bottom')) {
+                                window.scrollTo(0, toScroll - 250);
 
                                 setTimeout(function() {
 
-                                    if ( check('bottom') || check('bottom2') || check('bottom3') ||check('bottom4')) {
+                                    if (check('bottom') || check('bottom2') || check('bottom3') || check('bottom4')) {
                                         cb('img loaded beyond rootMargin' + toScroll + JSON.stringify([check('bottom2'), check('bottom3'), check('bottom'), check('bottom4')]));
                                     } else {
 
-                                        window.scrollTo(0,toScroll - 100);
+                                        window.scrollTo(0, toScroll - 100);
 
-                                        setTimeout(function() { 
-                                            if ( check('bottom4')) {
+                                        setTimeout(function() {
+                                            if (check('bottom4')) {
                                                 cb('footer img was loaded: ' + check('bottom'));
-                                                
+
                                             } else if (check('bottom') && check('bottom2') && check('bottom3')) {
 
                                                 node.scrollIntoView();
 
-                                                setTimeout(function() { 
-                                                    if ( check('bottom4')) {
-                                                        cb(true); 
+                                                setTimeout(function() {
+                                                    if (check('bottom4')) {
+                                                        cb(true);
 
                                                     } else {
 
                                                         cb('footer img 4 not loaded: ' + document.getElementById('img_bottom4').src);
                                                     }
-                                                },100);
+                                                }, 100);
                                             } else {
                                                 cb('footer img 2,3 not loaded');
                                             }
-                                        },100);
+                                        }, 100);
                                     }
 
-                                },100);
+                                }, 100);
 
                             } else {
 
@@ -227,14 +227,16 @@ TEST_DEFINITIONS.basic = function() {
         }],
         ['$lazy() using lazy-tiny.js', function(driver, done) {
 
-            SERVER_API.reload(driver, {src: '/lazy-tiny.js' }).then(function() {
+            SERVER_API.reload(driver, {
+                src: '/lazy-tiny.js'
+            }).then(function() {
                 return driver.executeAsyncScript(function() {
                     var cb = arguments[arguments.length - 1];
 
-                    
+
                     // domready
                     window.requestAnimationFrame(function() {
-                        window.scrollTo(0,0);
+                        window.scrollTo(0, 0);
 
                         $z(); // tiny
 
@@ -245,8 +247,8 @@ TEST_DEFINITIONS.basic = function() {
                         setTimeout(function() {
                             if (!check('top')) {
                                 cb('top img not loaded: ' + document.getElementById('img_top').getAttribute('src') + check('top'));
-                            } else if ( check('top') && !check('bottom') ) {
-                                window.scrollTo(0,document.body.scrollHeight);
+                            } else if (check('top') && !check('bottom')) {
+                                window.scrollTo(0, document.body.scrollHeight);
 
                                 setTimeout(function() {
                                     if (check('bottom')) {
@@ -254,7 +256,7 @@ TEST_DEFINITIONS.basic = function() {
                                     } else {
                                         cb('footer img not loaded');
                                     }
-                                },100);
+                                }, 100);
 
                             } else {
 
@@ -272,13 +274,15 @@ TEST_DEFINITIONS.basic = function() {
 
                     assert.equal(return_value, true);
 
-                    SERVER_API.reload(driver, {src: '/lazy-tiny.js' }).then(function() {
+                    SERVER_API.reload(driver, {
+                        src: '/lazy-tiny.js'
+                    }).then(function() {
                         return driver.executeAsyncScript(function() {
                             var cb = arguments[arguments.length - 1];
 
                             // domready
                             window.requestAnimationFrame(function() {
-                                window.scrollTo(0,0);
+                                window.scrollTo(0, 0);
 
                                 // should fail (Node not supported in minimum)
                                 var failed;
@@ -298,8 +302,8 @@ TEST_DEFINITIONS.basic = function() {
                                 setTimeout(function() {
                                     if (check('top')) {
                                         cb('top img loaded ');
-                                    } else if ( !check('bottom') ) {
-                                        window.scrollTo(0,document.body.scrollHeight);
+                                    } else if (!check('bottom')) {
+                                        window.scrollTo(0, document.body.scrollHeight);
 
                                         setTimeout(function() {
                                             if (!check('bottom')) {
@@ -307,7 +311,7 @@ TEST_DEFINITIONS.basic = function() {
                                             } else {
                                                 cb('footer img was loaded');
                                             }
-                                        },100);
+                                        }, 100);
 
                                     } else {
 
@@ -345,7 +349,7 @@ TEST_DEFINITIONS.basic = function() {
 
                     // domready
                     window.requestAnimationFrame(function() {
-                        window.scrollTo(0,0);
+                        window.scrollTo(0, 0);
 
                         var nodelist = document.querySelectorAll('#img_bottom2,#img_bottom3');
 
@@ -370,17 +374,17 @@ TEST_DEFINITIONS.basic = function() {
                             if (check('top')) {
                                 cb('top img loaded: ' + document.getElementById('img_top').getAttribute('src') + check('top'));
                             } else {
-                                window.scrollTo(0,toScroll);
+                                window.scrollTo(0, toScroll);
 
                                 setTimeout(function() {
 
-                                    if ( inview_count === 2) {
+                                    if (inview_count === 2) {
                                         cb(true);
                                     } else {
                                         cb('inview_count: ' + inview_count);
                                     }
 
-                                },100);
+                                }, 100);
 
                             }
                         });
@@ -407,7 +411,7 @@ TEST_DEFINITIONS.basic = function() {
 
                     // domready
                     window.requestAnimationFrame(function() {
-                        window.scrollTo(0,0);
+                        window.scrollTo(0, 0);
 
                         var nodelist = document.querySelectorAll('#img_bottom2,#img_bottom3');
 
@@ -436,12 +440,12 @@ TEST_DEFINITIONS.basic = function() {
                             if (check('top')) {
                                 cb('top img loaded: ' + document.getElementById('img_top').getAttribute('src') + check('top'));
                             } else {
-                                window.scrollTo(0,toScroll);
+                                window.scrollTo(0, toScroll);
 
                                 setTimeout(function() {
 
-                                    if ( outofview_count === 2 && inview_count === 2) {
-                                        window.scrollTo(0,0);
+                                    if (outofview_count === 2 && inview_count === 2) {
+                                        window.scrollTo(0, 0);
                                         setTimeout(function() {
 
                                             if (outofview_count === 4) {
@@ -449,13 +453,13 @@ TEST_DEFINITIONS.basic = function() {
                                             } else {
                                                 cb('outofview_count: ' + outofview_count);
                                             }
-                                        },100);
+                                        }, 100);
 
                                     } else {
                                         cb('inview_count: ' + inview_count + ', outofview_count: ' + outofview_count);
                                     }
 
-                                },100);
+                                }, 100);
 
                             }
                         });
@@ -482,7 +486,7 @@ TEST_DEFINITIONS.basic = function() {
 
                     // domready
                     window.requestAnimationFrame(function() {
-                        window.scrollTo(0,0);
+                        window.scrollTo(0, 0);
 
                         var nodelist = document.querySelectorAll('#img_bottom2,#img_bottom3');
 
@@ -492,7 +496,7 @@ TEST_DEFINITIONS.basic = function() {
 
                         var after_inview_count = 0;
 
-                        $lazy(nodelist, [,,function(target) {
+                        $lazy(nodelist, [, , function(target) {
                             after_inview_count++;
                         }]);
 
@@ -505,7 +509,7 @@ TEST_DEFINITIONS.basic = function() {
                             if (check('top')) {
                                 cb('top img loaded: ' + document.getElementById('img_top').getAttribute('src') + check('top'));
                             } else {
-                                window.scrollTo(0,toScroll);
+                                window.scrollTo(0, toScroll);
 
                                 setTimeout(function() {
 
@@ -515,7 +519,7 @@ TEST_DEFINITIONS.basic = function() {
                                         cb('after_inview_count: ' + after_inview_count);
                                     }
 
-                                },100);
+                                }, 100);
 
                             }
                         });
@@ -536,13 +540,15 @@ TEST_DEFINITIONS.basic = function() {
         }],
         ['$lazy() with .webp rewrite', function(driver, done) {
 
-            SERVER_API.reload(driver, {src: '/lazy+webp.js' }).then(function() {
+            SERVER_API.reload(driver, {
+                src: '/lazy+webp.js'
+            }).then(function() {
                 return driver.executeAsyncScript(function() {
                     var cb = arguments[arguments.length - 1];
-                    
+
                     // domready
                     window.requestAnimationFrame(function() {
-                        window.scrollTo(0,0);
+                        window.scrollTo(0, 0);
 
                         $lazy();
 
@@ -550,17 +556,18 @@ TEST_DEFINITIONS.basic = function() {
                             if (!type) {
                                 type = '.webp';
                             }
-                            return document.getElementById('img_' + pos).hasAttribute('src') && document.getElementById('img_' + pos).getAttribute('src') 
-                            // check for .webp
-                            && (document.getElementById('img_' + pos).getAttribute('src').indexOf(type) !== -1)
+                            return document.getElementById('img_' + pos).hasAttribute('src') && document.getElementById('img_' + pos).getAttribute('src')
+                                // check for .webp
+                                &&
+                                (document.getElementById('img_' + pos).getAttribute('src').indexOf(type) !== -1)
                         }
 
                         setTimeout(function() {
 
                             if (!check('top')) {
                                 cb('top img not loaded: ' + document.getElementById('img_top').getAttribute('src') + check('top'));
-                            } else if ( check('top') && !check('bottom') ) {
-                                window.scrollTo(0,document.body.scrollHeight);
+                            } else if (check('top') && !check('bottom')) {
+                                window.scrollTo(0, document.body.scrollHeight);
 
                                 setTimeout(function() {
 
@@ -570,7 +577,7 @@ TEST_DEFINITIONS.basic = function() {
                                     } else {
                                         cb('footer img not loaded ' + document.getElementById('img_bottom').getAttribute('src') + ' 5:' + document.getElementById('img_bottom5').getAttribute('src'));
                                     }
-                                },100);
+                                }, 100);
 
                             } else {
 
@@ -594,15 +601,18 @@ TEST_DEFINITIONS.basic = function() {
 
             });
 
-        }],['$lazy() with events fallback', function(driver, done) {
+        }],
+        ['$lazy() with .webp 404 error fallback', function(driver, done) {
 
-            SERVER_API.reload(driver, {src: '/lazy+webp+data-attr+polyfill+events.js' }).then(function() {
+            SERVER_API.reload(driver, {
+                src: '/lazy+webp.js'
+            }).then(function() {
                 return driver.executeAsyncScript(function() {
                     var cb = arguments[arguments.length - 1];
-                    
+
                     // domready
                     window.requestAnimationFrame(function() {
-                        window.scrollTo(0,0);
+                        window.scrollTo(0, 0);
 
                         $lazy();
 
@@ -610,17 +620,146 @@ TEST_DEFINITIONS.basic = function() {
                             if (!type) {
                                 type = '.webp';
                             }
-                            return document.getElementById('img_' + pos).hasAttribute('src') && document.getElementById('img_' + pos).getAttribute('src') 
-                            // check for .webp
-                            && (document.getElementById('img_' + pos).getAttribute('src').indexOf(type) !== -1)
+                            return document.getElementById('img_' + pos).hasAttribute('src') && document.getElementById('img_' + pos).getAttribute('src')
+                                // check for .webp
+                                &&
+                                (document.getElementById('img_' + pos).getAttribute('src').indexOf(type) !== -1)
+                        }
+
+                        setTimeout(function() {
+
+                            if (!check('no_webp', '.png')) {
+                                cb('top img not loaded: ' + document.getElementById('img_no_webp').getAttribute('src') + check('no_webp'));
+                            } else {
+                                cb(true);
+                            }
+                        }, 100);
+                    });
+
+                }).then(function(return_value) {
+
+                    if (typeof return_value === 'string') {
+                        throw new Error(return_value);
+                    }
+
+                    assert.equal(return_value, true);
+
+                    done();
+
+                }).catch(done);
+
+            });
+
+        }],
+        ['$lazy() with responsive background image rewrite', function(driver, done) {
+
+            SERVER_API.reload(driver, {
+                src: '/lazy+webp+data-attr+bg.js'
+            }, false, false, 'bg.html').then(function() {
+                return driver.executeAsyncScript(function() {
+                    var cb = arguments[arguments.length - 1];
+
+                    // domready
+                    window.requestAnimationFrame(function() {
+                        window.scrollTo(0, 0);
+
+                        $lazy(["zb", "/i/"]);
+
+                        $lazy(["z", "/i/"]);
+
+                        function check(pos, type) {
+                            if (!type) {
+                                type = '.webp';
+                            }
+                            return document.getElementById('img_' + pos).hasAttribute('src') && document.getElementById('img_' + pos).getAttribute('src')
+                                // check for .webp
+                                &&
+                                (document.getElementById('img_' + pos).getAttribute('src').indexOf(type) !== -1)
+                        }
+
+                        function checkbg(pos, type) {
+                            if (!type) {
+                                type = '.webp';
+                            }
+                            var bg = document.getElementById('bg_' + pos).style.backgroundImage;
+                            return bg
+                                // check for .webp
+                                &&
+                                (bg.indexOf(type) !== -1)
                         }
 
                         setTimeout(function() {
 
                             if (!check('top')) {
                                 cb('top img not loaded: ' + document.getElementById('img_top').getAttribute('src') + check('top'));
-                            } else if ( !check('bottom') ) {
-                                
+                            } else if (!checkbg('top')) {
+                                cb('top bg not loaded: ' + document.getElementById('bg_top').style.backgroundImage + checkbg('top'));
+                            } else if (check('top') && !check('bottom')) {
+                                window.scrollTo(0, document.body.scrollHeight);
+
+                                setTimeout(function() {
+
+                                    // test error fallback on bottom5 (test2.jpg = 404)
+                                    if (check('bottom') && check('bottom5', '.jpg') && checkbg('bottom')) {
+                                        cb(true);
+                                    } else {
+                                        cb('footer img not loaded ' + document.getElementById('img_bottom').getAttribute('src') + ' 5:' + document.getElementById('img_bottom5').getAttribute('src'));
+                                    }
+                                }, 100);
+
+                            } else {
+
+                                // footer was loaded while not visible
+                                cb('footer img was loaded: ' + document.getElementById('img_bottom').getAttribute('src') + check('bottom'));
+                            }
+                        });
+                    });
+
+                }).then(function(return_value) {
+
+                    if (typeof return_value === 'string') {
+                        throw new Error(return_value);
+                    }
+
+                    assert.equal(return_value, true);
+
+                    done();
+
+                }).catch(done);
+
+            });
+
+        }],
+        ['$lazy() with events fallback', function(driver, done) {
+
+            SERVER_API.reload(driver, {
+                src: '/lazy+webp+data-attr+polyfill+events.js'
+            }).then(function() {
+                return driver.executeAsyncScript(function() {
+                    var cb = arguments[arguments.length - 1];
+
+                    // domready
+                    window.requestAnimationFrame(function() {
+                        window.scrollTo(0, 0);
+
+                        $lazy();
+
+                        function check(pos, type) {
+                            if (!type) {
+                                type = '.webp';
+                            }
+                            return document.getElementById('img_' + pos).hasAttribute('src') && document.getElementById('img_' + pos).getAttribute('src')
+                                // check for .webp
+                                &&
+                                (document.getElementById('img_' + pos).getAttribute('src').indexOf(type) !== -1)
+                        }
+
+                        setTimeout(function() {
+
+                            if (!check('top')) {
+                                cb('top img not loaded: ' + document.getElementById('img_top').getAttribute('src') + check('top'));
+                            } else if (!check('bottom')) {
+
                                 // send click event
                                 var bottom = document.getElementById('img_bottom');
                                 var evt = new MouseEvent('click', {
@@ -639,7 +778,7 @@ TEST_DEFINITIONS.basic = function() {
                                     } else {
                                         cb('footer img not loaded ' + document.getElementById('img_bottom').getAttribute('src') + ' 5:' + document.getElementById('img_bottom5').getAttribute('src'));
                                     }
-                                },100);
+                                }, 100);
 
                             } else {
 
@@ -666,22 +805,26 @@ TEST_DEFINITIONS.basic = function() {
         }],
         ['$lazybg() background images in stylesheets', function(driver, done) {
 
-            SERVER_API.reload(driver, {src: '/lazy+webp.js', lazybg:true}, 0, '<style>' 
-+ ':root {--z--test: url(\'test.png?test\');}' 
-+ ' footer { background-image: var(--z-test, none); }'
-+ ' footer h1 {' 
-  + ' background-image: url(\'test.png?fallback\');'
-  + ' background-image: var(--z-dXJsKCcvdGVzdC5wbmc—YmFzZTY0Jyk•, none);' // "/" = —, "=" = • (DOMString)
-+ '}'
-+ ' footer h2 { background-image: var(--z-custom, none); }'
-+ ' footer h3 { background-image: var(--z-custom_js, none); }'
-+ '</style>').then(function() {
+            SERVER_API.reload(driver, {
+                    src: '/lazy+webp.js',
+                    lazybg: true
+                }, 0, '<style>' +
+                ':root {--z--test: url(\'test.png?test\');}' +
+                ' footer { background-image: var(--z-test, none); }' +
+                ' footer h1 {' +
+                ' background-image: url(\'test.png?fallback\');' +
+                ' background-image: var(--z-dXJsKCcvdGVzdC5wbmc—YmFzZTY0Jyk•, none);' // "/" = —, "=" = • (DOMString)
+                +
+                '}' +
+                ' footer h2 { background-image: var(--z-custom, none); }' +
+                ' footer h3 { background-image: var(--z-custom_js, none); }' +
+                '</style>').then(function() {
                 return driver.executeAsyncScript(function() {
                     var cb = arguments[arguments.length - 1];
-                    
+
                     // domready
                     window.requestAnimationFrame(function() {
-                        window.scrollTo(0,0);
+                        window.scrollTo(0, 0);
 
                         $lazybg();
 
@@ -695,7 +838,7 @@ TEST_DEFINITIONS.basic = function() {
                                 cb('background images already resolved:' + top_img + ' / ' + div_img);
                             } else {
 
-                                window.scrollTo(0,document.body.scrollHeight);
+                                window.scrollTo(0, document.body.scrollHeight);
 
                                 setTimeout(function() {
 
@@ -729,26 +872,30 @@ TEST_DEFINITIONS.basic = function() {
         }],
         ['$lazybg() background images in stylesheets, JSON resolver and <style> element target', function(driver, done) {
 
-            SERVER_API.reload(driver, {src: '/lazy+webp.js', lazybg:true}, 0, '<style>' 
-+ ':root {--z--test: url(\'test.png?test\');}' 
-+ ' footer { background-image: var(--z-test, none); }'
-+ ' footer h1 {' 
-  + ' background-image: url(\'test.png?fallback\');'
-  + ' background-image: var(--z-dXJsKCcvdGVzdC5wbmc—YmFzZTY0Jyk•, none);' // "/" = —, "=" = • (DOMString)
-+ '}'
-+ ' footer h2 { background-image: var(--z-custom, none); }'
-+ ' footer h3 { background-image: var(--z-custom_js, none); }'
-+ '</style>').then(function() {
+            SERVER_API.reload(driver, {
+                    src: '/lazy+webp.js',
+                    lazybg: true
+                }, 0, '<style>' +
+                ':root {--z--test: url(\'test.png?test\');}' +
+                ' footer { background-image: var(--z-test, none); }' +
+                ' footer h1 {' +
+                ' background-image: url(\'test.png?fallback\');' +
+                ' background-image: var(--z-dXJsKCcvdGVzdC5wbmc—YmFzZTY0Jyk•, none);' // "/" = —, "=" = • (DOMString)
+                +
+                '}' +
+                ' footer h2 { background-image: var(--z-custom, none); }' +
+                ' footer h3 { background-image: var(--z-custom_js, none); }' +
+                '</style>').then(function() {
                 return driver.executeAsyncScript(function() {
                     var cb = arguments[arguments.length - 1];
-                    
+
                     // domready
                     window.requestAnimationFrame(function() {
-                        window.scrollTo(0,0);
+                        window.scrollTo(0, 0);
 
                         $lazybg(document.querySelector('style'), {
                             observer: {
-                                threshold: [0,1],
+                                threshold: [0, 1],
                                 rootMargin: '100px'
                             }
                         }, {
@@ -762,12 +909,12 @@ TEST_DEFINITIONS.basic = function() {
                             var footer_img = getComputedStyle(document.querySelector('footer h2')).backgroundImage;
 
                             if (top_img !== 'none' || div_img !== 'none' || footer_img !== 'none') {
-                                
+
                                 // already resolved while out of view
                                 cb('background images already resolved:' + top_img + ' / ' + div_img);
                             } else {
 
-                                window.scrollTo(0,document.body.scrollHeight);
+                                window.scrollTo(0, document.body.scrollHeight);
 
                                 setTimeout(function() {
 
@@ -781,8 +928,8 @@ TEST_DEFINITIONS.basic = function() {
 
                                 }, 100);
 
-                                
-                            } 
+
+                            }
                         }, 100);
                     });
 
@@ -803,30 +950,34 @@ TEST_DEFINITIONS.basic = function() {
         }],
         ['$lazybg() background images in stylesheets, javascript resolver and NodeList target', function(driver, done) {
 
-            SERVER_API.reload(driver, {src: '/lazy+webp.js', lazybg:true}, 0, '<style>' 
-+ ':root {--z--test: url(\'test.png?test\');}' 
-+ ' footer { background-image: var(--z-test, none); }'
-+ ' footer h1 {' 
-  + ' background-image: url(\'test.png?fallback\');'
-  + ' background-image: var(--z-dXJsKCcvdGVzdC5wbmc—YmFzZTY0Jyk•, none);' // "/" = —, "=" = • (DOMString)
-+ '}'
-+ ' footer h2 { background-image: var(--z-custom, none); }'
-+ ' footer h3 { background-image: var(--z-custom_js, none); }'
-+ '</style>').then(function() {
+            SERVER_API.reload(driver, {
+                    src: '/lazy+webp.js',
+                    lazybg: true
+                }, 0, '<style>' +
+                ':root {--z--test: url(\'test.png?test\');}' +
+                ' footer { background-image: var(--z-test, none); }' +
+                ' footer h1 {' +
+                ' background-image: url(\'test.png?fallback\');' +
+                ' background-image: var(--z-dXJsKCcvdGVzdC5wbmc—YmFzZTY0Jyk•, none);' // "/" = —, "=" = • (DOMString)
+                +
+                '}' +
+                ' footer h2 { background-image: var(--z-custom, none); }' +
+                ' footer h3 { background-image: var(--z-custom_js, none); }' +
+                '</style>').then(function() {
                 return driver.executeAsyncScript(function() {
                     var cb = arguments[arguments.length - 1];
-                    
+
                     // domready
                     window.requestAnimationFrame(function() {
-                        window.scrollTo(0,0);
+                        window.scrollTo(0, 0);
 
                         $lazybg(document.querySelectorAll('style'), {
                             observer: {
-                                threshold: [0,1],
+                                threshold: [0, 1],
                                 rootMargin: '100px'
                             }
                         }, function(key) {
-                            return "url('test.png?"+key+"')";
+                            return "url('test.png?" + key + "')";
                         });
 
                         setTimeout(function() {
@@ -836,12 +987,12 @@ TEST_DEFINITIONS.basic = function() {
                             var footer_img = getComputedStyle(document.querySelector('footer h3')).backgroundImage;
 
                             if (top_img !== 'none' || div_img !== 'none' || footer_img !== 'none') {
-                                
+
                                 // already resolved while out of view
                                 cb('background images already resolved:' + top_img + ' / ' + div_img);
                             } else {
 
-                                window.scrollTo(0,document.body.scrollHeight);
+                                window.scrollTo(0, document.body.scrollHeight);
 
                                 setTimeout(function() {
 
@@ -855,8 +1006,8 @@ TEST_DEFINITIONS.basic = function() {
 
                                 }, 100);
 
-                                
-                            } 
+
+                            }
                         }, 100);
                     });
 
@@ -877,22 +1028,26 @@ TEST_DEFINITIONS.basic = function() {
         }],
         ['$lazybg() background images in stylesheets with WebP rewrite', function(driver, done) {
 
-            SERVER_API.reload(driver, {src: '/lazy+webp.js', lazybg_webp:true}, 0, '<style>' 
-+ ':root {--z--test: url(\'test.png?test\');}' 
-+ ' footer { background-image: var(--z-test, none); }'
-+ ' footer h1 {' 
-  + ' background-image: url(\'test.png?fallback\');'
-  + ' background-image: var(--z-dXJsKCcvdGVzdC5wbmc—YmFzZTY0Jyk•, none);' // "/" = —, "=" = • (DOMString)
-+ '}'
-+ ' footer h2 { background-image: var(--z-custom, none); }'
-+ ' footer h3 { background-image: var(--z-custom_js, none); }'
-+ '</style>').then(function() {
+            SERVER_API.reload(driver, {
+                    src: '/lazy+webp.js',
+                    lazybg_webp: true
+                }, 0, '<style>' +
+                ':root {--z--test: url(\'test.png?test\');}' +
+                ' footer { background-image: var(--z-test, none); }' +
+                ' footer h1 {' +
+                ' background-image: url(\'test.png?fallback\');' +
+                ' background-image: var(--z-dXJsKCcvdGVzdC5wbmc—YmFzZTY0Jyk•, none);' // "/" = —, "=" = • (DOMString)
+                +
+                '}' +
+                ' footer h2 { background-image: var(--z-custom, none); }' +
+                ' footer h3 { background-image: var(--z-custom_js, none); }' +
+                '</style>').then(function() {
                 return driver.executeAsyncScript(function() {
                     var cb = arguments[arguments.length - 1];
-                    
+
                     // domready
                     window.requestAnimationFrame(function() {
-                        window.scrollTo(0,0);
+                        window.scrollTo(0, 0);
 
                         $lazybg();
 
@@ -906,7 +1061,7 @@ TEST_DEFINITIONS.basic = function() {
                                 cb('background images already resolved:' + top_img + ' / ' + div_img);
                             } else {
 
-                                window.scrollTo(0,document.body.scrollHeight);
+                                window.scrollTo(0, document.body.scrollHeight);
 
                                 setTimeout(function() {
 

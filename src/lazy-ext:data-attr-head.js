@@ -6,9 +6,21 @@
  * @link https://github.com/style-tools/lazy
  */
 
-// attribute config
-var CONFIG,
-    CONFIG_PARAM = 'z',
-    MULTI_TOKEN = '||';
+if (DATA_ATTR_EXTENSION) {
 
-LAZY_SCRIPT = doc.currentScript || QUERY('script[data-' + CONFIG_PARAM + ']')[0];
+    // attribute config
+    var CONFIG,
+        CONFIG_PARAM = 'z',
+        MULTI_TOKEN = '||';
+
+    LAZY_SCRIPT = doc.currentScript || QUERY('script[data-' + CONFIG_PARAM + ']')[0];
+
+    var PARSE_JSON = function(json) {
+        try {
+            json = JSON.parse(json);
+        } catch (err) {
+            json = false;
+        };
+        return json;
+    }
+}

@@ -6,8 +6,14 @@
  * @link https://github.com/style-tools/lazy
  */
 
- /** @define {boolean} */
+/** @define {boolean} */
 var WEBP_EXTENSION = false;
 
- /** @define {boolean} */
+/** @define {boolean} */
 var CLICK_EXTENSION = false;
+
+/** @define {boolean} */
+var DATA_ATTR_EXTENSION = false;
+
+/** @define {boolean} */
+var BG_EXTENSION = false;

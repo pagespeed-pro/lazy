@@ -12,7 +12,9 @@ window.$lazy = function(config, callback) {
         rootMargin: '',
         observer: '',
         webp: '',
-        events: ''
+        events: '',
+        bg: '',
+        base: ''
     };
 
     callback = function(change) {
@@ -29,18 +31,16 @@ window.$lazybg = function(sheets, lazy_config, resolver) {
 
     sheets = {
         sheet: {
-            cssRules: [
-                {
-                    style: {
-                        backgroundImage: ''
-                    }
+            cssRules: [{
+                style: {
+                    backgroundImage: ''
                 }
-            ]
+            }]
         }
     }
 
     resolver = function(data) {
-        
+
     }
 
     lazy_config = {
@@ -65,14 +65,14 @@ window.IntersectionObserverEntry.prototype.intersectionRatio;
 window.IntersectionObserverEntry.prototype.isIntersecting;
 
 CustomEvent = function(selector, config) {
-	config = {
-	    bubbles: true,
-	    cancelable: true,
-	    detail: {
-	        el: '',
-	        entry: ''
-	    }
-	};
+    config = {
+        bubbles: true,
+        cancelable: true,
+        detail: {
+            el: '',
+            entry: ''
+        }
+    };
 };
 
 window.$lazypoly = function() {}
@@ -82,7 +82,7 @@ function $async() {
         js: function() {
             return {
                 then: function() {
-                    
+
                 }
             }
         }

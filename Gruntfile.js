@@ -8,7 +8,7 @@ module.exports = function(grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         meta: {
-            banner: '/*! 🔬 Style.Tools */'
+            banner: '/*! Style.Tools */'
         },
 
         // IIFE
@@ -23,6 +23,7 @@ module.exports = function(grunt) {
                 },
                 files: {
                     "tmp/lazy-iife.js": [
+                        'src/lazy-ext:data-attr-head.js',
                         'src/lazy.js'
                     ]
                 }
@@ -43,7 +44,7 @@ module.exports = function(grunt) {
                 }
             },
 
-           "lazy-poly": {
+            "lazy-poly": {
                 options: {
                     useStrict: true,
                     prependSemicolon: false,
@@ -53,13 +54,14 @@ module.exports = function(grunt) {
                 },
                 files: {
                     "tmp/lazy-poly-iife.js": [
+                        'src/lazy-ext:data-attr-head.js',
                         'src/lazy.js',
                         'src/lazy-ext:async-polyfill.js'
                     ]
                 }
             },
 
-           "lazy-data-attr": {
+            "lazy-data-attr": {
                 options: {
                     useStrict: true,
                     prependSemicolon: false,
@@ -69,14 +71,14 @@ module.exports = function(grunt) {
                 },
                 files: {
                     "tmp/lazy-data-attr-iife.js": [
-                        'src/lazy.js',
                         'src/lazy-ext:data-attr-head.js',
+                        'src/lazy.js',
                         'src/lazy-ext:data-attr.js'
                     ]
                 }
             },
 
-           "lazy-data-attr-poly": {
+            "lazy-data-attr-poly": {
                 options: {
                     useStrict: true,
                     prependSemicolon: false,
@@ -86,8 +88,8 @@ module.exports = function(grunt) {
                 },
                 files: {
                     "tmp/lazy-data-attr-poly-iife.js": [
-                        'src/lazy.js',
                         'src/lazy-ext:data-attr-head.js',
+                        'src/lazy.js',
                         'src/lazy-ext:async-polyfill.js',
                         'src/lazy-ext:data-attr.js'
                     ]
@@ -104,13 +106,14 @@ module.exports = function(grunt) {
                 },
                 files: {
                     "tmp/lazy-webp-iife.js": [
+                        'src/lazy-ext:data-attr-head.js',
                         'src/lazy.js',
                         'src/lazy-ext:webp.js'
                     ]
                 }
             },
 
-           "lazy-webp-poly": {
+            "lazy-webp-poly": {
                 options: {
                     useStrict: true,
                     prependSemicolon: false,
@@ -120,6 +123,7 @@ module.exports = function(grunt) {
                 },
                 files: {
                     "tmp/lazy-webp-poly-iife.js": [
+                        'src/lazy-ext:data-attr-head.js',
                         'src/lazy.js',
                         'src/lazy-ext:webp.js',
                         'src/lazy-ext:async-polyfill.js'
@@ -127,7 +131,7 @@ module.exports = function(grunt) {
                 }
             },
 
-           "lazy-webp-data-attr": {
+            "lazy-webp-data-attr": {
                 options: {
                     useStrict: true,
                     prependSemicolon: false,
@@ -137,15 +141,15 @@ module.exports = function(grunt) {
                 },
                 files: {
                     "tmp/lazy-webp-data-attr-iife.js": [
+                        'src/lazy-ext:data-attr-head.js',
                         'src/lazy.js',
                         'src/lazy-ext:webp.js',
-                        'src/lazy-ext:data-attr-head.js',
                         'src/lazy-ext:data-attr.js'
                     ]
                 }
             },
 
-           "lazy-webp-data-attr-poly": {
+            "lazy-webp-data-attr-poly": {
                 options: {
                     useStrict: true,
                     prependSemicolon: false,
@@ -155,16 +159,16 @@ module.exports = function(grunt) {
                 },
                 files: {
                     "tmp/lazy-webp-data-attr-poly-iife.js": [
+                        'src/lazy-ext:data-attr-head.js',
                         'src/lazy.js',
                         'src/lazy-ext:webp.js',
-                        'src/lazy-ext:data-attr-head.js',
                         'src/lazy-ext:async-polyfill.js',
                         'src/lazy-ext:data-attr.js'
                     ]
                 }
             },
 
-           "lazybg": {
+            "lazybg": {
                 options: {
                     useStrict: true,
                     prependSemicolon: false,
@@ -179,7 +183,7 @@ module.exports = function(grunt) {
                 }
             },
 
-           "polyfill": {
+            "polyfill": {
                 options: {
                     useStrict: true,
                     prependSemicolon: false,
@@ -213,7 +217,7 @@ module.exports = function(grunt) {
                     compilation_level: 'ADVANCED_OPTIMIZATIONS',
                     language_in: 'ECMASCRIPT5_STRICT',
                     externs: externs,
-                    define: ['WEBP_EXTENSION=false', 'CLICK_EXTENSION=false']
+                    define: ['WEBP_EXTENSION=false', 'CLICK_EXTENSION=false', 'DATA_ATTR_EXTENSION=false', 'BG_EXTENSION=false']
                 }
             },
             "lazy-tiny": {
@@ -229,7 +233,7 @@ module.exports = function(grunt) {
                     compilation_level: 'ADVANCED_OPTIMIZATIONS',
                     language_in: 'ECMASCRIPT5_STRICT',
                     externs: externs,
-                    define: ['WEBP_EXTENSION=false', 'CLICK_EXTENSION=false']
+                    define: ['WEBP_EXTENSION=false', 'CLICK_EXTENSION=false', 'DATA_ATTR_EXTENSION=false', 'BG_EXTENSION=false']
                 }
             },
             "lazy-poly": {
@@ -245,7 +249,7 @@ module.exports = function(grunt) {
                     compilation_level: 'ADVANCED_OPTIMIZATIONS',
                     language_in: 'ECMASCRIPT5_STRICT',
                     externs: externs,
-                    define: ['WEBP_EXTENSION=false', 'CLICK_EXTENSION=false']
+                    define: ['WEBP_EXTENSION=false', 'CLICK_EXTENSION=false', 'DATA_ATTR_EXTENSION=false', 'BG_EXTENSION=false']
                 }
             },
             "lazy-data-attr": {
@@ -261,7 +265,7 @@ module.exports = function(grunt) {
                     compilation_level: 'ADVANCED_OPTIMIZATIONS',
                     language_in: 'ECMASCRIPT5_STRICT',
                     externs: externs,
-                    define: ['WEBP_EXTENSION=false', 'CLICK_EXTENSION=false']
+                    define: ['WEBP_EXTENSION=false', 'CLICK_EXTENSION=false', 'DATA_ATTR_EXTENSION=true', 'BG_EXTENSION=false']
                 }
             },
             "lazy-data-attr-poly": {
@@ -277,7 +281,7 @@ module.exports = function(grunt) {
                     compilation_level: 'ADVANCED_OPTIMIZATIONS',
                     language_in: 'ECMASCRIPT5_STRICT',
                     externs: externs,
-                    define: ['WEBP_EXTENSION=false', 'CLICK_EXTENSION=false']
+                    define: ['WEBP_EXTENSION=false', 'CLICK_EXTENSION=false', 'DATA_ATTR_EXTENSION=true', 'BG_EXTENSION=false']
                 }
             },
 
@@ -295,7 +299,7 @@ module.exports = function(grunt) {
                     compilation_level: 'ADVANCED_OPTIMIZATIONS',
                     language_in: 'ECMASCRIPT5_STRICT',
                     externs: externs,
-                    define: ['WEBP_EXTENSION=false', 'CLICK_EXTENSION=true']
+                    define: ['WEBP_EXTENSION=false', 'CLICK_EXTENSION=true', 'DATA_ATTR_EXTENSION=true', 'BG_EXTENSION=false']
                 }
             },
 
@@ -312,7 +316,7 @@ module.exports = function(grunt) {
                     compilation_level: 'ADVANCED_OPTIMIZATIONS',
                     language_in: 'ECMASCRIPT5_STRICT',
                     externs: externs,
-                    define: ['WEBP_EXTENSION=true', 'CLICK_EXTENSION=false']
+                    define: ['WEBP_EXTENSION=true', 'CLICK_EXTENSION=false', 'DATA_ATTR_EXTENSION=false', 'BG_EXTENSION=false']
                 }
             },
             "lazy-webp-poly": {
@@ -328,7 +332,7 @@ module.exports = function(grunt) {
                     compilation_level: 'ADVANCED_OPTIMIZATIONS',
                     language_in: 'ECMASCRIPT5_STRICT',
                     externs: externs,
-                    define: ['WEBP_EXTENSION=true', 'CLICK_EXTENSION=false']
+                    define: ['WEBP_EXTENSION=true', 'CLICK_EXTENSION=false', 'DATA_ATTR_EXTENSION=false', 'BG_EXTENSION=false']
                 }
             },
             "lazy-webp-data-attr": {
@@ -344,9 +348,28 @@ module.exports = function(grunt) {
                     compilation_level: 'ADVANCED_OPTIMIZATIONS',
                     language_in: 'ECMASCRIPT5_STRICT',
                     externs: externs,
-                    define: ['WEBP_EXTENSION=true', 'CLICK_EXTENSION=false']
+                    define: ['WEBP_EXTENSION=true', 'CLICK_EXTENSION=false', 'DATA_ATTR_EXTENSION=true', 'BG_EXTENSION=false']
                 }
             },
+
+
+            "lazy-webp-data-attr-bg": {
+                closurePath: '../../closure-compiler',
+                js: [
+                    'src/gcc-define.js',
+                    'tmp/lazy-webp-data-attr-iife.js'
+                ],
+                jsOutputFile: 'dist/lazy+webp+data-attr+bg.js',
+                maxBuffer: 30000,
+                noreport: true,
+                options: {
+                    compilation_level: 'ADVANCED_OPTIMIZATIONS',
+                    language_in: 'ECMASCRIPT5_STRICT',
+                    externs: externs,
+                    define: ['WEBP_EXTENSION=true', 'CLICK_EXTENSION=false', 'DATA_ATTR_EXTENSION=true', 'BG_EXTENSION=true']
+                }
+            },
+
             "lazy-webp-data-attr-poly": {
                 closurePath: '../../closure-compiler',
                 js: [
@@ -360,7 +383,24 @@ module.exports = function(grunt) {
                     compilation_level: 'ADVANCED_OPTIMIZATIONS',
                     language_in: 'ECMASCRIPT5_STRICT',
                     externs: externs,
-                    define: ['WEBP_EXTENSION=true', 'CLICK_EXTENSION=false']
+                    define: ['WEBP_EXTENSION=true', 'CLICK_EXTENSION=false', 'DATA_ATTR_EXTENSION=true', 'BG_EXTENSION=false']
+                }
+            },
+
+            "lazy-webp-data-attr-poly-bg": {
+                closurePath: '../../closure-compiler',
+                js: [
+                    'src/gcc-define.js',
+                    'tmp/lazy-webp-data-attr-poly-iife.js'
+                ],
+                jsOutputFile: 'dist/lazy+webp+data-attr+polyfill+bg.js',
+                maxBuffer: 30000,
+                noreport: true,
+                options: {
+                    compilation_level: 'ADVANCED_OPTIMIZATIONS',
+                    language_in: 'ECMASCRIPT5_STRICT',
+                    externs: externs,
+                    define: ['WEBP_EXTENSION=true', 'CLICK_EXTENSION=false', 'DATA_ATTR_EXTENSION=true', 'BG_EXTENSION=true']
                 }
             },
 
@@ -378,7 +418,26 @@ module.exports = function(grunt) {
                     compilation_level: 'ADVANCED_OPTIMIZATIONS',
                     language_in: 'ECMASCRIPT5_STRICT',
                     externs: externs,
-                    define: ['WEBP_EXTENSION=true', 'CLICK_EXTENSION=true']
+                    define: ['WEBP_EXTENSION=true', 'CLICK_EXTENSION=true', 'DATA_ATTR_EXTENSION=true', 'BG_EXTENSION=false']
+                }
+            },
+
+
+            // event listener fallback
+            "lazy-webp-data-attr-poly-events-bg": {
+                closurePath: '../../closure-compiler',
+                js: [
+                    'src/gcc-define.js',
+                    'tmp/lazy-webp-data-attr-poly-iife.js'
+                ],
+                jsOutputFile: 'dist/lazy+webp+data-attr+polyfill+events+bg.js',
+                maxBuffer: 30000,
+                noreport: true,
+                options: {
+                    compilation_level: 'ADVANCED_OPTIMIZATIONS',
+                    language_in: 'ECMASCRIPT5_STRICT',
+                    externs: externs,
+                    define: ['WEBP_EXTENSION=true', 'CLICK_EXTENSION=true', 'DATA_ATTR_EXTENSION=true', 'BG_EXTENSION=true']
                 }
             },
 
@@ -408,7 +467,7 @@ module.exports = function(grunt) {
                     compilation_level: 'ADVANCED_OPTIMIZATIONS',
                     language_in: 'ECMASCRIPT5_STRICT',
                     externs: externs,
-                    define: ['WEBP_EXTENSION=false', 'CLICK_EXTENSION=false']
+                    define: ['WEBP_EXTENSION=false', 'CLICK_EXTENSION=false', 'DATA_ATTR_EXTENSION=false', 'BG_EXTENSION=false']
                 }
             },
 
@@ -425,7 +484,7 @@ module.exports = function(grunt) {
                     compilation_level: 'ADVANCED_OPTIMIZATIONS',
                     language_in: 'ECMASCRIPT5_STRICT',
                     externs: externs,
-                    define: ['WEBP_EXTENSION=true', 'CLICK_EXTENSION=false']
+                    define: ['WEBP_EXTENSION=true', 'CLICK_EXTENSION=false', 'DATA_ATTR_EXTENSION=false', 'BG_EXTENSION=false']
                 }
             }
         }
@@ -449,10 +508,27 @@ module.exports = function(grunt) {
         'closure-compiler:lazy-webp-data-attr-poly',
         'closure-compiler:lazy-webp-data-attr-poly-events',
 
+        'closure-compiler:lazy-webp-data-attr-bg',
+        'closure-compiler:lazy-webp-data-attr-poly-bg',
+        'closure-compiler:lazy-webp-data-attr-poly-events-bg',
+
         'closure-compiler:lazybg',
         'closure-compiler:lazybg-webp',
 
         'closure-compiler:polyfill'
+    ]);
+
+    grunt.registerTask('buildbg', [
+        'iife',
+
+        'closure-compiler:lazy-webp-data-attr-bg',
+        'closure-compiler:lazy-webp-data-attr-poly-bg',
+        'closure-compiler:lazy-webp-data-attr-poly-events-bg'
+    ]);
+
+    grunt.registerTask('dev', [
+        'iife',
+        'closure-compiler:lazy-webp-data-attr-poly-events-bg'
     ]);
 
     grunt.registerTask('wp', [

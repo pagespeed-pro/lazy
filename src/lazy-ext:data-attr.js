@@ -21,9 +21,7 @@ if (LAZY_SCRIPT) {
 
     var config;
     for (var i = 0, l = CONFIG.length; i < l; i++) {
-        try {
-            config = JSON.parse(CONFIG[i]);
-        } catch (err) {config = false;};
+        config = PARSE_JSON(CONFIG[i]);
 
         if (config) {
             $lazy(config);
