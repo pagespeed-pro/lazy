@@ -20,6 +20,7 @@ const assert = require('assert'),
 const options = new chrome.Options();
 options.addArguments("headless");
 options.addArguments("no-sandbox");
+options.addArguments("window-size=800,600");
 options.addArguments("disable-dev-shm-usage");
 
 // build chrome driver
