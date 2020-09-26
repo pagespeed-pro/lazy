@@ -626,11 +626,16 @@ TEST_DEFINITIONS.basic = function() {
                                 (document.getElementById('img_' + pos).getAttribute('src').indexOf(type) !== -1)
                         }
 
-                        setTimeout(function() {
-
+                        let c = 0;
+                        let i = setInterval(function() {
+                            c++;
                             if (!check('no_webp', '.png')) {
-                                cb('top img not loaded - src:' + document.getElementById('img_no_webp').getAttribute('src') + ' webp:' + check('no_webp'));
+                                if (c > 10) {
+                                    clearInterval(i);
+                                    cb('top img not loaded - src:' + document.getElementById('img_no_webp').getAttribute('src') + ' webp:' + check('no_webp'));
+                                }
                             } else {
+                                clearInterval(i);
                                 cb(true);
                             }
                         }, 100);
