@@ -629,7 +629,7 @@ TEST_DEFINITIONS.basic = function() {
                         setTimeout(function() {
 
                             if (!check('no_webp', '.png')) {
-                                cb('top img not loaded: ' + document.getElementById('img_no_webp').getAttribute('src') + check('no_webp'));
+                                cb('top img not loaded - src:' + document.getElementById('img_no_webp').getAttribute('src') + ' webp:' + check('no_webp'));
                             } else {
                                 cb(true);
                             }
