@@ -8,7 +8,7 @@
 
 var intersectionObserver, intersectionObserverStr = 'IntersectionObserver',
     intersectionObserverEntryProto = ((intersectionObserverStr + 'Entry' in win) ? win[intersectionObserverStr + 'Entry'].prototype : 0),
-    LAZY_SCRIPT, WEBP_REWRITE;
+    LAZY_SCRIPT, WEBP_REWRITE, DATA_ATTR_BASE = '', PROTOCOL_REGEX = /^[a-z]+:\/\//i;
 if (
     intersectionObserverEntryProto &&
     'intersectionRatio' in intersectionObserverEntryProto &&
@@ -29,6 +29,13 @@ function REMOVE_DATA_ATTR(el, attr) {
 // query
 function QUERY(selector) {
     return doc.querySelectorAll(selector);
+}
+
+function REBASE(url, base) {
+    if (url[0] === '/' || PROTOCOL_REGEX.test(url)) {
+        return url;
+    }
+    return base + url;
 }
 
 // public object
@@ -78,7 +85,7 @@ function $lazy(config, inview, observer_callback) {
         BASE, EXT_REGEX;
 
     if (DATA_ATTR_EXTENSION) {
-        BASE = config[5] || config.base || '';
+        BASE = config[5] || config.base || DATA_ATTR_BASE;
         EXT_REGEX = /(\.[a-z]{2,4}(\.[a-z]{2,4})?(\?.*)?)$/i;
         if (config_z) {
             DATA_SRC = config_z;
@@ -149,7 +156,7 @@ function $lazy(config, inview, observer_callback) {
                             match = WEBP_REWRITE(match);
                         }
                     }
-                    el.style.backgroundImage = 'url(' + BASE + match + ')';
+                    el.style.backgroundImage = 'url(' + REBASE(match, BASE) + ')';
                 }
             }
 
@@ -168,7 +175,7 @@ function $lazy(config, inview, observer_callback) {
                             bg = WEBP_REWRITE(bg);
                         }
                     }
-                    el.style.backgroundImage = 'url(' + BASE + bg + ')';
+                    el.style.backgroundImage = 'url(' + REBASE(bg, BASE) + ')';
                 }
 
                 REMOVE_DATA_ATTR(el, DATA_SRC);
@@ -181,6 +188,7 @@ function $lazy(config, inview, observer_callback) {
     inview = inview || function(target, src, srcset, base) {
         src = GET_DATA_ATTR(target, DATA_SRC);
         if (DATA_ATTR_EXTENSION) {
+            srcset = false;
             if (src) {
                 if (src.substr(0, 1) == '[') {
                     src = PARSE_JSON(src);
@@ -210,7 +218,7 @@ function $lazy(config, inview, observer_callback) {
                                     set_src = src.replace(EXT_REGEX, '-' + set_config + '$1');
                                 }
                             } else {
-                                set_src = BASE + srcset[0];
+                                set_src = REBASE(srcset[0], BASE);
                                 set_size = set_config[1];
                             }
 
@@ -220,7 +228,7 @@ function $lazy(config, inview, observer_callback) {
                         srcset = set.join(',');
                     }
                 } else {
-                    src = BASE + src;
+                    src = REBASE(src, BASE);
                     srcset = GET_DATA_ATTR(target, DATA_SRCSET);
                 }
             }
@@ -237,7 +245,7 @@ function $lazy(config, inview, observer_callback) {
             }
             target[SRCSET] = srcset;
 
-            REMOVE_DATA_ATTR(target, SRCSET);
+            REMOVE_DATA_ATTR(target, DATA_SRCSET);
         }
 
         if (src) {
@@ -249,7 +257,7 @@ function $lazy(config, inview, observer_callback) {
             }
             target[SRC] = src;
 
-            REMOVE_DATA_ATTR(target, SRC);
+            REMOVE_DATA_ATTR(target, DATA_SRC);
         }
 
         // hook for sending a custom event etc.
@@ -309,35 +317,32 @@ function $lazy(config, inview, observer_callback) {
 
     // event based fallback
     if (CLICK_EXTENSION) {
-        for (var i = 0, l = assets.length; i < l; i++) {
-            (function(asset) {
+        assets.forEach(function(asset) {
+            if (observer) {
+                observer.observe(asset);
+            } else {
+                // simple fallback if Intersection Observer is not available
+                observer_callback([asset]);
+            }
 
-                if (observer) {
-                    observer.observe(asset);
-                } else {
-                    // simple fallback if Intersection Observer is not available
-                    observer_callback([asset]);
-                }
+            // event listener
+            var listener = function(e) {
 
-                // event listener
-                var listener = function(e) {
+                // remove event
+                asset.removeEventListener(e.type, listener);
 
-                    // remove event
-                    asset.removeEventListener(e.type, listener);
-                    // call handler
+                // call handler
+                observer_callback([asset], asset);
+            };
 
-                    observer_callback([asset], asset);
-                };
+            for (var _i = 0, _l = eventtypes.length; _i < _l; _i++) {
+                asset.addEventListener(eventtypes[_i], listener, {
+                    "passive": true,
+                    "once": true
+                });
+            }
+        });
 
-                for (var _i = 0, _l = eventtypes.length; _i < _l; _i++) {
-                    asset.addEventListener(eventtypes[_i], listener, {
-                        "passive": true,
-                        "once": true
-                    });
-                }
-            })(assets[i]);
-
-        }
     } else {
 
         for (var i = 0, l = assets.length; i < l; i++) {

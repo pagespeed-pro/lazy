@@ -11,16 +11,19 @@ if (DATA_ATTR_EXTENSION) {
     // attribute config
     var CONFIG,
         CONFIG_PARAM = 'z',
+        CONFIG_MULTI_PARAM = 'zz',
+        BASE_PARAM = 'b',
         MULTI_TOKEN = '||';
 
     LAZY_SCRIPT = doc.currentScript || QUERY('script[data-' + CONFIG_PARAM + ']')[0];
 
     var PARSE_JSON = function(json) {
+        var parsed;
         try {
-            json = JSON.parse(json);
+            parsed = JSON.parse(json);
         } catch (err) {
-            json = false;
+            parsed = json;
         };
-        return json;
+        return parsed;
     }
 }

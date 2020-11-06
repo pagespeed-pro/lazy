@@ -11,13 +11,14 @@ if (LAZY_SCRIPT) {
 
     // extract config from data-optimization parameter
     CONFIG = GET_DATA_ATTR(LAZY_SCRIPT, CONFIG_PARAM);
-
-    // multi config
-    if (CONFIG && CONFIG.indexOf(MULTI_TOKEN) === 0) {
-        CONFIG = CONFIG.split(MULTI_TOKEN);
+    if (!CONFIG) {
+        CONFIG = PARSE_JSON(GET_DATA_ATTR(LAZY_SCRIPT, CONFIG_MULTI_PARAM));
     } else {
         CONFIG = [CONFIG];
     }
+
+    // extract base path
+    DATA_ATTR_BASE = GET_DATA_ATTR(LAZY_SCRIPT, BASE_PARAM);
 
     var config;
     for (var i = 0, l = CONFIG.length; i < l; i++) {
