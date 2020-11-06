@@ -31,7 +31,7 @@ composer require styletools/lazy
 
 $lazy is designed as the ultimate lazy loader and `element-in-view` callback for modern frontend optimization (FEO). It provides state of the art features, the absolute best performance and the tiniest HTML footprint. $lazy supports all browsers including iPhone5 and IE9+. IE8 would be supported but isn't supported by Google's [IntersectionObserver polyfill](https://github.com/w3c/IntersectionObserver/blob/master/polyfill/intersection-observer.js).
 
-- 100% JSON controlled.
+- 100% JSON control.
 - tiny: the `$z()` version is merely 300 bytes in size.
 - support for old browsers with a 0% performance hit for modern browsers.
 
