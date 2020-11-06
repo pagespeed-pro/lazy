@@ -35,7 +35,7 @@ function REBASE(url, base) {
     if (url[0] === '/' || PROTOCOL_REGEX.test(url)) {
         return url;
     }
-    return base + url;
+    return (base ? base : '') + url;
 }
 
 // public object
