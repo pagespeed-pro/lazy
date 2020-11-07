@@ -126,6 +126,7 @@ function $lazybg(sheet, lazy_config, resolver, webp) {
                                             LAZY_BG_RENDER(key, value);
                                         }
                                     });
+
                                 })(lazy_config, rule.selectorText, match[1]);
                             }
                         }
