@@ -181,11 +181,11 @@ function $lazy(config, inview, observer_callback) {
                 REMOVE_DATA_ATTR(el, DATA_SRC);
             }
 
-        } : false;
+        } : inview;
     }
 
     // default inview callback
-    inview = inview || function(target, src, srcset, base) {
+    inview = inview || function(target, src, srcset, base, fallback) {
         src = GET_DATA_ATTR(target, DATA_SRC);
         if (DATA_ATTR_EXTENSION) {
             srcset = false;
@@ -197,7 +197,8 @@ function $lazy(config, inview, observer_callback) {
                     }
                     srcset = src[1];
                     base = src[2] || BASE;
-                    src = base + src[0];
+                    src = REBASE(src[0], base);
+                    fallback = src[3] || src;
 
                     // compressed srcset
                     // data-z='["img.jpg",[200,300]]' -> BASE + img-200w.jpg
@@ -205,8 +206,8 @@ function $lazy(config, inview, observer_callback) {
                     if (srcset) {
                         var set = [],
                             set_config, set_src, set_size;
-                        for (var i = 0, l = srcset[1].length; i < l; i++) {
-                            set_config = srcset[1][i];
+                        for (var i = 0, l = srcset.length; i < l; i++) {
+                            set_config = srcset[i];
                             if (!isNaN(set_config)) {
                                 set_config += 'w';
                             }
@@ -218,12 +219,15 @@ function $lazy(config, inview, observer_callback) {
                                     set_src = src.replace(EXT_REGEX, '-' + set_config + '$1');
                                 }
                             } else {
-                                set_src = REBASE(srcset[0], BASE);
+                                set_src = src;
                                 set_size = set_config[1];
                             }
 
                             set.push(set_src + ((set_size) ? ' ' + set_size : ''));
                         }
+
+                        // fallback
+                        set.push(fallback);
 
                         srcset = set.join(',');
                     }
@@ -317,42 +321,46 @@ function $lazy(config, inview, observer_callback) {
 
     // event based fallback
     if (CLICK_EXTENSION) {
-        assets.forEach(function(asset) {
-            if (observer) {
-                observer.observe(asset);
-            } else {
-                // simple fallback if Intersection Observer is not available
-                observer_callback([asset]);
-            }
 
-            // event listener
-            var listener = function(e) {
+        if (assets) {
+            assets.forEach(function(asset) {
+                if (observer) {
+                    observer.observe(asset);
+                } else {
+                    // simple fallback if Intersection Observer is not available
+                    observer_callback([asset]);
+                }
 
-                // remove event
-                asset.removeEventListener(e.type, listener);
+                // event listener
+                var listener = function(e) {
 
-                // call handler
-                observer_callback([asset], asset);
-            };
+                    // remove event
+                    asset.removeEventListener(e.type, listener);
 
-            for (var _i = 0, _l = eventtypes.length; _i < _l; _i++) {
-                asset.addEventListener(eventtypes[_i], listener, {
-                    "passive": true,
-                    "once": true
-                });
-            }
-        });
+                    // call handler
+                    observer_callback([asset], asset);
+                };
+
+                for (var _i = 0, _l = eventtypes.length; _i < _l; _i++) {
+                    asset.addEventListener(eventtypes[_i], listener, {
+                        "passive": true,
+                        "once": true
+                    });
+                }
+            });
+        }
 
     } else {
 
-        for (var i = 0, l = assets.length; i < l; i++) {
-            asset = assets[i];
-            if (observer) {
-                observer.observe(asset);
-            } else {
-                // simple fallback if Intersection Observer is not available
-                observer_callback([asset]);
-            }
+        if (assets) {
+            assets.forEach(function(asset) {
+                if (observer) {
+                    observer.observe(asset);
+                } else {
+                    // simple fallback if Intersection Observer is not available
+                    observer_callback([asset]);
+                }
+            });
         }
     }
 

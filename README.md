@@ -14,6 +14,45 @@ $lazy('#element', function() {
 });
 ```
 
+$lazy can be configured using an async script element.
+
+```html
+<script async src="dist/lazy+data-attr.js" data-z='selector' data-b='/base/path/'></script>
+```
+
+The script element accepts the following parameters:
+
+| Parameter                       | Description     | Type     |
+|--------------------------------|-----------------|-----------------|
+| `data-z`                |  | `String`    | Selector or config object.
+| `data-zz`                |  | `Array`    | Multiple selector or config objects.
+| `data-b`                |  | `String`    | Base path (URL rebasing).
+
+When using [$async.js](https://github.com/style-tools/async/), $lazy can be used as timing method with automated polyfill loading.
+
+```html
+<script async src="dist/async.js" data-c='[{
+   "src": "dist/intersectionobserver-polyfill.js",
+   "load_timing": {
+      "type": "method",
+      "method": "$lazypoly"
+    },
+    "cache": "localstorage"
+},{
+  "ref": "$z",
+  "src": "dist/lazy.js",
+  "attributes": {
+    "data-z": "[\".selector\", 0.006, \"0px\"]"
+  },
+  "load_timing": {
+    "type": "requestAnimationFrame",
+    "frame": -1
+  },
+  "cache": "localstorage"
+}]'></script>
+<!-- timing: requestAnimationFrame @ frame -1 = faster than domready
+```
+
 Documentation is available on [docs.style.tools/lazy](https://docs.style.tools/lazy).
 
 ### Install via npm
@@ -99,6 +138,14 @@ Multiple configurations are supported via the attribute `data-zz`. The attribute
 
 ```html
 <script async src="dist/lazy+data-attr.js" data-zz='["selector",{config...},{second config...}]'></script>
+```
+
+### Compressed `srcset`
+
+$lazy enables to compress `srcset` to save HTML document size using the attribute `data-z`.
+
+```html
+<img src="data:image/gif;base64,R0lGODlhAQABAID/AP///wAAACwAAAAAAQABAAACAkQBADs=" data-z='["path/to/image.jpg",[414,768,1024,1200]]' />
 ```
 
 ### Advanced `in-view` and `out-of-view` callback
@@ -358,8 +405,7 @@ $lazy and the polyfill can be efficienty loaded using [$async](https://github.co
 $async enables to load the `$lazy` script and its optional polyfill from `localStorage` for exceptional speed.
 
 ```html
-<!-- data-c slot 5 to 8 for $async.js() -->
-<script async src="dist/async.js" data-c='[0,0,0,0,{
+<script async src="dist/async.js" data-c='[{
    "src": "dist/intersectionobserver-polyfill.js",
    "load_timing": {
       "type": "method",
@@ -372,14 +418,18 @@ $async enables to load the `$lazy` script and its optional polyfill from `localS
   "attributes": {
     "data-z": "[\".selector\", 0.006, \"0px\"]"
   },
-  "load_timing": "domReady",
+  "load_timing": {
+    "type": "requestAnimationFrame",
+    "frame": -1
+  },
   "cache": "localstorage"
 }]'></script>
+<!-- timing: requestAnimationFrame @ frame -1 = faster than domready
 ```
 
 Note: to use `$lazy` as a timing method in `$async` you need to set the `ref` of the lazy.js script to `$z`.
 
-When including the `$lazy` script inline, the `data-poly` attribute enables to define a string to pass to `$async.js` to load a polyfill.
+When including the `$lazy` script inline, the `data-poly` attribute enables to define a string to pass to `$async` to load a polyfill.
 
 ```html
 <script async src="dist/lazy-data-attr+polyfill.js" data-z='... lazy config ...' data-poly='... config to pass to $async.js to load polyfill ...'></script>

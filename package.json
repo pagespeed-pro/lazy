@@ -1,6 +1,6 @@
 {
     "name": "@style.tools/lazy",
-    "version": "1.2.2",
+    "version": "1.2.3",
     "description": "A lightweight and high performance lazy loader and `element-in-view` callback based on [Intersection Observer V2](https://developers.google.com/web/updates/2019/02/intersectionobserver-v2) with an efficient polyfill for old browsers.",
     "author": {
         "name": "info@style.tools",
