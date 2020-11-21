@@ -24,9 +24,9 @@ The script element accepts the following parameters:
 
 | Parameter                       | Description     | Type     |
 |--------------------------------|-----------------|-----------------|
-| `data-z`                |  | `String`    | Selector or config object.
-| `data-zz`                |  | `Array`    | Multiple selector or config objects.
-| `data-b`                |  | `String`    | Base path (URL rebasing).
+| `data-z`                |  Selector or config object.  |  `String` 
+| `data-zz`                |  Multiple selector or config objects.  |  `Array` 
+| `data-b`                |  Base path (URL rebasing).  |  `String`
 
 When using [$async.js](https://github.com/style-tools/async/), $lazy can be used as timing method with automated polyfill loading.
 
