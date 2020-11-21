@@ -50,7 +50,7 @@ When using [$async.js](https://github.com/style-tools/async/), $lazy can be used
   },
   "cache": "localstorage"
 }]'></script>
-<!-- timing: requestAnimationFrame @ frame -1 = faster than domready
+<!-- timing: requestAnimationFrame @ frame -1 = faster than domready event
 ```
 
 Documentation is available on [docs.style.tools/lazy](https://docs.style.tools/lazy).
@@ -424,7 +424,7 @@ $async enables to load the `$lazy` script and its optional polyfill from `localS
   },
   "cache": "localstorage"
 }]'></script>
-<!-- timing: requestAnimationFrame @ frame -1 = faster than domready
+<!-- timing: requestAnimationFrame @ frame -1 = faster than domready event
 ```
 
 Note: to use `$lazy` as a timing method in `$async` you need to set the `ref` of the lazy.js script to `$z`.
