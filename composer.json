@@ -1,6 +1,6 @@
 {
     "name": "styletools/lazy",
-    "version": "1.2.0",
+    "version": "1.2.3",
     "description": "A lightweight lazy loader based on `window.IntersectionObserver` with tiny fallback for old browsers.",
     "keywords": ["lazy",
         "images",
