@@ -14,7 +14,7 @@ $lazy('#element', function() {
 });
 ```
 
-$lazy can be configured using an async script element.
+$lazy can be configured using an [async script](https://www.scaler.com/topics/javascript/asynchronous-javascript/) element.
 
 ```html
 <script async src="dist/lazy+data-attr.js" data-z='selector' data-b='/base/path/'></script>
