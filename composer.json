@@ -1,6 +1,6 @@
 {
     "name": "styletools/lazy",
-    "version": "1.2.3",
+    "version": "1.3.0",
     "description": "A lightweight lazy loader based on `window.IntersectionObserver` with tiny fallback for old browsers.",
     "keywords": ["lazy",
         "images",
@@ -12,7 +12,7 @@
     "license": "MIT",
     "authors": [{
         "name": "Style.Tools",
-        "email": "info@style.tools"
+        "email": "info@pagespeed.pro"
     }],
     "type": "project",
     "require": {},

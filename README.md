@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.com/style-tools/lazy.svg?branch=master)](https://travis-ci.com/style-tools/lazy) [![Version](https://img.shields.io/github/release/style-tools/lazy.svg)](https://github.com/pagespeed-pro/lazy/releases) [![npm version](https://badge.fury.io/js/%40style.tools%2Flazy.svg)](http://badge.fury.io/js/%40style.tools%2Flazy) [![Latest Stable Version](https://poser.pugx.org/styletools/lazy/v/stable.png)](https://packagist.org/packages/styletools/lazy)
+[![Build Status](https://travis-ci.com/pagespeed-pro/lazy.svg?branch=master)](https://travis-ci.com/pagespeed-pro/lazy) [![Version](https://img.shields.io/github/release/pagespeed-pro/lazy.svg)](https://github.com/pagespeed-pro/lazy/releases) [![npm version](https://badge.fury.io/js/%40pagespeed-pro%2Flazy.svg)](http://badge.fury.io/js/%40pagespeed-pro%2Flazy) [![Latest Stable Version](https://poser.pugx.org/styletools/lazy/v/stable.png)](https://packagist.org/packages/styletools/lazy)
 
 # `$lazy` Lazy Loader
 
@@ -52,9 +52,7 @@ When using [$async](https://github.com/pagespeed-pro/async/), $lazy can be used 
 
 ### Documentation is available on [pagespeed.pro/lazy](https://pagespeed.pro/lazy/#documentation).
 
-# Installation
-
-## Install via npm
+# Install via npm
 
 ```bash
 npm install @optimization/lazy --save
