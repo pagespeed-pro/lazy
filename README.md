@@ -26,7 +26,7 @@ The script element accepts the following parameters:
 |--------------------------------|-----------------|-----------------|
 | `data-z`                |  Selector or config object.  |  `String` 
 | `data-zz`                |  Multiple selector or config objects.  |  `Array` 
-| `data-b`                |  Base path (URL rebasing).  |  `String`
+| `data-b`                |  Base path (URL rebasing) for HTML size compression.  |  `String`
 
 When using [$async](https://github.com/pagespeed-pro/async/), $lazy can be used as a timing method with automated polyfill loading.
 
@@ -42,39 +42,33 @@ When using [$async](https://github.com/pagespeed-pro/async/), $lazy can be used 
   "ref": "$z",
   "src": "dist/lazy.js",
   "attributes": {
-    "data-z": "[\".selector\", 0.006, \"0px\"]"
+    "data-z": "[\"[data-src]\", 0.006, \"0px\"]"
   },
-  "load_timing": {
-    "type": "requestAnimationFrame",
-    "frame": -1
-  },
+  "exec_timing": "domReady",
   "cache": "localstorage"
 }]'></script>
 <!-- timing: requestAnimationFrame @ frame -1 = faster than domready event
 ```
 
-Documentation is available on [docs.style.tools/lazy](https://docs.style.tools/lazy).
+### Documentation is available on [pagespeed.pro/lazy](https://pagespeed.pro/lazy/#documentation).
 
-### Install via npm
+# Installation
+
+## Install via npm
 
 ```bash
-npm install @style.tools/lazy --save
+npm install @optimization/lazy --save
 ```
 
-### Install via PHP Composer
-```bash
-composer require styletools/lazy
-```
+# Description
 
-## Description
-
-$lazy is designed as the ultimate lazy loader and `element-in-view` callback for modern frontend optimization (FEO). It provides state of the art features, the absolute best performance and the tiniest HTML footprint. $lazy supports all browsers including iPhone5 and IE9+. IE8 would be supported but isn't supported by Google's [IntersectionObserver polyfill](https://github.com/w3c/IntersectionObserver/blob/master/polyfill/intersection-observer.js).
+$lazy is designed as the ultimate lazy loader and `element-in-view` callback for frontend optimization (FEO). It provides state of the art features such as client-side Google `.webp` rewrite, the absolute best performance and the tiniest HTML footprint. $lazy supports all browsers including iPhone5 and IE9+. IE8 would be supported but isn't supported by Google's [IntersectionObserver polyfill](https://github.com/w3c/IntersectionObserver/blob/master/polyfill/intersection-observer.js).
 
 - 100% JSON control.
 - tiny: the `$z()` version is merely 300 bytes in size.
 - support for old browsers with a 0% performance hit for modern browsers.
 
-### Advanced control of `IntersectionObserver`
+## Advanced control of `IntersectionObserver`
 
 $lazy provides full control of the `IntersectionObserver` and supports the latest features.
 
@@ -119,7 +113,7 @@ $lazy returns a DOM `NodeList` with elements watched by the observer.
 var elements = $lazy('[data-src]');
 ```
 
-### Security
+## Security
 
 $lazy supports a strict `Content-Security-Policy` and can be controlled by a `async` HTML script tag.
 
@@ -140,7 +134,7 @@ Multiple configurations are supported via the attribute `data-zz`. The attribute
 <script async src="dist/lazy+data-attr.js" data-zz='["selector",{config...},{second config...}]'></script>
 ```
 
-### Compressed `srcset`
+## Compressed `srcset`
 
 $lazy enables to compress `srcset` to save HTML document size using the attribute `data-z`.
 
@@ -148,7 +142,7 @@ $lazy enables to compress `srcset` to save HTML document size using the attribut
 <img src="data:image/gif;base64,R0lGODlhAQABAID/AP///wAAACwAAAAAAQABAAACAkQBADs=" data-z='["path/to/image.jpg",[414,768,1024,1200]]' />
 ```
 
-### Advanced `in-view` and `out-of-view` callback
+## Advanced `in-view` and `out-of-view` callback
 
 $lazy enables to make full use of the `IntersectionObserver` for any purpose and supports a simple `in-view` callback, an `out-of-view` callback or a custom `IntersectionObserver` callback.
 
@@ -211,7 +205,7 @@ $lazy(".selector", [,,function after_inview(target) {
 }]);
 ```
 
-### Custom `IntersectionObserver` callback
+## Custom `IntersectionObserver` callback
 
 The third argument enables to manually define the `IntersectionObserver` callback which makes it possible to use $lazy for easy access to the functionality provided by `IntersectionObserver`.
 
@@ -221,7 +215,7 @@ $lazy('div#id', 0, function(entries) {
 })
 ```
 
-### Events
+## Events
 
 $lazy provides an extension that watches for `mouseover`, `click` and the custom `z` event to fire the in-view callback manually. This feature ensures that images are resolved in the case of issues with the IntersectionObserver polyfill and it enables to manually trigger the callback, for example before printing.
 
@@ -261,7 +255,7 @@ It is possible to manually define events to watch using the configuration parame
 }
 ```
 
-### Manually resolve images
+## Manually resolve images
 
 $lazy enables to manually resolve images using the default image resolver by providing `1` as the in-view callback.
 
@@ -269,7 +263,7 @@ $lazy enables to manually resolve images using the default image resolver by pro
 $lazy('[data-src]', 1); // resolve all images
 ```
 
-### `.webp` rewrite
+## Client-side `.webp` rewrite
 
 $lazy provides an extension to automatically rewrite images to `.webp` in browsers that support Google's [WebP](https://developers.google.com/speed/webp/) image format. The solution prevents a server-side redirect which improves performance.
 
@@ -286,7 +280,7 @@ It is possible to manually disable the `.webp` rewrite for an image by defining 
 
 `$lazybg` supports `.webp` rewrites as well.
 
-### `$lazybg` lazy loading of `background-image`
+## `$lazybg` lazy loading of `background-image`
 
 $lazy provides a unique innovation to lazy load `background-image` in stylesheets using [CSS Variables](https://www.w3schools.com/css/css3_variables.asp) with a fallback for old browsers.
 
@@ -367,7 +361,7 @@ Note: CSS variables are limited to `DOMString`. When using inline base64 encodin
 
 `=`: `•`
 
-### Polyfill
+## Polyfill
 
 `$lazy` provides support for Google's [IntersectionObserver polyfill](https://github.com/w3c/IntersectionObserver/blob/master/polyfill/intersection-observer.js) with 0% performance hit for modern browsers.
 
@@ -398,7 +392,7 @@ window.$lazypoly = function() {
 window.$lazypoly = 'dist/intersectionobserver-polyfill.js';
 ```
 
-### `$lazy` as a timing method in `$async`
+## `$lazy` as a timing method in `$async`
 
 $lazy and the polyfill can be efficienty loaded using [$async](https://github.com/pagespeed-pro/async/) and it's `just-in-time` timing method. $lazy then becomes available as a timing method within $async which enables to load stylesheets and scripts using the `IntersectionObserver`.
 
@@ -416,15 +410,13 @@ $async enables to load the `$lazy` script and its optional polyfill from `localS
   "ref": "$z",
   "src": "dist/lazy.js",
   "attributes": {
-    "data-z": "[\".selector\", 0.006, \"0px\"]"
+    "data-z": "[data-src]"
   },
-  "load_timing": {
-    "type": "requestAnimationFrame",
-    "frame": -1
-  },
+  "exec_timing": "domReady",
   "cache": "localstorage"
 }]'></script>
-<!-- timing: requestAnimationFrame @ frame -1 = faster than domready event
+<!-- timing: requestAnimationFrame @ frame -1 = faster than domready event -->
+<!-- selector 'z' is a shortcut for data-z -->
 ```
 
 Note: to use `$lazy` as a timing method in `$async` you need to set the `ref` of the lazy.js script to `$z`.
