@@ -47,7 +47,7 @@ When using [$async](https://github.com/pagespeed-pro/async/), $lazy can be used 
   "exec_timing": "domReady",
   "cache": "localstorage"
 }]'></script>
-<!-- timing: requestAnimationFrame @ frame -1 = faster than domready event
+<!-- timing: requestAnimationFrame @ frame -1 = faster than domready event -->
 ```
 
 ### Documentation is available on [pagespeed.pro/lazy](https://pagespeed.pro/lazy/#documentation).
