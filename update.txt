@@ -1,1 +1,0 @@
-* `window.matchMedia` to preselect src for lazy loaded `srcset` image.
