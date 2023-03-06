@@ -20,7 +20,7 @@
         "in-view",
         "inview"
     ],
-    "homepage": "https://pagespeed.pro/",
+    "homepage": "https://pagespeed.pro/lazy/",
     "repository": {
         "type": "git",
         "url": "git+https://github.com/pagespeed-pro/lazy.git"
