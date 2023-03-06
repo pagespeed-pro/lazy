@@ -3,7 +3,7 @@
  * Released under the terms of MIT license
  *
  * Copyright (C) 2019 🔬 Style.Tools
- * @link https://github.com/style-tools/lazy
+ * @link https://github.com/pagespeed-pro/lazy
  */
 
 var WEBP_SUPPORT;
@@ -39,10 +39,12 @@ WEBP_REWRITE = function(src, target, webp_config) {
     if (target) {
 
         // fallback on error or 404
-        target.onerror = function() {
-            this.onerror = null;
+        target.addEventListener('error', function() {
             this.src = src;
-        }
+        }, {
+            "passive": true,
+            "once": true
+        });
     }
 
     return src.replace(WEBP_REWRITE_REGEX, format);

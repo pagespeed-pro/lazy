@@ -3,7 +3,7 @@
  * Released under the terms of MIT license
  *
  * Copyright (C) 2019 📐 Style.Tools
- * @link https://github.com/style-tools/lazy
+ * @link https://github.com/pagespeed-pro/lazy
  */
 // convert to queue
 var queue = [];

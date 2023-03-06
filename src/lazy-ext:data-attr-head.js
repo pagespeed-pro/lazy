@@ -3,7 +3,7 @@
  * Released under the terms of MIT license
  *
  * Copyright (C) 2019 🔬 Style.Tools
- * @link https://github.com/style-tools/lazy
+ * @link https://github.com/pagespeed-pro/lazy
  */
 
 if (DATA_ATTR_EXTENSION) {
@@ -15,7 +15,7 @@ if (DATA_ATTR_EXTENSION) {
         BASE_PARAM = 'b',
         MULTI_TOKEN = '||';
 
-    LAZY_SCRIPT = doc.currentScript || QUERY('script[data-' + CONFIG_PARAM + ']')[0];
+    LAZY_SCRIPT = doc.currentScript || QUERY('script[data-z],script[data-zz]')[0];
 
     var PARSE_JSON = function(json) {
         var parsed;

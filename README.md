@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.com/style-tools/lazy.svg?branch=master)](https://travis-ci.com/style-tools/lazy) [![Version](https://img.shields.io/github/release/style-tools/lazy.svg)](https://github.com/style-tools/lazy/releases) [![npm version](https://badge.fury.io/js/%40style.tools%2Flazy.svg)](http://badge.fury.io/js/%40style.tools%2Flazy) [![Latest Stable Version](https://poser.pugx.org/styletools/lazy/v/stable.png)](https://packagist.org/packages/styletools/lazy)
+[![Build Status](https://travis-ci.com/style-tools/lazy.svg?branch=master)](https://travis-ci.com/style-tools/lazy) [![Version](https://img.shields.io/github/release/style-tools/lazy.svg)](https://github.com/pagespeed-pro/lazy/releases) [![npm version](https://badge.fury.io/js/%40style.tools%2Flazy.svg)](http://badge.fury.io/js/%40style.tools%2Flazy) [![Latest Stable Version](https://poser.pugx.org/styletools/lazy/v/stable.png)](https://packagist.org/packages/styletools/lazy)
 
 # `$lazy` Lazy Loader
 
@@ -28,7 +28,7 @@ The script element accepts the following parameters:
 | `data-zz`                |  Multiple selector or config objects.  |  `Array` 
 | `data-b`                |  Base path (URL rebasing).  |  `String`
 
-When using [$async](https://github.com/style-tools/async/), $lazy can be used as a timing method with automated polyfill loading.
+When using [$async](https://github.com/pagespeed-pro/async/), $lazy can be used as a timing method with automated polyfill loading.
 
 ```html
 <script async src="dist/async.js" data-c='[{
@@ -375,7 +375,7 @@ When using the polyfill extension, `$lazy` checks for the parameter `window.$laz
 
 When `window.$lazypoly` is defined as a function, $lazy will fire it and expect a `.then` method to be resolved when the polyfill is loaded.
 
-When `window.$lazypoly` is defined as a string, the string is passed to [$async.js](https://github.com/style-tools/async/) that could load anything.
+When `window.$lazypoly` is defined as a string, the string is passed to [$async.js](https://github.com/pagespeed-pro/async/) that could load anything.
 
 ```javascript
 // manually load a polyfill
@@ -400,7 +400,7 @@ window.$lazypoly = 'dist/intersectionobserver-polyfill.js';
 
 ### `$lazy` as a timing method in `$async`
 
-$lazy and the polyfill can be efficienty loaded using [$async](https://github.com/style-tools/async/) and it's `just-in-time` timing method. $lazy then becomes available as a timing method within $async which enables to load stylesheets and scripts using the `IntersectionObserver`.
+$lazy and the polyfill can be efficienty loaded using [$async](https://github.com/pagespeed-pro/async/) and it's `just-in-time` timing method. $lazy then becomes available as a timing method within $async which enables to load stylesheets and scripts using the `IntersectionObserver`.
 
 $async enables to load the `$lazy` script and its optional polyfill from `localStorage` for exceptional speed.
 

@@ -1,11 +1,11 @@
 {
-    "name": "@style.tools/lazy",
-    "version": "1.2.3",
+    "name": "@optimization/lazy",
+    "version": "1.3.0",
     "description": "A lightweight and high performance lazy loader and `element-in-view` callback based on [Intersection Observer V2](https://developers.google.com/web/updates/2019/02/intersectionobserver-v2) with an efficient polyfill for old browsers.",
     "author": {
-        "name": "info@style.tools",
-        "email": "info@style.tools",
-        "web": "style.tools"
+        "name": "info@pagespeed.pro",
+        "email": "info@pagespeed.pro",
+        "web": "pagespeed.pro"
     },
     "keywords": [
         "lazy",
@@ -20,14 +20,14 @@
         "in-view",
         "inview"
     ],
-    "homepage": "https://style.tools/",
+    "homepage": "https://pagespeed.pro/",
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/style-tools/lazy.git"
+        "url": "git+https://github.com/pagespeed-pro/lazy.git"
     },
     "license": "MIT",
     "bugs": {
-        "url": "https://github.com/style-tools/lazy/issues"
+        "url": "https://github.com/pagespeed-pro/lazy/issues"
     },
     "engines": {
         "node": "~10"

@@ -3,7 +3,7 @@
  * Released under the terms of MIT license
  *
  * Copyright (C) 2019 🔬 Style.Tools
- * @link https://github.com/style-tools/lazy
+ * @link https://github.com/pagespeed-pro/lazy
  */
 
 var intersectionObserver, intersectionObserverStr = 'IntersectionObserver',
@@ -13,7 +13,7 @@ if (
     intersectionObserverEntryProto &&
     'intersectionRatio' in intersectionObserverEntryProto &&
     'isIntersecting' in intersectionObserverEntryProto
-) {
+) { 
     intersectionObserver = win[intersectionObserverStr];
 };
 
@@ -55,7 +55,7 @@ function $lazy(config, inview, observer_callback) {
                 selector: config[3] || '[data-' + config_z + ']',
                 src: config_z,
                 base: config[1],
-                webp: config[2]
+                webp: !(config[2] === false)
             }
             if (config_z == 'zb') {
                 config.bg = true;
@@ -82,11 +82,12 @@ function $lazy(config, inview, observer_callback) {
         DATA_SRC = config.src || SRC,
         DATA_SRCSET = config.srcset || SRCSET,
         // DATA_ATTR_EXTENSION
-        BASE, EXT_REGEX;
+        BASE, EXT_REGEX, SIZES_MQ_REGEX;
 
     if (DATA_ATTR_EXTENSION) {
         BASE = config[5] || config.base || DATA_ATTR_BASE;
         EXT_REGEX = /(\.[a-z]{2,4}(\.[a-z]{2,4})?(\?.*)?)$/i;
+        SIZES_MQ_REGEX = /^(.*)\s(\d+w)$/;
         if (config_z) {
             DATA_SRC = config_z;
         }
@@ -131,16 +132,28 @@ function $lazy(config, inview, observer_callback) {
                     }
                 }
 
-                var match;
+                var match, baseImg;
                 bg.forEach(function(img) {
                     if (!match) {
-                        if (typeof img == 'string') {
-                            img = [img];
+                        if (typeof img != 'object') {
+
+                            // image url
+                            if (isNaN(img)) {
+                                img = [img];
+                            } else {
+                                img = [,img];
+                            }
+                        }
+                        if (!baseImg) {
+                            baseImg = bg[bg.length - 1];
+                            if (baseImg instanceof Array) {
+                                baseImg = baseImg[0];
+                            }
                         }
                         if (img[1]) {
                             mqMatch = window.matchMedia(((!isNaN(img[1])) ? '(max-width: ' + img[1] + 'px)' : img[1]));
                             if (mqMatch.matches) {
-                                match = img[0];
+                                match = img[0] || ((baseImg) ? baseImg.replace(EXT_REGEX, '-' + img[1] + 'w$1') : false);
                                 mqMatch.addListener(render_responsive_bg);
                             } else {
                                 mqMatch = false;
@@ -185,51 +198,71 @@ function $lazy(config, inview, observer_callback) {
     }
 
     // default inview callback
-    inview = inview || function(target, src, srcset, base, fallback) {
+    inview = inview || function(target, src, srcset, base, fallback, _webp, _sizes) {
         src = GET_DATA_ATTR(target, DATA_SRC);
+        _webp = webp;
         if (DATA_ATTR_EXTENSION) {
             srcset = false;
             if (src) {
                 if (src.substr(0, 1) == '[') {
                     src = PARSE_JSON(src);
                     if (WEBP_EXTENSION) {
-                        webp = webp || !!src[3];
+                        _webp = webp || !!src[3];
                     }
                     srcset = src[1];
                     base = src[2] || BASE;
+                    fallback = src[3];
                     src = REBASE(src[0], base);
-                    fallback = src[3] || src;
+                    fallback = fallback || src;
 
                     // compressed srcset
                     // data-z='["img.jpg",[200,300]]' -> BASE + img-200w.jpg
                     // data-z='["img.jpg",[["path/img-200w.jpg",200],["path/img-300w.jpg",300]]]'
                     if (srcset) {
                         var set = [],
-                            set_config, set_src, set_size;
+                            set_config, set_src, set_size,
+                            set_width, set_ext_rewrite;
                         for (var i = 0, l = srcset.length; i < l; i++) {
                             set_config = srcset[i];
-                            if (!isNaN(set_config)) {
-                                set_config += 'w';
-                            }
-                            set_size = false;
-                            set_src = src;
-                            if (typeof set_config === 'string') {
-                                if (set_config) {
-                                    set_size = set_config;
-                                    set_src = src.replace(EXT_REGEX, '-' + set_config + '$1');
-                                }
+                            if (set_config instanceof Array) {
+                                set_src = set_config[0];
+                                set_width = set_config[1];
+                                set_ext_rewrite = 0;
                             } else {
                                 set_src = src;
-                                set_size = set_config[1];
+                                set_width = set_config;
+                                set_ext_rewrite = 1;
+                            }
+                            if (!isNaN(set_width)) {
+                                set_width += 'w';
+                            }
+                            set_size = set_width;
+                            if (set_ext_rewrite) {
+                                set_src = set_src.replace(EXT_REGEX, '-' + set_width + '$1');
                             }
 
-                            set.push(set_src + ((set_size) ? ' ' + set_size : ''));
+                            set.push(set_src + ((set_width) ? ' ' + set_width : ''));
                         }
 
                         // fallback
                         set.push(fallback);
 
                         srcset = set.join(',');
+                    }
+
+                    _sizes = target.getAttribute('sizes');
+                    if (_sizes) {
+                        _sizes = _sizes.split(',');
+                        for (var i = 0, _size, mqMatch, l = _sizes.length; i < l; i++) {
+                            _size = _sizes[i].match(SIZES_MQ_REGEX);
+                            if (_size) {
+                                mqMatch = window.matchMedia(_size[1]);
+                                if (mqMatch.matches) {
+                                    src = src.replace(EXT_REGEX, '-' + _size[2] + '$1');
+                                    break;
+                                }
+                            }
+                        }
                     }
                 } else {
                     src = REBASE(src, BASE);
@@ -243,7 +276,7 @@ function $lazy(config, inview, observer_callback) {
         if (srcset) {
 
             if (WEBP_EXTENSION) {
-                if (webp) {
+                if (_webp) {
                     srcset = WEBP_REWRITE(srcset, target);
                 }
             }
@@ -255,7 +288,7 @@ function $lazy(config, inview, observer_callback) {
         if (src) {
 
             if (WEBP_EXTENSION) {
-                if (webp) {
+                if (_webp) {
                     src = WEBP_REWRITE(src, target);
                 }
             }
